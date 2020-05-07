@@ -16,4 +16,4 @@ It lets you play Wordsmith in Discord!
 
 ### Development
 
-`/development-secrets.json` should exist at project route. The key "bot_secret" should equal the secret key available on the Developer Dashboard.
+`/.env should exist at project root. The key "DISCORD_SECRET_KEY" should be the secret key available on the Developer Dashboard.

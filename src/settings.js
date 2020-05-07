@@ -1,18 +1,16 @@
 const environment = process.env.NODE_ENV;
 
 const settings = {
-  // when debugging, use a different prefix to avoid conflicting with the
-  // production instance of Wordsmith
   prefix: "/ws",
 };
 
 if (environment === "production") {
-  settings.token = process.env.WORDSMITH_PROD_KEY;
+  settings.DISCORD_SECRET_KEY_WS = process.env.DISCORD_SECRET_KEY_WS;
 } else if (environment === "test") {
-  settings.token = "dummy token";
-} else {
-  const secrets = require("../development-secrets");
-  settings.token = secrets.bot_secret;
+  settings.DISCORD_SECRET_KEY_WS = "dummy key";
+} else if (environment === "development") {
+  require("dotenv").config();
+  settings.DISCORD_SECRET_KEY_WS = process.env.DISCORD_SECRET_KEY_WS;
 }
 
 module.exports = settings;

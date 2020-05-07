@@ -1,9 +1,12 @@
 const settings = require("./settings");
 const Discord = require("discord.js");
-const token = settings.token;
+const secret_key = settings.DISCORD_SECRET_KEY_WS;
 const client = new Discord.Client();
 const handlers = require("./handlers");
-client.login(token);
+
+client.login(secret_key).catch((err) => {
+  console.error(err);
+});
 
 client.on("ready", () => {
   console.log(`Logged in as ${client.user.tag}!`);
