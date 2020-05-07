@@ -1,0 +1,37 @@
+{
+  "name": "wordsmith-discord-bot",
+  "version": "1.0.0",
+  "description": "Wordsmith Discord bot.",
+  "main": "index.js",
+  "dependencies": {
+    "discord.js": "^11.4.2"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^6.0.å2",
+    "nodemon": "^1.18.10",
+    "proxyquire": "^2.1.0",
+    "sinon": "^7.3.0"
+  },
+  "scripts": {
+    "dev": "NODE_ENV=development npx nodemon --inspect src/index.js",
+    "prod": "NODE_ENV=production node src/index.js",
+    "test": "NODE_ENV=test npx mocha --recursive",
+    "test-debug": "NODE_ENV=test npx mocha --inspect-brk -- --recursive"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@gitlab.com/devinleonhart/wordsmith-discord-bot.git"
+  },
+  "keywords": [
+    "Wordsmith",
+    "Discord",
+    "node"
+  ],
+  "author": "Devin Leonhart",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://gitlab.com/devinleonhart/wordsmith-discord-bot/issues"
+  },
+  "homepage": "https://gitlab.com/devinleonhart/wordsmith-discord-bot#readme"
+}

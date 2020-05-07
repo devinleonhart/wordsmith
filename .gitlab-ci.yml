@@ -1,0 +1,29 @@
+stages:
+  - test
+  - deploy
+
+test:
+  image: node:14-stretch-slim
+  stage: test
+  variables:
+    NODE_ENV: test
+  before_script:
+    - npm ci
+  script:
+    - time npm run test
+
+deploy:
+  image: node:14-stretch-slim
+  stage: deploy
+  variables:
+    NODE_ENV: production
+  before_script:
+    - apt-get update -qq && apt-get upgrade -y -qq
+    - eval $(ssh-agent -s)
+    - ssh-add <(echo -e "$DEPLOYMENT_SSH_PRIVATE_KEY")
+    - ssh -o "StrictHostKeyChecking=no" $PRODUCTION_USER@$PRODUCTION_URL
+  script:
+    - ssh $PRODUCTION_USER@$PRODUCTION_URL "rm -rf /home/$PRODUCTION_USER/wordsmith_bot/*"
+    - scp -r ./src/* $PRODUCTION_USER@$PRODUCTION_URL:/home/$PRODUCTION_USER/wordsmith_bot
+  only:
+    - master

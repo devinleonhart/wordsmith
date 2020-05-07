@@ -1,0 +1,25 @@
+const settings = require("./settings");
+const Discord = require("discord.js");
+const token = settings.token;
+const client = new Discord.Client();
+const handlers = require("./handlers");
+client.login(token);
+
+client.on("ready", () => {
+  console.log(`Logged in as ${client.user.tag}!`);
+});
+
+client.on("message", (msg) => {
+  if (!msg.content.startsWith(settings.prefix)) {
+    return;
+  }
+
+  const args = msg.content.slice(settings.prefix.length + 1).split(" ");
+  const command = args.shift().toLowerCase();
+  try {
+    const output = handlers(command, args);
+    msg.channel.send(output);
+  } catch (error) {
+    return msg.channel.send(error.message);
+  }
+});
