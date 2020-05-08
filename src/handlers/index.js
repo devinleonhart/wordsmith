@@ -17,10 +17,10 @@ const commands = [
   },
   {
     name: "test",
-    helpText: "A tes roll.",
+    helpText: "A test roll.",
     parameters: [],
     callback: () => {
-      return "You did it!";
+      return "You did it! X2";
     },
   },
   {
