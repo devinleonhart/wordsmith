@@ -13,7 +13,7 @@ test:
     - time npm run test
 
 deploy:
-  image: node:14-stretch-slim
+  image: node:14
   stage: deploy
   variables:
     NODE_ENV: production
