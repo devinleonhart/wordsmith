@@ -16,6 +16,14 @@ const commands = [
     },
   },
   {
+    name: "test",
+    helpText: "A tes roll.",
+    parameters: [],
+    callback: () => {
+      return "You did it!";
+    },
+  },
+  {
     name: "ac",
     helpText: "Make an availability roll with a contact.",
     parameters: ["Availability", "CHA", "Negotiate", "Connection"],
