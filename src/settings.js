@@ -1,7 +1,7 @@
 const environment = process.env.NODE_ENV;
 
 const settings = {
-  prefix: "/ws",
+  prefix: "/wst",
 };
 
 if (environment === "production") {

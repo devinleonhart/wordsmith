@@ -1,116 +1,68 @@
-// For Shadowrun related rolls.
+const FuzzyDice = require("fuzzy-dice");
 
-const roll = function (dicePool, threshold, limit) {
-  const rolledDice = new Array(dicePool)
-    .fill()
-    .map(() => Math.round(Math.random() * (6 - 1)) + 1)
-    .sort((a, b) => a - b);
-  let hits = rolledDice.filter((num) => num > 4).length;
-  let limited = false;
-  let result = "Success";
-  let reaction = ":smirk_cat: :beer:";
-
-  if (threshold > limit) {
-    return `The threshold of the test exceeds the limit and is impossible. :crying_cat_face:`;
+// Rolling dice in wordsmith.
+const roll = (pdice, cdice) => {
+  if (pdice <= 0) {
+    return `The number of player dice cannot be less than 1.`;
   }
 
-  if (hits > limit) {
-    limited = true;
-    hits = limit;
+  if (cdice <= 0) {
+    return `The number of challenge dice cannot be less than 1.`;
   }
 
-  if (hits < threshold) {
-    result = "Failure";
+  const wsDiceType = new FuzzyDice.Dice(8, 4, 1, 2);
+
+  const rollResult = FuzzyDice.opposed_check(
+    wsDiceType,
+    pdice,
+    wsDiceType,
+    cdice
+  );
+
+  let outcome = rollResult.outcome;
+  let reaction = ":question:";
+  let pResult = "";
+  let cResult = "";
+
+  if (outcome === "success") {
+    reaction = ":smile_cat:";
+  } else if (outcome === "partial success") {
+    reaction = ":smile_cat:";
+  } else if (outcome === "critical success") {
+    reaction = ":smirk_cat: :beer:";
+  } else if (outcome === "failure") {
     reaction = ":scream_cat:";
   }
 
-  if (rolledDice.filter((num) => num === 1).length >= Math.ceil(dicePool / 2)) {
-    if (hits === 0) {
-      result += " + Critical Glitch";
-      reaction = ":scream_cat: :skull:";
-    } else {
-      result += " + Glitch";
-      reaction = ":joy_cat: :bomb:";
-    }
-  }
-  return `${result}! [${rolledDice.join("] [")}] ${
-    limited ? "[Limited]" : ""
-  } ${reaction}`;
-};
+  let pNumBlanks = pdice - rollResult.num_successes - rollResult.num_criticals;
+  let cNumBlanks = cdice - rollResult.num_opposed_successes;
 
-const rollOpposed = function (
-  playerDicePool,
-  playerLimit,
-  opponentDicePool,
-  opponentLimit
-) {
-  const rolledPlayerDice = new Array(playerDicePool)
-    .fill()
-    .map(() => Math.round(Math.random() * (6 - 1)) + 1)
-    .sort((a, b) => a - b);
-  const rolledOpponentDice = new Array(opponentDicePool)
-    .fill()
-    .map(() => Math.round(Math.random() * (6 - 1)) + 1)
-    .sort((a, b) => a - b);
-  let playerHits = rolledPlayerDice.filter((num) => num > 4).length;
-  let opponentHits = rolledOpponentDice.filter((num) => num > 4).length;
-  let result = "Success";
-  let reaction = ":smirk_cat: :beer:";
-
-  if (playerHits > playerLimit) {
-    playerHits = playerLimit;
+  for (i = 0; i < rollResult.num_criticals; i++) {
+    pResult += ":star2: ";
   }
 
-  if (opponentHits > opponentLimit) {
-    opponentHits = opponentLimit;
+  for (i = 0; i < rollResult.num_successes; i++) {
+    pResult += ":small_orange_diamond: ";
   }
 
-  if (playerHits < opponentHits) {
-    result = "Failure";
-    reaction = ":scream_cat:";
+  for (i = 0; i < pNumBlanks; i++) {
+    pResult += ":small_blue_diamond: ";
   }
 
-  if (
-    rolledPlayerDice.filter((num) => num === 1).length >=
-    Math.ceil(playerDicePool / 2)
-  ) {
-    if (hits === 0) {
-      result += " + Critical Glitch";
-      reaction = ":scream_cat: :skull:";
-    } else {
-      result += " + Glitch";
-      reaction = ":joy_cat: :bomb:";
-    }
+  for (i = 0; i < rollResult.num_opposed_successes; i++) {
+    cResult += ":small_orange_diamond: ";
   }
-  return `${result}! Player Hits: ${playerHits} vs. Opposing Hits ${opponentHits} ${reaction}`;
-};
 
-const availability = function (availability, cha, negotiate, limit) {
+  for (i = 0; i < cNumBlanks; i++) {
+    cResult += ":small_blue_diamond: ";
+  }
+
   return `
-  Availability Roll!
-  Rolling with CHA + Negotiate: ${
-    cha + negotiate
-  } with a limit of ${limit} vs Availability: ${availability} with no limit.
-  ${rollOpposed(cha + negotiate, limit, availability, 999)}
-  `;
+**${outcome.toUpperCase()}** ${reaction}
+
+Player Roll: ${pResult}
+Challenge Roll: ${cResult}
+`;
 };
 
-const availabilityWithContact = function (
-  availability,
-  cha,
-  negotiate,
-  connection
-) {
-  return `
-  Availability Roll with Contact!
-  Rolling with CHA + Negotiate: ${cha + negotiate} limit of ${
-    3 + connection
-  } vs Availability: ${availability} with no limit.
-  ${rollOpposed(cha + negotiate, 3 + connection, availability, 999)}
-  `;
-};
-
-exports.availability = availability;
-exports.availabilityWithContact = availabilityWithContact;
 exports.roll = roll;
-exports.rollOpposed = rollOpposed;

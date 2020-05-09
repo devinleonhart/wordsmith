@@ -1,6 +1,5 @@
 const expect = require("chai").expect;
 
-const settings = require("../../src/settings.js");
 const handler = require("../../src/handlers");
 
 describe("main handler", () => {

@@ -17,16 +17,16 @@ describe("handlers for the r command", () => {
     });
 
     it("passes the correct inputs to rules.roll()", () => {
-      stubbedHandler("r", ["6", "5", "4"]);
+      stubbedHandler("r", ["6", "5"]);
       expect(rollSpy.calledOnce).to.be.true;
-      expect(rollSpy.calledWithExactly(6, 5, 4)).to.be.true;
+      expect(rollSpy.calledWithExactly(6, 5)).to.be.true;
     });
   });
 
   describe("when the inputs aren't valid", () => {
     it("throws with a listing of the expected parameters", () => {
-      const requestWithTooFewArgs = () => handler("r", ["5", "6"]);
-      expect(requestWithTooFewArgs).to.throw("{dicepool} {threshold} {limit}");
+      const requestWithTooFewArgs = () => handler("r", ["5"]);
+      expect(requestWithTooFewArgs).to.throw("{Player Dice} {Challenge Dice}");
     });
   });
 });

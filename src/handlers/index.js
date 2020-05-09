@@ -3,54 +3,11 @@ const rules = require("../rules");
 
 const commands = [
   {
-    name: "a",
-    helpText: "Make an availability roll.",
-    parameters: ["Availability", "CHA", "Negotiate", "Social Limit"],
-    callback: (availability, cha, negotiate, limit) => {
-      return rules.availability(
-        parseInt(availability),
-        parseInt(cha),
-        parseInt(negotiate),
-        parseInt(limit)
-      );
-    },
-  },
-  {
-    name: "ac",
-    helpText: "Make an availability roll with a contact.",
-    parameters: ["Availability", "CHA", "Negotiate", "Connection"],
-    callback: (availability, cha, negotiate, connection) => {
-      return rules.availabilityWithContact(
-        parseInt(availability),
-        parseInt(cha),
-        parseInt(negotiate),
-        parseInt(connection)
-      );
-    },
-  },
-  {
     name: "r",
-    helpText: "Make a skill roll.",
-    parameters: ["dicepool", "threshold", "limit"],
-    callback: (dicepool, threshold, limit) => {
-      return rules.roll(
-        parseInt(dicepool),
-        parseInt(threshold),
-        parseInt(limit)
-      );
-    },
-  },
-  {
-    name: "ro",
-    helpText: "Make an opposed roll.",
-    parameters: ["dicepool", "limit", "opposedDicepool", "opposedLimit"],
-    callback: (dicepool, limit, opposedDicepool, opposedLimit) => {
-      return rules.rollOpposed(
-        parseInt(dicepool),
-        parseInt(limit),
-        parseInt(opposedDicepool),
-        parseInt(opposedLimit)
-      );
+    helpText: "Make a roll in wordsmith.",
+    parameters: ["Player Dice", "Challenge Dice"],
+    callback: (pdice, cdice) => {
+      return rules.roll(parseInt(pdice), parseInt(cdice));
     },
   },
 ];
