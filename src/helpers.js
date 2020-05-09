@@ -2,8 +2,8 @@
 const playerSearch = (members, pname) => {
   let memberInChannel = null;
   members.cache.forEach((member) => {
-    if (member.user.nickname) {
-      if (pname.toLowerCase() === member.user.nickname.toLowerCase()) {
+    if (member.nickname) {
+      if (pname.toLowerCase() === member.nickname.toLowerCase()) {
         memberInChannel = member;
       }
     } else if (member.user.username) {
