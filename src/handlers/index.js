@@ -59,6 +59,9 @@ module.exports = (msg, requestedCommand, args) => {
   }
 
   if (args.length !== command.parameters.length) {
+    if (command.parameters.length === 0) {
+      throw new Error(`Expected no arguments.`);
+    }
     const paramsHelpString = command.parameters
       .map((paramName) => `{${paramName}}`)
       .join(" ");
