@@ -17,9 +17,20 @@ describe("handlers for the as command", () => {
     });
 
     it("passes the correct inputs to rules.awardStar()", () => {
-      stubbedHandler({}, "as", ["Devin"]);
+      stubbedHandler(
+        {
+          guild: {
+            members: {
+              cache: [{ user: { username: "Devin" } }],
+            },
+          },
+        },
+        "as",
+        ["Devin"]
+      );
       expect(rollSpy.calledOnce).to.be.true;
-      expect(rollSpy.calledWithExactly("Devin")).to.be.true;
+      expect(rollSpy.calledWithExactly({ user: { username: "Devin" } })).to.be
+        .true;
     });
   });
 

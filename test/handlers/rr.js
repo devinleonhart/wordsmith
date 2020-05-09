@@ -17,9 +17,20 @@ describe("handlers for the rr command", () => {
     });
 
     it("passes the correct inputs to rules.rollRequest()", () => {
-      stubbedHandler({}, "rr", ["Devin", "5", "4"]);
+      stubbedHandler(
+        {
+          guild: {
+            members: {
+              cache: [{ user: { username: "Devin" } }],
+            },
+          },
+        },
+        "rr",
+        ["Devin", "5", "4"]
+      );
       expect(rollSpy.calledOnce).to.be.true;
-      expect(rollSpy.calledWithExactly("Devin", 5, 4)).to.be.true;
+      expect(rollSpy.calledWithExactly({ user: { username: "Devin" } }, 5, 4))
+        .to.be.true;
     });
   });
 

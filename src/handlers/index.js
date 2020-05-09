@@ -1,4 +1,5 @@
 const settings = require("../settings.js");
+const helpers = require("../helpers");
 const rules = require("../rules");
 
 const commands = [
@@ -7,7 +8,9 @@ const commands = [
     helpText: "Award a star in Wordsmith",
     parameters: ["Player Name"],
     callback: function (pname) {
-      return rules.awardStar(pname);
+      const members = this.guild.members;
+      const member = helpers.playerSearch(members, pname);
+      return rules.awardStar(member);
     },
   },
   {
@@ -23,7 +26,9 @@ const commands = [
     helpText: "Perform a roll request to a player.",
     parameters: ["Player Name", "Player Dice", "Challenge Dice"],
     callback: function (pname, pdice, cdice) {
-      return rules.rollRequest(pname, parseInt(pdice), parseInt(cdice));
+      const members = this.guild.members;
+      const member = helpers.playerSearch(members, pname);
+      return rules.rollRequest(member, parseInt(pdice), parseInt(cdice));
     },
   },
   {

@@ -1,9 +1,9 @@
 const FuzzyDice = require("fuzzy-dice");
 
 // Awarding a star to a player.
-const awardStar = (playerName) => {
+const awardStar = (member) => {
   return `
-  **${playerName}** gets a :star2:!
+${member} gets a :star2:!
   `;
 };
 
@@ -73,9 +73,9 @@ Challenge Roll: ${cResult}
 };
 
 // Awarding a star to a player.
-const rollRequest = (playerName, pdice, cdice) => {
+const rollRequest = (member, pdice, cdice) => {
   return `
-  **${playerName}** must make a ${pdice} ${cdice} roll!
+${member} must make a ${pdice} ${cdice} roll!
   `;
 };
 
