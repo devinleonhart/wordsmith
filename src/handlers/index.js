@@ -3,16 +3,40 @@ const rules = require("../rules");
 
 const commands = [
   {
+    name: "as",
+    helpText: "Award a star in Wordsmith",
+    parameters: ["Player Name"],
+    callback: function (pname) {
+      return rules.awardStar(pname);
+    },
+  },
+  {
     name: "r",
     helpText: "Make a roll in wordsmith.",
     parameters: ["Player Dice", "Challenge Dice"],
-    callback: (pdice, cdice) => {
+    callback: function (pdice, cdice) {
       return rules.roll(parseInt(pdice), parseInt(cdice));
+    },
+  },
+  {
+    name: "rr",
+    helpText: "Perform a roll request to a player.",
+    parameters: ["Player Name", "Player Dice", "Challenge Dice"],
+    callback: function (pname, pdice, cdice) {
+      return rules.rollRequest(pname, parseInt(pdice), parseInt(cdice));
+    },
+  },
+  {
+    name: "s",
+    helpText: "Use a star in Wordsmith.",
+    parameters: [],
+    callback: function () {
+      return rules.useStar(this.author.username);
     },
   },
 ];
 
-module.exports = (requestedCommand, args) => {
+module.exports = (msg, requestedCommand, args) => {
   if (requestedCommand === "help") {
     const helpText = (command) => {
       const paramsList = command.parameters
@@ -41,5 +65,5 @@ module.exports = (requestedCommand, args) => {
     throw new Error(`Expected ${paramsHelpString}`);
   }
 
-  return command.callback.apply(null, args);
+  return command.callback.apply(msg, args);
 };

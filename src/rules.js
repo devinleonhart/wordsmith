@@ -1,5 +1,12 @@
 const FuzzyDice = require("fuzzy-dice");
 
+// Awarding a star to a player.
+const awardStar = (playerName) => {
+  return `
+  **${playerName}** gets a :star2:!
+  `;
+};
+
 // Rolling dice in wordsmith.
 const roll = (pdice, cdice) => {
   if (pdice <= 0) {
@@ -65,4 +72,21 @@ Challenge Roll: ${cResult}
 `;
 };
 
+// Awarding a star to a player.
+const rollRequest = (playerName, pdice, cdice) => {
+  return `
+  **${playerName}** must make a ${pdice} ${cdice} roll!
+  `;
+};
+
+// Players announcing they have used a star.
+const useStar = (playerName) => {
+  return `
+**${playerName}** has used a :star2:!
+`;
+};
+
+exports.awardStar = awardStar;
 exports.roll = roll;
+exports.rollRequest = rollRequest;
+exports.useStar = useStar;

@@ -20,7 +20,7 @@ client.on("message", (msg) => {
   const args = msg.content.slice(settings.prefix.length + 1).split(" ");
   const command = args.shift().toLowerCase();
   try {
-    const output = handlers(command, args);
+    const output = handlers(msg, command, args);
     msg.channel.send(output);
   } catch (error) {
     return msg.channel.send(error.message);
