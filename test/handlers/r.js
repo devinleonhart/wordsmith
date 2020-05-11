@@ -17,11 +17,15 @@ describe("handlers for the r command", () => {
     });
 
     it("passes the correct inputs to rules.roll()", () => {
-      stubbedHandler({
-        author: {
-          username: "Devin"
+      stubbedHandler(
+        {
+          author: {
+            username: "Devin",
+          },
         },
-      }, "r", ["6"]);
+        "r",
+        ["6"]
+      );
       expect(rollSpy.calledOnce).to.be.true;
       expect(rollSpy.calledWithExactly("Devin", 6)).to.be.true;
     });
@@ -29,11 +33,16 @@ describe("handlers for the r command", () => {
 
   describe("when the inputs aren't valid", () => {
     it("throws with a listing of the expected parameters", () => {
-      const requestWithTooFewArgs = () => handler({
-        author: {
-          username: "Devin"
-        },
-      }, "r", []);
+      const requestWithTooFewArgs = () =>
+        handler(
+          {
+            author: {
+              username: "Devin",
+            },
+          },
+          "r",
+          []
+        );
       expect(requestWithTooFewArgs).to.throw("{Player Dice}");
     });
   });

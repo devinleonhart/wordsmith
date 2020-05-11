@@ -22,7 +22,7 @@ client.on("message", (msg) => {
   try {
     const output = handlers(msg, command, args);
     msg.channel.send(output);
-    msg.delete({timeout: 1000});
+    msg.delete({ timeout: 1000 });
   } catch (error) {
     return msg.channel.send(error.message);
   }

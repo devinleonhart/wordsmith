@@ -15,10 +15,7 @@ const roll = (pname, pdice) => {
 
   const wsDiceType = new FuzzyDice.Dice(8, 4, 1, 2);
 
-  const rollResult = FuzzyDice.roll(
-    wsDiceType,
-    pdice,
-  );
+  const rollResult = FuzzyDice.roll(wsDiceType, pdice);
 
   let pResult = "";
 

@@ -17,11 +17,15 @@ describe("handlers for the ro command", () => {
     });
 
     it("passes the correct inputs to rules.rollOpposed()", () => {
-      stubbedHandler({
-        author: {
-          username: "Devin"
+      stubbedHandler(
+        {
+          author: {
+            username: "Devin",
+          },
         },
-      }, "ro", ["6", "5"]);
+        "ro",
+        ["6", "5"]
+      );
       expect(rollSpy.calledOnce).to.be.true;
       expect(rollSpy.calledWithExactly("Devin", 6, 5)).to.be.true;
     });
@@ -29,11 +33,16 @@ describe("handlers for the ro command", () => {
 
   describe("when the inputs aren't valid", () => {
     it("throws with a listing of the expected parameters", () => {
-      const requestWithTooFewArgs = () => handler({
-        author: {
-          username: "Devin"
-        },
-      }, "ro", ["5"]);
+      const requestWithTooFewArgs = () =>
+        handler(
+          {
+            author: {
+              username: "Devin",
+            },
+          },
+          "ro",
+          ["5"]
+        );
       expect(requestWithTooFewArgs).to.throw("{Player Dice} {Challenge Dice}");
     });
   });

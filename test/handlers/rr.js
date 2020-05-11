@@ -29,23 +29,26 @@ describe("handlers for the rr command", () => {
         ["Devin", "5"]
       );
       expect(rollSpy.calledOnce).to.be.true;
-      expect(rollSpy.calledWithExactly({ user: { username: "Devin" } }, 5))
-        .to.be.true;
+      expect(rollSpy.calledWithExactly({ user: { username: "Devin" } }, 5)).to
+        .be.true;
     });
   });
 
   describe("when the inputs aren't valid", () => {
     it("throws with a listing of the expected parameters", () => {
-      const requestWithTooFewArgs = () => handler(        {
-        guild: {
-          members: {
-            cache: [{ user: { username: "Devin" } }],
+      const requestWithTooFewArgs = () =>
+        handler(
+          {
+            guild: {
+              members: {
+                cache: [{ user: { username: "Devin" } }],
+              },
+            },
           },
-        },
-      }, "rr", ["5"]);
-      expect(requestWithTooFewArgs).to.throw(
-        "{Player Name} {Player Dice}"
-      );
+          "rr",
+          ["5"]
+        );
+      expect(requestWithTooFewArgs).to.throw("{Player Name} {Player Dice}");
     });
   });
 });
