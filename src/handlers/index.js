@@ -16,9 +16,10 @@ const commands = [
   {
     name: "r",
     helpText: "Make a roll in wordsmith.",
-    parameters: ["Player Dice", "Challenge Dice"],
-    callback: function (pdice, cdice) {
-      return rules.roll(parseInt(pdice), parseInt(cdice));
+    parameters: ["Player Dice"],
+    callback: function (pdice) {
+      const name = this.author.username;
+      return rules.roll(name, parseInt(pdice));
     },
   },
   {
@@ -29,6 +30,15 @@ const commands = [
       const members = this.guild.members;
       const member = helpers.playerSearch(members, pname);
       return rules.rollRequest(member, parseInt(pdice), parseInt(cdice));
+    },
+  },
+  {
+    name: "ro",
+    helpText: "Make an opposed roll in wordsmith.",
+    parameters: ["Player Dice", "Challenge Dice"],
+    callback: function (pdice, cdice) {
+      const name = this.author.username;
+      return rules.rollOpposed(name, parseInt(pdice), parseInt(cdice));
     },
   },
   {

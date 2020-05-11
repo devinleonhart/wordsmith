@@ -4,7 +4,7 @@ const proxyquire = require("proxyquire").noCallThru();
 
 const handler = require("../../src/handlers");
 
-describe("handlers for the r command", () => {
+describe("handlers for the ro command", () => {
   describe("when the inputs are valid", () => {
     let rollSpy;
     let stubbedHandler;
@@ -12,18 +12,18 @@ describe("handlers for the r command", () => {
     beforeEach(() => {
       rollSpy = sinon.spy();
       stubbedHandler = proxyquire("../../src/handlers", {
-        "../rules": { roll: rollSpy },
+        "../rules": { rollOpposed: rollSpy },
       });
     });
 
-    it("passes the correct inputs to rules.roll()", () => {
+    it("passes the correct inputs to rules.rollOpposed()", () => {
       stubbedHandler({
         author: {
           username: "Devin"
         },
-      }, "r", ["6"]);
+      }, "ro", ["6", "5"]);
       expect(rollSpy.calledOnce).to.be.true;
-      expect(rollSpy.calledWithExactly("Devin", 6)).to.be.true;
+      expect(rollSpy.calledWithExactly("Devin", 6, 5)).to.be.true;
     });
   });
 
@@ -33,8 +33,8 @@ describe("handlers for the r command", () => {
         author: {
           username: "Devin"
         },
-      }, "r", []);
-      expect(requestWithTooFewArgs).to.throw("{Player Dice}");
+      }, "ro", ["5"]);
+      expect(requestWithTooFewArgs).to.throw("{Player Dice} {Challenge Dice}");
     });
   });
 });

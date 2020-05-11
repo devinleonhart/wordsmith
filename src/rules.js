@@ -8,7 +8,41 @@ ${member} gets a :star2:!
 };
 
 // Rolling dice in wordsmith.
-const roll = (pdice, cdice) => {
+const roll = (pname, pdice) => {
+  if (pdice <= 0) {
+    return `The number of player dice cannot be less than 1.`;
+  }
+
+  const wsDiceType = new FuzzyDice.Dice(8, 4, 1, 2);
+
+  const rollResult = FuzzyDice.roll(
+    wsDiceType,
+    pdice,
+  );
+
+  let pResult = "";
+
+  let pNumBlanks = pdice - rollResult.num_successes - rollResult.num_criticals;
+
+  for (i = 0; i < rollResult.num_criticals; i++) {
+    pResult += ":star2: ";
+  }
+
+  for (i = 0; i < rollResult.num_successes; i++) {
+    pResult += ":small_orange_diamond: ";
+  }
+
+  for (i = 0; i < pNumBlanks; i++) {
+    pResult += ":small_blue_diamond: ";
+  }
+
+  return `
+${pname}'s Roll: ${pResult}
+`;
+};
+
+// Rolling dice in wordsmith.
+const rollOpposed = (pname, pdice, cdice) => {
   if (pdice <= 0) {
     return `The number of player dice cannot be less than 1.`;
   }
@@ -67,7 +101,7 @@ const roll = (pdice, cdice) => {
   return `
 **${outcome.toUpperCase()}** ${reaction}
 
-Player Roll: ${pResult}
+${pname}'s Roll: ${pResult}
 Challenge Roll: ${cResult}
 `;
 };
@@ -88,5 +122,6 @@ const useStar = (playerName) => {
 
 exports.awardStar = awardStar;
 exports.roll = roll;
+exports.rollOpposed = rollOpposed;
 exports.rollRequest = rollRequest;
 exports.useStar = useStar;
