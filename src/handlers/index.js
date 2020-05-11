@@ -24,12 +24,12 @@ const commands = [
   },
   {
     name: "rr",
-    helpText: "Perform a roll request to a player.",
-    parameters: ["Player Name", "Player Dice", "Challenge Dice"],
-    callback: function (pname, pdice, cdice) {
+    helpText: "Request a player to make a roll.",
+    parameters: ["Player Name", "Player Dice"],
+    callback: function (pname, pdice) {
       const members = this.guild.members;
       const member = helpers.playerSearch(members, pname);
-      return rules.rollRequest(member, parseInt(pdice), parseInt(cdice));
+      return rules.rollRequest(member, parseInt(pdice));
     },
   },
   {
@@ -39,6 +39,16 @@ const commands = [
     callback: function (pdice, cdice) {
       const name = this.author.username;
       return rules.rollOpposed(name, parseInt(pdice), parseInt(cdice));
+    },
+  },
+  {
+    name: "ror",
+    helpText: "Request a player make an opposed roll.",
+    parameters: ["Player Name", "Player Dice", "Challenge Dice"],
+    callback: function (pname, pdice, cdice) {
+      const members = this.guild.members;
+      const member = helpers.playerSearch(members, pname);
+      return rules.rollOpposedRequest(member, parseInt(pdice), parseInt(cdice));
     },
   },
   {

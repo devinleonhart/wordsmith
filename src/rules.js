@@ -106,10 +106,17 @@ Challenge Roll: ${cResult}
 `;
 };
 
-// Awarding a star to a player.
-const rollRequest = (member, pdice, cdice) => {
+// Asking a player to perform a roll.
+const rollRequest = (member, pdice) => {
   return `
-${member} must make a ${pdice} ${cdice} roll!
+${member} must roll ${pdice} dice!
+  `;
+};
+
+// Asking a player to perform an opposed roll.
+const rollOpposedRequest = (member, pdice, cdice) => {
+  return `
+${member} must make a ${pdice} ${cdice} opposed roll!
   `;
 };
 
@@ -124,4 +131,5 @@ exports.awardStar = awardStar;
 exports.roll = roll;
 exports.rollOpposed = rollOpposed;
 exports.rollRequest = rollRequest;
+exports.rollOpposedRequest = rollOpposedRequest;
 exports.useStar = useStar;
