@@ -25,7 +25,7 @@ deploy:
   script:
     - ssh $PRODUCTION_USER@$PRODUCTION_URL "rm -rf /home/$PRODUCTION_USER/wordsmith_bot/*"
     - scp -r ./* $PRODUCTION_USER@$PRODUCTION_URL:/home/$PRODUCTION_USER/wordsmith_bot
-    - ssh $PRODUCTION_USER@$PRODUCTION_URL "cd /home/$PRODUCTION_USER/wordsmith_bot/ && npm i"
+    - ssh $PRODUCTION_USER@$PRODUCTION_URL "cd /home/$PRODUCTION_USER/wordsmith_bot/ && npm i && npm run prod"
     - ssh $PRODUCTION_USER@$PRODUCTION_URL "sudo systemctl restart wordsmith-bot"
   only:
     - master

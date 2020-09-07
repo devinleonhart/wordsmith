@@ -30,7 +30,7 @@
   },
   "scripts": {
     "dev": "NODE_ENV=development npx nodemon --inspect src/index.ts",
-    "prod": "NODE_ENV=production node src/index.js",
+    "prod": "NODE_ENV=production npx tsc src/index.ts",
     "test": "NODE_ENV=test npx mocha -r ts-node/register test/**/** --exit",
     "test-debug": "NODE_ENV=test npx mocha --inspect-brk -- --recursive"
   },
