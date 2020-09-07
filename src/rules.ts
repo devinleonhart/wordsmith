@@ -68,7 +68,7 @@ const rollOpposed = (pname:string, pdice:number, cdice:number):string => {
   } else if (outcome === "partial success") {
     reaction = ":smile_cat:";
   } else if (outcome === "critical success") {
-    reaction = ":smirk_cat: :beer:";
+    reaction = ":beer: :smirk_cat:";
   } else if (outcome === "failure") {
     reaction = ":scream_cat:";
   }
