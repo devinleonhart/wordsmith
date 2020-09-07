@@ -1,16 +1,17 @@
-const FuzzyDice = require("fuzzy-dice");
+import { GuildMember } from "discord.js";
+import FuzzyDice from "fuzzy-dice";
 
 // Awarding a star to a player.
-const awardStar = (member) => {
+const awardStar = (member: GuildMember):string => {
   return `
 ${member} gets a :star2:!
   `;
 };
 
 // Rolling dice in wordsmith.
-const roll = (pname, pdice) => {
+const roll = (pname:string, pdice:number):string => {
   if (pdice <= 0) {
-    return `The number of player dice cannot be less than 1.`;
+    return "The number of player dice cannot be less than 1.";
   }
 
   const wsDiceType = new FuzzyDice.Dice(8, 4, 1, 2);
@@ -19,17 +20,17 @@ const roll = (pname, pdice) => {
 
   let pResult = "";
 
-  let pNumBlanks = pdice - rollResult.num_successes - rollResult.num_criticals;
+  const pNumBlanks = pdice - rollResult.num_successes - rollResult.num_criticals;
 
-  for (i = 0; i < rollResult.num_criticals; i++) {
+  for (let i = 0; i < rollResult.num_criticals; i++) {
     pResult += ":star2: ";
   }
 
-  for (i = 0; i < rollResult.num_successes; i++) {
+  for (let i = 0; i < rollResult.num_successes; i++) {
     pResult += ":small_orange_diamond: ";
   }
 
-  for (i = 0; i < pNumBlanks; i++) {
+  for (let i = 0; i < pNumBlanks; i++) {
     pResult += ":small_blue_diamond: ";
   }
 
@@ -39,13 +40,13 @@ ${pname}'s Roll: ${pResult}
 };
 
 // Rolling dice in wordsmith.
-const rollOpposed = (pname, pdice, cdice) => {
+const rollOpposed = (pname:string, pdice:number, cdice:number):string => {
   if (pdice <= 0) {
-    return `The number of player dice cannot be less than 1.`;
+    return "The number of player dice cannot be less than 1.";
   }
 
   if (cdice <= 0) {
-    return `The number of challenge dice cannot be less than 1.`;
+    return "The number of challenge dice cannot be less than 1.";
   }
 
   const wsDiceType = new FuzzyDice.Dice(8, 4, 1, 2);
@@ -57,7 +58,7 @@ const rollOpposed = (pname, pdice, cdice) => {
     cdice
   );
 
-  let outcome = rollResult.outcome;
+  const outcome = rollResult.outcome;
   let reaction = ":question:";
   let pResult = "";
   let cResult = "";
@@ -72,26 +73,26 @@ const rollOpposed = (pname, pdice, cdice) => {
     reaction = ":scream_cat:";
   }
 
-  let pNumBlanks = pdice - rollResult.num_successes - rollResult.num_criticals;
-  let cNumBlanks = cdice - rollResult.num_opposed_successes;
+  const pNumBlanks = pdice - rollResult.num_successes - rollResult.num_criticals;
+  const cNumBlanks = cdice - rollResult.num_opposed_successes;
 
-  for (i = 0; i < rollResult.num_criticals; i++) {
+  for (let i = 0; i < rollResult.num_criticals; i++) {
     pResult += ":star2: ";
   }
 
-  for (i = 0; i < rollResult.num_successes; i++) {
+  for (let i = 0; i < rollResult.num_successes; i++) {
     pResult += ":small_orange_diamond: ";
   }
 
-  for (i = 0; i < pNumBlanks; i++) {
+  for (let i = 0; i < pNumBlanks; i++) {
     pResult += ":small_blue_diamond: ";
   }
 
-  for (i = 0; i < rollResult.num_opposed_successes; i++) {
+  for (let i = 0; i < rollResult.num_opposed_successes; i++) {
     cResult += ":small_orange_diamond: ";
   }
 
-  for (i = 0; i < cNumBlanks; i++) {
+  for (let i = 0; i < cNumBlanks; i++) {
     cResult += ":small_blue_diamond: ";
   }
 
@@ -104,29 +105,31 @@ Challenge Roll: ${cResult}
 };
 
 // Asking a player to perform a roll.
-const rollRequest = (member, pdice) => {
+const rollRequest = (member:GuildMember, pdice:number):string => {
   return `
 ${member} must roll ${pdice} dice!
   `;
 };
 
 // Asking a player to perform an opposed roll.
-const rollOpposedRequest = (member, pdice, cdice) => {
+const rollOpposedRequest = (member:GuildMember, pdice:number, cdice:number):string => {
   return `
 ${member} must make a ${pdice} ${cdice} opposed roll!
   `;
 };
 
 // Players announcing they have used a star.
-const useStar = (playerName) => {
+const useStar = (playerName:string):string => {
   return `
 **${playerName}** has used a :star2:!
 `;
 };
 
-exports.awardStar = awardStar;
-exports.roll = roll;
-exports.rollOpposed = rollOpposed;
-exports.rollRequest = rollRequest;
-exports.rollOpposedRequest = rollOpposedRequest;
-exports.useStar = useStar;
+export default {
+  awardStar,
+  roll,
+  rollOpposed,
+  rollRequest,
+  rollOpposedRequest,
+  useStar
+};

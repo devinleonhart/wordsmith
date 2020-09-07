@@ -1,5 +1,7 @@
+import { GuildMemberManager, GuildMember } from "discord.js";
+
 // Players announcing they have used a star.
-const playerSearch = (members, pname) => {
+const playerSearch = (members:GuildMemberManager, pname:string):GuildMember => {
   let memberInChannel = null;
   members.cache.forEach((member) => {
     if (member.nickname) {
@@ -20,4 +22,6 @@ const playerSearch = (members, pname) => {
   return memberInChannel;
 };
 
-exports.playerSearch = playerSearch;
+export default {
+  playerSearch
+};

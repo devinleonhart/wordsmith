@@ -1,8 +1,9 @@
-const settings = require("./settings");
-const Discord = require("discord.js");
+import settings from "./settings";
+import { Client } from "discord.js";
+import handlers from "./handlers";
+
 const secret_key = settings.DISCORD_SECRET_KEY_WS;
-const client = new Discord.Client();
-const handlers = require("./handlers");
+const client = new Client();
 
 client.login(secret_key).catch((err) => {
   console.error(err);

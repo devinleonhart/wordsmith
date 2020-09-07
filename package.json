@@ -2,7 +2,7 @@
   "name": "wordsmith-discord-bot",
   "version": "1.0.0",
   "description": "Wordsmith Discord bot.",
-  "main": "index.js",
+  "main": "index.ts",
   "dependencies": {
     "discord.js": "^12.3.1",
     "dotenv": "^8.2.0",
@@ -27,7 +27,7 @@
     "typescript": "^4.0.2"
   },
   "scripts": {
-    "dev": "NODE_ENV=development npx nodemon --inspect src/index.js",
+    "dev": "NODE_ENV=development npx nodemon --inspect src/index.ts",
     "prod": "NODE_ENV=production node src/index.js",
     "test": "NODE_ENV=test npx mocha --recursive",
     "test-debug": "NODE_ENV=test npx mocha --inspect-brk -- --recursive"
