@@ -1,5 +1,5 @@
 import { GuildMember } from "discord.js";
-import FuzzyDice from "fuzzy-dice";
+import * as FuzzyDice from "fuzzy-dice";
 
 // Awarding a star to a player.
 const awardStar = (member: GuildMember):string => {
