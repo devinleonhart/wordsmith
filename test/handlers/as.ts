@@ -1,19 +1,20 @@
-const expect = require("chai").expect;
-const sinon = require("sinon");
+import { Message } from "discord.js";
+import { expect } from "chai";
+import sinon, { SinonSpy } from "sinon";
 const proxyquire = require("proxyquire").noCallThru();
 
-const handler = require("../../src/handlers");
+import handlers from "../../src/handlers";
 
 describe("handlers for the as command", function() {
   describe("when the inputs are valid", function() {
-    let rollSpy;
+    let rollSpy:SinonSpy;
     let stubbedHandler;
 
     beforeEach(function() {
       rollSpy = sinon.spy();
       stubbedHandler = proxyquire("../../src/handlers", {
         "../rules": { awardStar: rollSpy },
-      });
+      }).default;
     });
 
     it("passes the correct inputs to rules.awardStar()", function() {
@@ -36,7 +37,7 @@ describe("handlers for the as command", function() {
 
   describe("when the inputs aren't valid", function() {
     it("throws with a listing of the expected parameters", function() {
-      const requestWithTooFewArgs = () => handler({}, "as", []);
+      const requestWithTooFewArgs = () => handlers(<Message>{}, "as", []);
       expect(requestWithTooFewArgs).to.throw("{Player Name}");
     });
   });

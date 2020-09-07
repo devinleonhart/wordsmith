@@ -28,8 +28,10 @@ module.exports = {
     "no-param-reassign": "off",
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/no-var-requires": "off",
+    "@typescript-eslint/no-non-null-assertion": "off",
     "semi": ["error", "always"],
     "space-before-function-paren": ["error", "never"],
     "quotes": ["error", "double"],
+    "mocha/no-hooks-for-single-case": "off",
   }
 };

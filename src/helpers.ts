@@ -2,7 +2,8 @@ import { GuildMemberManager, GuildMember } from "discord.js";
 
 // Players announcing they have used a star.
 const playerSearch = (members:GuildMemberManager, pname:string):GuildMember => {
-  let memberInChannel = null;
+  let memberInChannel:GuildMember | null = null;
+
   members.cache.forEach((member) => {
     if (member.nickname) {
       if (pname.toLowerCase() === member.nickname.toLowerCase()) {

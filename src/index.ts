@@ -10,7 +10,7 @@ client.login(secret_key).catch((err) => {
 });
 
 client.on("ready", () => {
-  console.log(`Logged in as ${client.user.tag}!`);
+  console.log(`Logged in as ${client.user?.tag}!`);
 });
 
 client.on("message", (msg) => {
@@ -19,7 +19,8 @@ client.on("message", (msg) => {
   }
 
   const args = msg.content.slice(settings.prefix.length + 1).split(" ");
-  const command = args.shift().toLowerCase();
+  const command = args.shift()?.toLowerCase() as string;
+
   try {
     const output = handlers(msg, command, args);
     msg.channel.send(output);
