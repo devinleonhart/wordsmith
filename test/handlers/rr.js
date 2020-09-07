@@ -4,19 +4,19 @@ const proxyquire = require("proxyquire").noCallThru();
 
 const handler = require("../../src/handlers");
 
-describe("handlers for the rr command", () => {
-  describe("when the inputs are valid", () => {
+describe("handlers for the rr command", function() {
+  describe("when the inputs are valid", function() {
     let rollSpy;
     let stubbedHandler;
 
-    beforeEach(() => {
+    beforeEach(function() {
       rollSpy = sinon.spy();
       stubbedHandler = proxyquire("../../src/handlers", {
         "../rules": { rollRequest: rollSpy },
       });
     });
 
-    it("passes the correct inputs to rules.rollRequest()", () => {
+    it("passes the correct inputs to rules.rollRequest()", function() {
       stubbedHandler(
         {
           guild: {
@@ -34,8 +34,8 @@ describe("handlers for the rr command", () => {
     });
   });
 
-  describe("when the inputs aren't valid", () => {
-    it("throws with a listing of the expected parameters", () => {
+  describe("when the inputs aren't valid", function() {
+    it("throws with a listing of the expected parameters", function() {
       const requestWithTooFewArgs = () =>
         handler(
           {
