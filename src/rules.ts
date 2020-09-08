@@ -63,19 +63,37 @@ const rollOpposed = (pname:string, pdice:number, cdice:number):string => {
     cdice
   );
 
-  const outcome = rollResult.outcome;
+  let outcome = rollResult.outcome;
+  let explanation = "";
   let reaction = ":question:";
   let pResult = "";
   let cResult = "";
 
   if (outcome === "success") {
     reaction = ":smile_cat:";
+    explanation = "You did it! Momentum +3";
   } else if (outcome === "partial success") {
-    reaction = ":smile_cat:";
+    if(Math.abs(rollResult.magnitude) === 1) {
+      reaction = ":smiley_cat:";
+      outcome = "almost";
+      explanation = "You're gaining ground! Momentum +1";
+    }
+    else if(Math.abs(rollResult.magnitude) === 2) {
+      reaction = ":pouting_cat:";
+      outcome = "miss";
+      explanation = "You can feel victory slipping away. Momentum -1";
+    }
+    else if(Math.abs(rollResult.magnitude) >= 3) {
+      reaction = ":crying_cat_face:";
+      outcome = "stumble";
+      explanation = "A serious error pushes you further from your goal. Momentum -2";
+    }
   } else if (outcome === "critical success") {
     reaction = ":beer: :smirk_cat:";
+    explanation = "You heroically defeat the challenge! Momentum +4";
   } else if (outcome === "failure") {
     reaction = ":scream_cat:";
+    explanation = "A severe setback... You don't get what you asked for. Momentum -3";
   }
 
   const pNumBlanks = pdice - rollResult.num_successes - rollResult.num_criticals;
@@ -102,10 +120,13 @@ const rollOpposed = (pname:string, pdice:number, cdice:number):string => {
   }
 
   return `
+---
 **${outcome.toUpperCase()}** ${reaction}
+${explanation}
 
 ${pname}'s Roll: ${pResult}
 Challenge Roll: ${cResult}
+---
 `;
 };
 

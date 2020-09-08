@@ -19,7 +19,7 @@ if (environment === "production") {
 } else if (environment === "development") {
   require("dotenv").config();
   settings.DISCORD_SECRET_KEY_WS = process.env.DISCORD_SECRET_KEY_WS || "";
-  settings.prefix = "/wst";
+  settings.prefix = "/wtest";
 }
 
 export default settings;
