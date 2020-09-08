@@ -1,4 +1,4 @@
-import redis from "redis";
+import * as redis from "redis";
 
 type callback = (value?: string) => void;
 
