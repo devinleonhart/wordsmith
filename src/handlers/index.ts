@@ -3,73 +3,73 @@ import helpers from "../helpers";
 import rules from "../rules";
 import { Message, GuildMemberManager } from "discord.js";
 
+type callback = (value?: string) => void;
+
 const commands = [
   {
     name: "as",
     helpText: "Award a star in Wordsmith",
-    parameters: ["Player Name"],
-    callback: function(pname: string) {
-      const members = this.guild.members as GuildMemberManager;
-      const member = helpers.playerSearch(members, pname);
-      return rules.awardStar(member);
+    parameters: ["Character Name"],
+    callback: function(cname: string, cb: callback) {
+      rules.awardStar(cname, cb);
     },
   },
   {
     name: "r",
     helpText: "Make a roll in wordsmith.",
     parameters: ["Player Dice"],
-    callback: function(pdice: string) {
+    callback: function(pdice: string, cb: callback) {
       const name = this.author.username;
-      return rules.roll(name, parseInt(pdice));
+      cb(rules.roll(name, parseInt(pdice)));
     },
   },
   {
     name: "rr",
     helpText: "Request a player to make a roll.",
     parameters: ["Player Name", "Player Dice"],
-    callback: function(pname:string, pdice:string) {
+    callback: function(pname:string, pdice:string, cb: callback) {
       const members = this.guild.members as GuildMemberManager;
       const member = helpers.playerSearch(members, pname);
-      return rules.rollRequest(member, parseInt(pdice));
+      cb(rules.rollRequest(member, parseInt(pdice)));
     },
   },
   {
     name: "ro",
     helpText: "Make an opposed roll in wordsmith.",
     parameters: ["Player Dice", "Challenge Dice"],
-    callback: function(pdice:string, cdice:string) {
+    callback: function(pdice:string, cdice:string, cb: callback) {
       const name = this.author.username;
-      return rules.rollOpposed(name, parseInt(pdice), parseInt(cdice));
+      cb(rules.rollOpposed(name, parseInt(pdice), parseInt(cdice)));
     },
   },
   {
     name: "ror",
     helpText: "Request a player make an opposed roll.",
     parameters: ["Player Name", "Player Dice", "Challenge Dice"],
-    callback: function(pname:string, pdice:string, cdice:string) {
+    callback: function(pname:string, pdice:string, cdice:string, cb: callback) {
       const members = this.guild.members as GuildMemberManager;
       const member = helpers.playerSearch(members, pname);
-      return rules.rollOpposedRequest(member, parseInt(pdice), parseInt(cdice));
+      cb(rules.rollOpposedRequest(member, parseInt(pdice), parseInt(cdice)));
     },
   },
   {
     name: "s",
     helpText: "Use a star in Wordsmith.",
-    parameters: [],
-    callback: function() {
-      return rules.useStar(this.author.username);
+    parameters: ["Character Name"],
+    callback: function(cname: string, cb: callback) {
+      rules.useStar(cname, cb);
     },
   },
 ];
 
-const handlers = (msg:Message, requestedCommand:string, args:string[]):string => {
+const handlers = (msg:Message, requestedCommand:string, args:string[], cb:callback):string => {
   if (requestedCommand === "help") {
     const helpText = (command) => {
       const paramsList = command.parameters
         .map((paramName) => `{${paramName}}`)
         .join(" ");
       const usage = `Usage: ${settings.prefix} ${command.name} ${paramsList}`;
-      return `**${command.name}**: ${command.helpText}\n${usage}`;
+      cb(`**${command.name}**: ${command.helpText}\n${usage}`);
     };
     return `Available commands:\n${commands
       .map((command) => helpText(command))
@@ -94,7 +94,7 @@ const handlers = (msg:Message, requestedCommand:string, args:string[]):string =>
     throw new Error(`Expected ${paramsHelpString}`);
   }
 
-  return command.callback.apply(msg, args);
+  command.callback.call(msg, ...args, cb);
 };
 
 export default handlers;

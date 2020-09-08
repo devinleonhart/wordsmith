@@ -19,26 +19,21 @@ describe("handlers for the as command", function() {
 
     it("passes the correct inputs to rules.awardStar()", function() {
       stubbedHandler(
-        {
-          guild: {
-            members: {
-              cache: [{ user: { username: "Devin" } }],
-            },
-          },
-        },
+        {},
         "as",
-        ["Devin"]
+        ["Devin"],
+        () => {}
       );
       expect(rollSpy.calledOnce).to.be.true;
-      expect(rollSpy.calledWithExactly({ user: { username: "Devin" } })).to.be
+      expect(rollSpy.calledWithMatch("Devin")).to.be
         .true;
     });
   });
 
   describe("when the inputs aren't valid", function() {
     it("throws with a listing of the expected parameters", function() {
-      const requestWithTooFewArgs = () => handlers(<Message>{}, "as", []);
-      expect(requestWithTooFewArgs).to.throw("{Player Name}");
+      const requestWithTooFewArgs = () => handlers(<Message>{}, "as", [], ()=> {}); // eslint-disable-line @typescript-eslint/no-empty-function
+      expect(requestWithTooFewArgs).to.throw("{Character Name}");
     });
   });
 });

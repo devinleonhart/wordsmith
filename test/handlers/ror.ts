@@ -27,7 +27,8 @@ describe("handlers for the ror command", function() {
           },
         },
         "ror",
-        ["Devin", "5", "4"]
+        ["Devin", "5", "4"],
+        () => {}
       );
       expect(rollSpy.calledOnce).to.be.true;
       expect(rollSpy.calledWithExactly({ user: { username: "Devin" } }, 5, 4))
@@ -37,7 +38,7 @@ describe("handlers for the ror command", function() {
 
   describe("when the inputs aren't valid", function() {
     it("throws with a listing of the expected parameters", function() {
-      const requestWithTooFewArgs = () => handlers(<Message>{}, "ror", ["5"]);
+      const requestWithTooFewArgs = () => handlers(<Message>{}, "ror", ["5"], () => {});
       expect(requestWithTooFewArgs).to.throw(
         "{Player Name} {Player Dice} {Challenge Dice}"
       );

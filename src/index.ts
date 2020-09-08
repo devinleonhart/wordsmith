@@ -1,6 +1,9 @@
 import settings from "./settings";
 import { Client } from "discord.js";
 import handlers from "./handlers";
+import { setupRedisClient } from "./redis";
+
+setupRedisClient();
 
 const secret_key = settings.DISCORD_SECRET_KEY_WS;
 const client = new Client();
@@ -22,9 +25,10 @@ client.on("message", (msg) => {
   const command = args.shift()?.toLowerCase() as string;
 
   try {
-    const output = handlers(msg, command, args);
-    msg.channel.send(output);
-    msg.delete({ timeout: 1000 });
+    handlers(msg, command, args, (output) => {
+      msg.channel.send(output);
+      msg.delete({ timeout: 1000 });
+    });
   } catch (error) {
     return msg.channel.send(error.message);
   }

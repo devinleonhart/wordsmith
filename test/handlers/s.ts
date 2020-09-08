@@ -18,16 +18,16 @@ describe("handlers for the s command", function() {
     });
 
     it("passes the correct inputs to rules.useStar()", function() {
-      stubbedHandler({ author: { username: "Devin" } }, "s", []);
+      stubbedHandler({}, "s", ["Devin"]);
       expect(rollSpy.calledOnce).to.be.true;
-      expect(rollSpy.calledWithExactly("Devin")).to.be.true;
+      expect(rollSpy.calledWithMatch("Devin")).to.be.true;
     });
   });
 
   describe("when the inputs aren't valid", function() {
     it("throws with a listing of the expected parameters", function() {
-      const requestWithTooFewArgs = () => handlers(<Message>{}, "s", ["5"]);
-      expect(requestWithTooFewArgs).to.throw("Expected no arguments.");
+      const requestWithTooFewArgs = () => handlers(<Message>{}, "s", [], () => {});
+      expect(requestWithTooFewArgs).to.throw("{Character Name}");
     });
   });
 });

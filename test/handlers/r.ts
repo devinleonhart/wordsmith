@@ -22,7 +22,8 @@ describe("handlers for the r command", function() {
           },
         },
         "r",
-        ["6"]
+        ["6"],
+        () => {}
       );
       expect(rollSpy.calledOnce).to.be.true;
       expect(rollSpy.calledWithExactly("Devin", 6)).to.be.true;

@@ -24,7 +24,8 @@ describe("handlers for the rr command", function() {
           },
         },
         "rr",
-        ["Devin", "5"]
+        ["Devin", "5"],
+        () => {}
       );
       expect(rollSpy.calledOnce).to.be.true;
       expect(rollSpy.calledWithExactly({ user: { username: "Devin" } }, 5)).to

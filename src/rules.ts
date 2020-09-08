@@ -1,11 +1,16 @@
 import { GuildMember } from "discord.js";
 import * as FuzzyDice from "fuzzy-dice";
+import { redisGet, redisSet } from "./redis";
+
+type callback = (value?: string) => void;
 
 // Awarding a star to a player.
-const awardStar = (member: GuildMember):string => {
-  return `
-${member} gets a :star2:!
-  `;
+const awardStar = (cname: string, cb:callback):void => {
+  redisSet(cname, "star", "1", () => {
+    cb(`
+    ${cname} gets a :star2:!
+    `);
+  });
 };
 
 // Rolling dice in wordsmith.
@@ -119,10 +124,20 @@ ${member} must make a ${pdice} ${cdice} opposed roll!
 };
 
 // Players announcing they have used a star.
-const useStar = (playerName:string):string => {
-  return `
-**${playerName}** has used a :star2:!
-`;
+const useStar = (cname:string, cb:callback):void => {
+  redisGet(cname, "star", (value:string) => {
+    if(parseInt(value)) {
+      cb(`
+      **${cname}** has used a :star2:!
+      `);
+    }
+    else {
+    cb(`
+    **${cname}** doesn't have a star...
+    `);
+    }
+    redisSet(cname, "star", "0", () => {});
+  });
 };
 
 export default {
