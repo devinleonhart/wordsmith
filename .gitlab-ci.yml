@@ -10,6 +10,7 @@ test:
   before_script:
     - npm ci
   script:
+    - time npm run test
 
 deploy:
   image: node:14
