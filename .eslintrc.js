@@ -23,6 +23,7 @@ module.exports = {
     "import/no-unresolved": "off",
     "import/prefer-default-export": "off",
     "max-len": "off",
+    "mocha/no-hooks-for-single-case": "off",
     "no-empty-pattern": "off",
     "no-new": "off",
     "no-param-reassign": "off",
