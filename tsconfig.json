@@ -1,17 +1,19 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "module": "commonjs",
     "esModuleInterop": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "lib": [
-      "esnext",
+      "es5",
+      "es6"
     ],
+    "module": "commonjs",
+    "noImplicitAny": true,
     "outDir": "./dist",
     "rootDir": "./",
-    "noImplicitAny": false,
+    "sourceMap": true,
     "strictPropertyInitialization": false,
     "suppressImplicitAnyIndexErrors": true,
+    "target": "es5"
   }
 }

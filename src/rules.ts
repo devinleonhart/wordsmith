@@ -1,6 +1,5 @@
-import { GuildMember } from "discord.js";
-import * as FuzzyDice from "fuzzy-dice";
 import { redisGet, redisSet } from "./redis";
+const FuzzyDice = require("fuzzy-dice");
 
 type callback = (value?: string) => void;
 

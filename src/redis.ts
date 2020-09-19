@@ -1,8 +1,8 @@
-import * as redis from "redis";
+import redis, {RedisClient} from "redis";
 
-type callback = (value?: string) => void;
+type callback = (value: string | null) => void;
 
-let redisClient = null;
+let redisClient:RedisClient;
 
 function setupRedisClient():void {
   redisClient = redis.createClient();
@@ -13,14 +13,14 @@ function setupRedisClient():void {
 }
 
 function redisGet(character:string, key:string, cb:callback):void {
-  redisClient.get(`${character.toLowerCase()}_${key.toLowerCase()}`, (err:Error, value:string) => {
+  redisClient.get(`${character.toLowerCase()}_${key.toLowerCase()}`, (err, value) => {
     cb(value);
   });
 }
 
 function redisSet(character:string, key:string, value:string, cb:callback):void {
   redisClient.set(`${character.toLowerCase()}_${key.toLowerCase()}`, value, () => {
-    cb();
+    cb(null);
   });
 }
 

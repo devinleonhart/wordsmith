@@ -26,13 +26,11 @@ module.exports = {
     "no-empty-pattern": "off",
     "no-new": "off",
     "no-param-reassign": "off",
+    "@typescript-eslint/no-empty-function": "off",
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/no-var-requires": "off",
-    "@typescript-eslint/no-non-null-assertion": "off",
-    "@typescript-eslint/no-empty-function": "off",
     "semi": ["error", "always"],
     "space-before-function-paren": ["error", "never"],
     "quotes": ["error", "double"],
-    "mocha/no-hooks-for-single-case": "off",
   }
 };

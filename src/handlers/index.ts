@@ -5,7 +5,16 @@ import { Message, GuildMemberManager } from "discord.js";
 
 type callback = (value?: string) => void;
 
-const commands = [
+type handlerCallback = (...args: any) => any;
+
+interface Command {
+  name: string,
+  helpText: string,
+  parameters: string[],
+  callback: handlerCallback
+}
+
+const commands:Command[] = [
   {
     name: "as",
     helpText: "Award a star in Wordsmith",
@@ -64,7 +73,7 @@ const commands = [
 
 const handlers = (msg:Message, requestedCommand:string, args:string[], cb:callback):string => {
   if (requestedCommand === "help") {
-    const helpText = (command) => {
+    const helpText = (command:Command) => {
       const paramsList = command.parameters
         .map((paramName) => `{${paramName}}`)
         .join(" ");

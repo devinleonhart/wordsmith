@@ -1,7 +1,7 @@
-import settings from "./settings";
+import settings from "./src/settings";
 import { Client } from "discord.js";
-import handlers from "./handlers";
-import { setupRedisClient } from "./redis";
+import handlers from "./src/handlers";
+import { setupRedisClient } from "./src/redis";
 
 setupRedisClient();
 
