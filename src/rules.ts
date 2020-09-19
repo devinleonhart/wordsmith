@@ -131,14 +131,14 @@ Challenge Roll: ${cResult}
 };
 
 // Asking a player to perform a roll.
-const rollRequest = (member:GuildMember, pdice:number):string => {
+const rollRequest = (member:string, pdice:number):string => {
   return `
 ${member} must roll ${pdice} dice!
   `;
 };
 
 // Asking a player to perform an opposed roll.
-const rollOpposedRequest = (member:GuildMember, pdice:number, cdice:number):string => {
+const rollOpposedRequest = (member:string, pdice:number, cdice:number):string => {
   return `
 ${member} must make a ${pdice} ${cdice} opposed roll!
   `;
