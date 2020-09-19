@@ -11,9 +11,9 @@ deploy:
     - eval $(ssh-agent -s)
     - ssh-add <(echo -e "$DEPLOYMENT_SSH_PRIVATE_KEY")
     - ssh -o "StrictHostKeyChecking=no" $PRODUCTION_USER@$PRODUCTION_URL
+    - npm i -g webpack webpack-cli
     - npm ci
     - npm run build
-    - npm i -g webpack webpack-cli
   script:
     - ssh $PRODUCTION_USER@$PRODUCTION_URL "rm -rf /home/$PRODUCTION_USER/wordsmith_bot/*"
     - scp -r ./dist/* $PRODUCTION_USER@$PRODUCTION_URL:/home/$PRODUCTION_USER/wordsmith_bot
