@@ -11,10 +11,11 @@ deploy:
     - eval $(ssh-agent -s)
     - ssh-add <(echo -e "$DEPLOYMENT_SSH_PRIVATE_KEY")
     - ssh -o "StrictHostKeyChecking=no" $PRODUCTION_USER@$PRODUCTION_URL
+    - npm ci
+    - npm run build
   script:
     - ssh $PRODUCTION_USER@$PRODUCTION_URL "rm -rf /home/$PRODUCTION_USER/wordsmith_bot/*"
-    - scp -r ./* $PRODUCTION_USER@$PRODUCTION_URL:/home/$PRODUCTION_USER/wordsmith_bot
-    - ssh $PRODUCTION_USER@$PRODUCTION_URL "cd /home/$PRODUCTION_USER/wordsmith_bot/ && npm i && npm run prod"
+    - scp -r ./dist/* $PRODUCTION_USER@$PRODUCTION_URL:/home/$PRODUCTION_USER/wordsmith_bot
     - ssh $PRODUCTION_USER@$PRODUCTION_URL "sudo systemctl restart wordsmith-bot"
   only:
     - master
