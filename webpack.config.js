@@ -28,7 +28,6 @@ module.exports = (env) => {
     exclude: /node_modules/,
   };
 
-
   // Build Config
   const config = {
     entry: "./app.ts",
@@ -36,6 +35,7 @@ module.exports = (env) => {
       path: path.resolve(__dirname, "dist"),
       filename: "app.js",
     },
+    mode: env.production ? "production" : "development",
     target: "node",
     externals: [nodeExternals()],
     module: {
@@ -53,17 +53,10 @@ module.exports = (env) => {
   };
 
   // Environment Dependent Config
-
-  const isDevelopment = env === "development";
-  const isProduction = env === "production";
-
-  if(isDevelopment) {
-    config.mode = "development";
+  if(config.mode == "production") {
     config.devtool = "inline-source-map";
   }
-
-  if(isProduction) {
-    config.mode = "production";
+  else if(config.mode == "development") {
     config.devtool = "source-map";
   }
 
