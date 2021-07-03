@@ -1,8 +1,13 @@
 {
   "name": "wordsmith-discord-bot",
   "version": "1.0.0",
-  "description": "Wordsmith Discord bot.",
-  "main": "index.ts",
+  "scripts": {
+    "build": "npx webpack --env production",
+    "debug": "npx nodemon --inspect-brk app.ts",
+    "lint": "npx eslint app.ts ./src",
+    "serve": "npx nodemon app.ts",
+    "test": "NODE_ENV=test npx mocha -r ts-node/register test/**/** --exit"
+  },
   "dependencies": {
     "discord.js": "^12.5.3",
     "dotenv": "^10.0.0",
@@ -34,27 +39,5 @@
     "webpack": "^5.42.0",
     "webpack-cli": "^4.7.2",
     "webpack-node-externals": "^3.0.0"
-  },
-  "scripts": {
-    "build": "npx webpack --env production",
-    "debug": "npx nodemon --inspect-brk app.ts",
-    "lint": "npx eslint app.ts ./src",
-    "serve": "npx nodemon app.ts",
-    "test": "NODE_ENV=test npx mocha -r ts-node/register test/**/** --exit"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+ssh://git@gitlab.com/devinleonhart/wordsmith-discord-bot.git"
-  },
-  "keywords": [
-    "Wordsmith",
-    "Discord",
-    "node"
-  ],
-  "author": "Devin Leonhart",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://gitlab.com/devinleonhart/wordsmith-discord-bot/issues"
-  },
-  "homepage": "https://gitlab.com/devinleonhart/wordsmith-discord-bot#readme"
+  }
 }
