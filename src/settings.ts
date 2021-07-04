@@ -1,7 +1,4 @@
-interface Settings {
-  DISCORD_SECRET_KEY_WS: string,
-  prefix: string,
-}
+import { config } from 'dotenv';
 
 const environment = process.env.NODE_ENV;
 
@@ -17,7 +14,7 @@ if (environment === "production") {
   settings.DISCORD_SECRET_KEY_WS = "dummy key";
   settings.prefix = "/ws";
 } else if (environment === "development") {
-  require("dotenv").config();
+  config();
   settings.DISCORD_SECRET_KEY_WS = process.env.DISCORD_SECRET_KEY_WS || "";
   settings.prefix = "/wtest";
 }

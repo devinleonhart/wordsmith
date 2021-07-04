@@ -1,37 +1,21 @@
 module.exports = {
-  root: true,
   env: {
     commonjs: true,
-    mocha: true,
-    node: true
+    es2020: true,
+    node: true,
   },
-  parserOptions: {
-    ecmaVersion: 11,
-    parser: "@typescript-eslint/parser",
-  },
-  plugins: [
-    "@typescript-eslint"
-  ],
   extends: [
     "eslint:recommended",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:mocha/recommended"
+    "plugin:@typescript-eslint/recommended"
   ],
+  parser: "@typescript-eslint/parser",
+  parserOptions: {
+    ecmaVersion: 11,
+    sourceType: "module"
+  },
   rules: {
     "comma-dangle": ["error", "only-multiline"],
-    "import/no-extraneous-dependencies": "off",
-    "import/no-unresolved": "off",
-    "import/prefer-default-export": "off",
-    "max-len": "off",
-    "mocha/no-hooks-for-single-case": "off",
-    "no-empty-pattern": "off",
-    "no-new": "off",
-    "no-param-reassign": "off",
-    "@typescript-eslint/no-empty-function": "off",
-    "@typescript-eslint/no-explicit-any": "off",
-    "@typescript-eslint/no-var-requires": "off",
-    "semi": ["error", "always"],
+    semi: ["error", "always"],
     "space-before-function-paren": ["error", "never"],
-    "quotes": ["error", "double"],
   }
 };

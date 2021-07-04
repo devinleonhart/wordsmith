@@ -3,17 +3,6 @@ import helpers from "../helpers";
 import rules from "../rules";
 import { Message, GuildMemberManager } from "discord.js";
 
-type callback = (value?: string) => void;
-
-type handlerCallback = (...args: any) => any;
-
-interface Command {
-  name: string,
-  helpText: string,
-  parameters: string[],
-  callback: handlerCallback
-}
-
 const commands:Command[] = [
   {
     name: "r",

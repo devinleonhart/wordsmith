@@ -1,19 +1,12 @@
 {
   "compilerOptions": {
-    "esModuleInterop": true,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "lib": [
-      "es5",
-      "es6"
-    ],
-    "module": "commonjs",
-    "noImplicitAny": true,
-    "outDir": "./dist",
-    "rootDir": "./",
-    "sourceMap": true,
-    "strictPropertyInitialization": false,
-    "suppressImplicitAnyIndexErrors": true,
-    "target": "es5"
-  }
+    "allowSyntheticDefaultImports": true,
+    "lib": ["ESNext"],
+    "moduleResolution": "node",
+    "noEmit": true,
+    "target": "ESNext",
+    "typeRoots": [
+      "./types"
+    ]
+  },
 }

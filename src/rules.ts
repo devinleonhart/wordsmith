@@ -1,4 +1,4 @@
-const FuzzyDice = require("fuzzy-dice");
+import * as FuzzyDice from 'fuzzy-dice';
 
 // Rolling dice in wordsmith.
 const roll = (pname:string, pdice:number):string => {
