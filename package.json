@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "scripts": {
     "build": "npx webpack --env production",
-    "debug": "npx nodemon --inspect-brk app.ts",
-    "lint": "npx eslint app.ts ./src",
-    "serve": "npx nodemon app.ts",
+    "debug": "npx nodemon --inspect-brk ./src/app.ts",
+    "lint": "npx eslint ./src",
+    "serve": "npx nodemon ./src/app.ts",
     "test": "NODE_ENV=test npx mocha -r ts-node/register test/**/** --exit"
   },
   "dependencies": {

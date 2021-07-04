@@ -1,16 +1,4 @@
-import { redisGet, redisSet } from "./redis";
 const FuzzyDice = require("fuzzy-dice");
-
-type callback = (value?: string) => void;
-
-// Awarding a star to a player.
-const awardStar = (cname: string, cb:callback):void => {
-  redisSet(cname, "star", "1", () => {
-    cb(`
-    ${cname} gets a :star2:!
-    `);
-  });
-};
 
 // Rolling dice in wordsmith.
 const roll = (pname:string, pdice:number):string => {
@@ -143,28 +131,9 @@ ${member} must make a ${pdice} ${cdice} opposed roll!
   `;
 };
 
-// Players announcing they have used a star.
-const useStar = (cname:string, cb:callback):void => {
-  redisGet(cname, "star", (value:string) => {
-    if(parseInt(value)) {
-      cb(`
-      **${cname}** has used a :star2:!
-      `);
-    }
-    else {
-    cb(`
-    **${cname}** doesn't have a star...
-    `);
-    }
-    redisSet(cname, "star", "0", () => {});
-  });
-};
-
 export default {
-  awardStar,
   roll,
   rollOpposed,
   rollRequest,
   rollOpposedRequest,
-  useStar
 };

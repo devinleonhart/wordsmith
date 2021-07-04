@@ -16,14 +16,6 @@ interface Command {
 
 const commands:Command[] = [
   {
-    name: "as",
-    helpText: "Award a star in Wordsmith",
-    parameters: ["Character Name"],
-    callback: function(cname: string, cb: callback) {
-      rules.awardStar(cname, cb);
-    },
-  },
-  {
     name: "r",
     helpText: "Make a roll in wordsmith.",
     parameters: ["Player Dice"],
@@ -59,14 +51,6 @@ const commands:Command[] = [
       const members = this.guild.members as GuildMemberManager;
       const member = helpers.playerSearch(members, pname);
       cb(rules.rollOpposedRequest(member, parseInt(pdice), parseInt(cdice)));
-    },
-  },
-  {
-    name: "s",
-    helpText: "Use a star in Wordsmith.",
-    parameters: ["Character Name"],
-    callback: function(cname: string, cb: callback) {
-      rules.useStar(cname, cb);
     },
   },
 ];

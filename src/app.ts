@@ -1,12 +1,9 @@
-import settings from "./src/settings";
-import { Client } from "discord.js";
-import handlers from "./src/handlers";
-import { setupRedisClient } from "./src/redis";
-
-setupRedisClient();
+import * as Discord from "discord.js";
+import handlers from "./handlers";
+import settings from "./settings";
 
 const secret_key = settings.DISCORD_SECRET_KEY_WS;
-const client = new Client();
+const client = new Discord.Client();
 
 client.login(secret_key).catch((err) => {
   console.error(err);
