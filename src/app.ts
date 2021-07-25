@@ -1,9 +1,11 @@
 import * as Discord from "discord.js";
 import handlers from "./handlers";
 import settings from "./settings";
+import { setupRedisClient } from "./redis";
 
 const secret_key = settings.DISCORD_SECRET_KEY_WS;
 const client = new Discord.Client();
+setupRedisClient();
 
 client.login(secret_key).catch((err) => {
   console.error(err);

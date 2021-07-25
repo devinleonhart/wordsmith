@@ -1,12 +1,14 @@
 {
   "compilerOptions": {
-    "allowSyntheticDefaultImports": true,
-    "lib": ["ESNext"],
+    "esModuleInterop": true,
+    "module": "commonjs",
     "moduleResolution": "node",
-    "noEmit": true,
-    "target": "ESNext",
+    "outDir": "dist",
+    "sourceMap": true,
+    "target": "es6",
     "typeRoots": [
       "./types"
-    ]
+    ],
   },
+  "lib": ["es2015"],
 }
