@@ -4,7 +4,9 @@ const environment = process.env.NODE_ENV;
 
 const settings:Settings = {
   DISCORD_SECRET_KEY_WS: "",
-  prefix: ""
+  prefix: "",
+  redisHost: environment === "production" ? "redis" : "127.0.0.1",
+  redisPort: 6379,
 };
 
 if (environment === "production") {

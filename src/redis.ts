@@ -1,11 +1,15 @@
 import redis from "redis";
+import settings from "./settings";
 
 type callback = (value: string | null) => void;
 
 let redisClient;
 
 function setupRedisClient():void {
-  redisClient = redis.createClient();
+  redisClient = redis.createClient({
+    host: settings.redisHost,
+    port: settings.redisPort,
+  });
 
   redisClient.on("error", function(error) {
     console.error(error);

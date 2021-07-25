@@ -6,10 +6,12 @@ interface Command {
   name: string,
   helpText: string,
   parameters: string[],
-  callback: handlerCallback
+  callback: handlerCallback,
 }
 
 interface Settings {
   DISCORD_SECRET_KEY_WS: string,
   prefix: string,
+  redisHost: string,
+  redisPort: number,
 }
