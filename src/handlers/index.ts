@@ -1,7 +1,6 @@
 import settings from "../settings";
-import helpers from "../helpers";
 import rules from "../rules";
-import { Message, GuildMemberManager } from "discord.js";
+import { Message } from "discord.js";
 
 const commands:Command[] = [
   {
@@ -23,12 +22,10 @@ const commands:Command[] = [
   },
   {
     name: "rr",
-    helpText: "Request a player to make a roll.",
+    helpText: "Request a character to make a roll.",
     parameters: ["Player Name", "Player Dice"],
-    callback: function(pname:string, pdice:string, cb: callback) {
-      const members = this.guild.members as GuildMemberManager;
-      const member = helpers.playerSearch(members, pname);
-      cb(rules.rollRequest(member, parseInt(pdice)));
+    callback: function(cname:string, pdice:string, cb: callback) {
+      cb(rules.rollRequest(cname, parseInt(pdice)));
     },
   },
   {
@@ -42,12 +39,10 @@ const commands:Command[] = [
   },
   {
     name: "ror",
-    helpText: "Request a player make an opposed roll.",
+    helpText: "Request a character make an opposed roll.",
     parameters: ["Player Name", "Player Dice", "Challenge Dice"],
-    callback: function(pname:string, pdice:string, cdice:string, cb: callback) {
-      const members = this.guild.members as GuildMemberManager;
-      const member = helpers.playerSearch(members, pname);
-      cb(rules.rollOpposedRequest(member, parseInt(pdice), parseInt(cdice)));
+    callback: function(cname:string, pdice:string, cdice:string, cb: callback) {
+      cb(rules.rollOpposedRequest(cname, parseInt(pdice), parseInt(cdice)));
     },
   },
   {
