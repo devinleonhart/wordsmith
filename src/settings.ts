@@ -3,22 +3,16 @@ import { config } from 'dotenv';
 const environment = process.env.NODE_ENV;
 
 const settings:Settings = {
-  DISCORD_SECRET_KEY_WS: "",
-  prefix: "",
-  redisHost: environment === "production" ? "redis" : "127.0.0.1",
-  redisPort: 6379,
+  clientID: '707732906466082843',
+  guildID: '203642332531261441',
+  secretKey: '',
 };
 
-if (environment === "production") {
-  settings.DISCORD_SECRET_KEY_WS = process.env.DISCORD_SECRET_KEY_WS || "";
-  settings.prefix = "/ws";
-} else if (environment === "test") {
-  settings.DISCORD_SECRET_KEY_WS = "dummy key";
-  settings.prefix = "/ws";
-} else if (environment === "development") {
+if (environment === 'production') {
+  settings.secretKey = process.env.WORDSMITH_SECRET_KEY || '';
+} else if (environment === 'development') {
   config();
-  settings.DISCORD_SECRET_KEY_WS = process.env.DISCORD_SECRET_KEY_WS || "";
-  settings.prefix = "/wtest";
+  settings.secretKey = process.env.WORDSMITH_SECRET_KEY || '';
 }
 
 export default settings;

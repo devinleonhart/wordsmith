@@ -5,17 +5,21 @@ module.exports = {
     node: true,
   },
   extends: [
-    "eslint:recommended",
-    "plugin:@typescript-eslint/recommended"
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended'
   ],
-  parser: "@typescript-eslint/parser",
+  parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 11,
-    sourceType: "module"
+    sourceType: 'module'
   },
   rules: {
-    "comma-dangle": ["error", "only-multiline"],
-    semi: ["error", "always"],
-    "space-before-function-paren": ["error", "never"],
+    '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/no-var-requires': 'off',
+    'comma-dangle': ['error', 'only-multiline'],
+    'quote-props': ['error', 'as-needed'],
+    'space-before-function-paren': ['error', 'never'],
+    quotes: ['error', 'single'],
+    semi: ['error', 'always'],
   }
 };

@@ -1,12 +1,11 @@
-FROM node:14.17.1-alpine
+FROM node:16-alpine3.11
 
 RUN mkdir app
 
 WORKDIR /app
 
 COPY ./src/ ./src
-COPY ./types/ ./types
-COPY ["./tsconfig.json", "./babel.config.json", "./package.json", "./package-lock.json", "./"]
+COPY ["./tsconfig.json", "./package.json", "./package-lock.json", "./"]
 
 RUN npm i && npm run build
 

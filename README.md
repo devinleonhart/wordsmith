@@ -1,6 +1,6 @@
 # Wordsmith Discord Bot
 
-It lets you play Wordsmith in Discord!
+Play Wordsmith in Discord!
 
 ## Add your bot to the Discord server.
 
@@ -11,23 +11,15 @@ It lets you play Wordsmith in Discord!
 
 ### Production
 
-1. Add `process.env.NODE_ENV = 'production'` to the environment.
-2. Add `process.env.DISCORD_SECRET_KEY_WS = XXX` where `XXX` should equal the secret key available on the Developer Dashboard under Bot > Build-A-Bot.
-3. Use `npm run build` to generate an output build in `dist/app.js`. Run this with node on your server.
+1. Add `NODE_ENV='production'` to the environment.
+2. Add `WORDSMITH_SECRET_KEY=XXX` to the environment where `XXX` is the secret key available on the Developer Dashboard under Bot > Build-A-Bot.
+3. Use `npm run build` to generate an output build in `./dist`. Run this with node on your server.
 
 ### Development
 
 This project uses [dotenv](https://github.com/motdotla/dotenv#readme) for environment variables in development.
-1. Create `.env` at the project root. 
+1. Create `.env` at the project root.
 2. Do not commit this to source. It's in the .gitignore.
-3. Add `DISCORD_SECRET_KEY_WS = XXX` to `.env` where `XXX` should equal the secret key available on the Developer Dashboard under Bot > Build-A-Bot.
+3. Add `WORDSMITH_SECRET_KEY=XXX` to `.env` where `XXX` should equal the secret key available on the Developer Dashboard under Bot > Build-A-Bot.
 
-Use `npm run dev` for devlopment or `npm run debug` for attaching a debugger to nodemon's process.
-
-### Linting
-
-`npm run test`
-
-### Testing
-
-`npm run test`
+Use `npm run dev` for nodemon.
