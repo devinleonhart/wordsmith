@@ -1,14 +1,12 @@
 {
   "compilerOptions": {
-    "esModuleInterop": true,
-    "module": "commonjs",
-    "moduleResolution": "node",
-    "outDir": "dist",
-    "sourceMap": true,
-    "target": "es6",
     "typeRoots": [
-      "./types"
+      "./src/@types",
+      "./node_modules/@types",
     ],
+    "outDir": "./dist",
   },
-  "lib": ["es2015"],
+  "include": ["./src"],
+  "exclude": ["./node_modules"],
+  "extends": "@tsconfig/node16/tsconfig.json",
 }

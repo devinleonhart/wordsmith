@@ -1,19 +1,7 @@
-import { redisGet, redisSet } from "./redis";
-import * as FuzzyDice from 'fuzzy-dice';
+import * as FuzzyDice from "fuzzy-dice";
 
-type callback = (value?: string) => void;
-
-// Awarding a star to a player.
-const awardStar = (cname: string, cb:callback):void => {
-  redisSet(cname, "star", "1", () => {
-    cb(`
-    ${cname} gets a :star2:!
-    `);
-  });
-};
-
-// Rolling dice in wordsmith.
-const roll = (pname:string, pdice:number):string => {
+// Roll dice.
+export const roll = (pname: string, pdice: number): string => {
   if (pdice <= 0) {
     return "The number of player dice cannot be less than 1.";
   }
@@ -43,8 +31,8 @@ ${pname}'s Roll: ${pResult}
 `;
 };
 
-// Rolling dice in wordsmith.
-const rollOpposed = (pname:string, pdice:number, cdice:number):string => {
+// Roll dice opposed to challenge dice.
+export const rollOpposed = (pname: string, pdice: number, cdice: number): string => {
   if (pdice <= 0) {
     return "The number of player dice cannot be less than 1.";
   }
@@ -62,7 +50,8 @@ const rollOpposed = (pname:string, pdice:number, cdice:number):string => {
     cdice
   );
 
-  let outcome = rollResult.outcome;
+  const outcome = rollResult.outcome;
+  let newOutcome = "";
   let explanation = "";
   let reaction = ":question:";
   let pResult = "";
@@ -72,19 +61,17 @@ const rollOpposed = (pname:string, pdice:number, cdice:number):string => {
     reaction = ":smile_cat:";
     explanation = "You did it! Momentum +3";
   } else if (outcome === "partial success") {
-    if(Math.abs(rollResult.magnitude) === 1) {
+    if (Math.abs(rollResult.magnitude) === 1) {
       reaction = ":smiley_cat:";
-      outcome = "almost";
+      newOutcome = "almost";
       explanation = "You're gaining ground! Momentum +1";
-    }
-    else if(Math.abs(rollResult.magnitude) === 2) {
+    } else if (Math.abs(rollResult.magnitude) === 2) {
       reaction = ":pouting_cat:";
-      outcome = "miss";
+      newOutcome = "miss";
       explanation = "You can feel victory slipping away. Momentum -1";
-    }
-    else if(Math.abs(rollResult.magnitude) >= 3) {
+    } else if (Math.abs(rollResult.magnitude) >= 3) {
       reaction = ":crying_cat_face:";
-      outcome = "stumble";
+      newOutcome = "stumble";
       explanation = "A serious error pushes you further from your goal. Momentum -2";
     }
   } else if (outcome === "critical success") {
@@ -120,7 +107,7 @@ const rollOpposed = (pname:string, pdice:number, cdice:number):string => {
 
   return `
 ---
-**${outcome.toUpperCase()}** ${reaction}
+**${newOutcome !== "" ? newOutcome.toUpperCase() : outcome.toUpperCase()}** ${reaction}
 ${explanation}
 
 ${pname}'s Roll: ${pResult}
@@ -129,42 +116,16 @@ Challenge Roll: ${cResult}
 `;
 };
 
-// Asking a player to perform a roll.
-const rollRequest = (member:string, pdice:number):string => {
+// Request a player to perform a roll.
+export const rollRequest = (member: string, pdice: number): string => {
   return `
 ${member} must roll ${pdice} dice!
   `;
 };
 
-// Asking a player to perform an opposed roll.
-const rollOpposedRequest = (member:string, pdice:number, cdice:number):string => {
+// Request a player to perform an opposed roll.
+export const rollOpposedRequest = (member: string, pdice: number, cdice: number): string => {
   return `
 ${member} must make a ${pdice} ${cdice} opposed roll!
   `;
-};
-
-// Players announcing they have used a star.
-const useStar = (cname:string, cb:callback):void => {
-  redisGet(cname, "star", (value:string) => {
-    if(parseInt(value)) {
-      cb(`
-      **${cname}** has used a :star2:!
-      `);
-    }
-    else {
-    cb(`
-    **${cname}** doesn't have a star...
-    `);
-    }
-    redisSet(cname, "star", "0", () => {});
-  });
-};
-
-export default {
-  awardStar,
-  roll,
-  rollOpposed,
-  rollRequest,
-  rollOpposedRequest,
-  useStar,
 };
