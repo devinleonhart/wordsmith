@@ -1,6 +1,6 @@
 import * as FuzzyDice from 'fuzzy-dice';
 
-// Rolling dice in wordsmith.
+// Roll dice.
 export const roll = (pname:string, pdice:number):string => {
   if (pdice <= 0) {
     return 'The number of player dice cannot be less than 1.';
@@ -31,7 +31,7 @@ ${pname}'s Roll: ${pResult}
 `;
 };
 
-// Rolling dice in wordsmith.
+// Roll dice opposed to challenge dice.
 export const rollOpposed = (pname:string, pdice:number, cdice:number):string => {
   if (pdice <= 0) {
     return 'The number of player dice cannot be less than 1.';
@@ -118,14 +118,14 @@ Challenge Roll: ${cResult}
 `;
 };
 
-// Asking a player to perform a roll.
+// Request a player to perform a roll.
 export const rollRequest = (member:string, pdice:number):string => {
   return `
 ${member} must roll ${pdice} dice!
   `;
 };
 
-// Asking a player to perform an opposed roll.
+// Request a player to perform an opposed roll.
 export const rollOpposedRequest = (member:string, pdice:number, cdice:number):string => {
   return `
 ${member} must make a ${pdice} ${cdice} opposed roll!

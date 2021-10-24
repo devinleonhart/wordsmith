@@ -6,14 +6,12 @@ import { Routes } from 'discord-api-types/v9';
 import settings from './settings';
 
 const commands = [];
-const commandFiles = readdirSync(resolve(__dirname, './commands')).filter(file => file.endsWith('.js'));
+const commandFiles = readdirSync(resolve(__dirname, './commands'));
 
 for (const file of commandFiles) {
 	const command = require(`./commands/${file}`);
 	commands.push(command.data.toJSON());
 }
-
-console.log(settings);
 
 const rest = new REST({ version: '9' }).setToken(settings.secretKey);
 

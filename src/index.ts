@@ -12,7 +12,7 @@ const client = new Client({
 
 // Import all of our custom commands the bot will perform.
 client.commands = new Collection();
-const commandFiles = readdirSync(resolve(__dirname, './commands')).filter(file => file.endsWith('.js'));
+const commandFiles = readdirSync(resolve(__dirname, './commands'));
 for (const file of commandFiles) {
 	const command = require(`./commands/${file}`);
 	client.commands.set(command.data.name, command);
@@ -26,8 +26,6 @@ client.once('ready', c => {
 // Run on each interaction with our bot.
 client.on('interactionCreate', async interaction => {
 
-  console.log('Someone interacted with me!');
-
 	if (!interaction.isCommand()) return;
 
   const command = client.commands.get(interaction.commandName);
@@ -35,6 +33,7 @@ client.on('interactionCreate', async interaction => {
 	if (!command) return;
 
   try {
+    // If the interaction is a command, and it's a command we recognize, execute it.
 		await command.execute(interaction);
 	} catch (error) {
 		console.error(error);
