@@ -5,6 +5,17 @@ interface Command {
   callback: handlerCallback,
 }
 
+interface rollOpposedData {
+  challengeBlanks: number,
+  challengeResult: string,
+  explanation: string,
+  outcome: string,
+  playerBlanks: number,
+  playerName: string,
+  playerResult: string,
+  reaction: string,
+}
+
 interface Settings {
   clientID: string
   guildID: string
