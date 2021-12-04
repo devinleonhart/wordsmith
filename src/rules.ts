@@ -35,6 +35,7 @@ enum Outcomes {
   partialSuccess= "partial success",
   stumble= "stumble",
   success= "success",
+  unknown= "unknown",
 }
 
 enum ValidationError {
@@ -115,35 +116,39 @@ export const rollOpposed = (playerName: string, playerDice: number, challengeDic
   // Populate the reaction, outcome and explanation.
   switch(rollResult.outcome) {
     case Outcomes.success:
-      data.reaction = DiscordEmotes.smileCat;
       data.explanation = Copy.successMessage;
+      data.outcome = Outcomes.success;
+      data.reaction = DiscordEmotes.smileCat;
       break;
     case Outcomes.partialSuccess:
       if (Math.abs(rollResult.magnitude) === 1) {
-        data.reaction = DiscordEmotes.smileyCat;
-        data.outcome = Outcomes.almost;
         data.explanation = Copy.almostMessage;
+        data.outcome = Outcomes.almost;
+        data.reaction = DiscordEmotes.smileyCat;
       } else if (Math.abs(rollResult.magnitude) === 2) {
-        data.reaction = DiscordEmotes.poutingCat;
-        data.outcome = Outcomes.miss;
         data.explanation = Copy.missMessage;
+        data.outcome = Outcomes.miss;
+        data.reaction = DiscordEmotes.poutingCat;
       } else if (Math.abs(rollResult.magnitude) >= 3) {
-        data.reaction = DiscordEmotes.cryingCatFace;
-        data.outcome = Outcomes.stumble;
         data.explanation = Copy.stumbleMessage;
+        data.outcome = Outcomes.stumble;
+        data.reaction = DiscordEmotes.cryingCatFace;
       }
       break;
     case Outcomes.criticalSuccess:
-      data.reaction = DiscordEmotes.smirkingCatWithBeer;
       data.explanation = Copy.criticalSuccessMessage;
+      data.outcome = Outcomes.criticalSuccess;
+      data.reaction = DiscordEmotes.smirkingCatWithBeer;
       break;
     case Outcomes.failure:
-      data.reaction = DiscordEmotes.screamCat;
       data.explanation = Copy.failureMessage;
+      data.outcome = Outcomes.failure;
+      data.reaction = DiscordEmotes.screamCat;
       break;
     default:
-      data.reaction = DiscordEmotes.questionMark;
       data.explanation = Copy.unknownMessage;
+      data.outcome = Outcomes.unknown;
+      data.reaction = DiscordEmotes.questionMark;
       break;
   };
 
