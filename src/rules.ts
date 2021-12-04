@@ -53,7 +53,7 @@ enum ValidationError {
 function buildEmoteString(emote:string, numberOfEmotes:number):string {
   let emotes = "";
   for (let i = 0; i < numberOfEmotes; i++) {
-    emotes += emote;
+    emotes += `${emote} `;
   }
   return emotes;
 }
