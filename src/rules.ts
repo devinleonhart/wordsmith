@@ -160,13 +160,13 @@ export const rollOpposed = (playerName: string, playerDice: number, challengeDic
   data.challengeResult += buildEmoteString(DiscordEmotes.blueDiamond, data.challengeBlanks)
 
   return `
-  ---
-  **${data.outcome.toUpperCase()}** ${data.reaction}
-  ${data.explanation}
+---
+**${data.outcome.toUpperCase()}** ${data.reaction}
+${data.explanation}
 
-  ${data.playerName}'s Roll: ${data.playerResult}
-  Challenge Roll: ${data.challengeResult}
-  ---
+${data.playerName}'s Roll: ${data.playerResult}
+Challenge Roll: ${data.challengeResult}
+---
   `;
 };
 
