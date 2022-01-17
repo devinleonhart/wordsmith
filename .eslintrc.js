@@ -13,7 +13,7 @@ module.exports = {
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/no-var-requires": "off",
     "comma-dangle": ["error", "only-multiline"],
-    "indent": ["error", 2],
+    "@typescript-eslint/indent": ["error", 2],
     "no-tabs": ["error", {}],
     "quote-props": ["error", "always"],
     "quotes": ["error", "double"],

@@ -11,10 +11,12 @@ enum Copy {
   missMessage= "You can feel victory slipping away. Momentum -1",
   stumbleMessage= "A serious error pushes you further from your goal. Momentum -2",
   successMessage= "You did it! Momentum +3",
+  poisonedMessage= "The distorion intensifies...",
   unknownMessage= "An unknown outcome has been rolled.",
 }
 
 enum DiscordEmotes {
+  redDiamond=":diamonds:",
   blueDiamond=":small_blue_diamond:",
   cryingCatFace= ":crying_cat_face:",
   orangeDiamond=":small_orange_diamond:",
@@ -35,6 +37,7 @@ enum Outcomes {
   partialSuccess= "partial success",
   stumble= "stumble",
   success= "success",
+  poisoned= "poisoned",
   unknown= "unknown",
 }
 
@@ -101,35 +104,36 @@ export const rollOpposed = (playerName: string, playerDice: number, challengeDic
   }
 
   const rollResult = FuzzyDice.opposed_check(wsDiceType, playerDice, wsDiceType, challengeDice);
+  const poisonedRollResult = poisonRoll(challengeDice, rollResult);
 
   const data: rollOpposedData = {
-    challengeBlanks: challengeDice - rollResult.num_opposed_successes,
-    challengeResult: "",
-    explanation: "",
-    outcome: "",
-    playerBlanks: playerDice - rollResult.num_successes - rollResult.num_criticals,
-    playerName: playerName,
-    playerResult: "",
-    reaction: "",
-  }
+    "challengeBlanks": challengeDice - poisonedRollResult.num_opposed_criticals - poisonedRollResult.num_opposed_successes,
+    "challengeResult": "",
+    "explanation": "",
+    "outcome": "",
+    "playerBlanks": playerDice - poisonedRollResult.num_successes - poisonedRollResult.num_criticals,
+    "playerName": playerName,
+    "playerResult": "",
+    "reaction": "",
+  };
 
   // Populate the reaction, outcome and explanation.
-  switch(rollResult.outcome) {
+  switch(poisonedRollResult.outcome) {
     case Outcomes.success:
       data.explanation = Copy.successMessage;
       data.outcome = Outcomes.success;
       data.reaction = DiscordEmotes.smileCat;
       break;
     case Outcomes.partialSuccess:
-      if (Math.abs(rollResult.magnitude) === 1) {
+      if (Math.abs(poisonedRollResult.magnitude) === 1) {
         data.explanation = Copy.almostMessage;
         data.outcome = Outcomes.almost;
         data.reaction = DiscordEmotes.smileyCat;
-      } else if (Math.abs(rollResult.magnitude) === 2) {
+      } else if (Math.abs(poisonedRollResult.magnitude) === 2) {
         data.explanation = Copy.missMessage;
         data.outcome = Outcomes.miss;
         data.reaction = DiscordEmotes.poutingCat;
-      } else if (Math.abs(rollResult.magnitude) >= 3) {
+      } else if (Math.abs(poisonedRollResult.magnitude) >= 3) {
         data.explanation = Copy.stumbleMessage;
         data.outcome = Outcomes.stumble;
         data.reaction = DiscordEmotes.cryingCatFace;
@@ -145,19 +149,25 @@ export const rollOpposed = (playerName: string, playerDice: number, challengeDic
       data.outcome = Outcomes.failure;
       data.reaction = DiscordEmotes.screamCat;
       break;
+    case Outcomes.poisoned:
+      data.explanation = Copy.poisonedMessage;
+      data.outcome = Outcomes.poisoned;
+      data.reaction = DiscordEmotes.screamCat;
+      break;
     default:
       data.explanation = Copy.unknownMessage;
       data.outcome = Outcomes.unknown;
       data.reaction = DiscordEmotes.questionMark;
       break;
-  };
+  }
 
   // Populate the player result and challenge result.
-  data.playerResult += buildEmoteString(DiscordEmotes.star, rollResult.num_criticals)
-  data.playerResult += buildEmoteString(DiscordEmotes.orangeDiamond, rollResult.num_successes)
-  data.playerResult += buildEmoteString(DiscordEmotes.blueDiamond, data.playerBlanks)
-  data.challengeResult += buildEmoteString(DiscordEmotes.orangeDiamond, rollResult.num_opposed_successes)
-  data.challengeResult += buildEmoteString(DiscordEmotes.blueDiamond, data.challengeBlanks)
+  data.playerResult += buildEmoteString(DiscordEmotes.star, poisonedRollResult.num_criticals);
+  data.playerResult += buildEmoteString(DiscordEmotes.orangeDiamond, poisonedRollResult.num_successes);
+  data.playerResult += buildEmoteString(DiscordEmotes.blueDiamond, data.playerBlanks);
+  data.challengeResult += buildEmoteString(DiscordEmotes.redDiamond, poisonedRollResult.num_opposed_criticals);
+  data.challengeResult += buildEmoteString(DiscordEmotes.orangeDiamond, poisonedRollResult.num_opposed_successes);
+  data.challengeResult += buildEmoteString(DiscordEmotes.blueDiamond, data.challengeBlanks);
 
   return `
 ---
@@ -169,6 +179,39 @@ Challenge Roll: ${data.challengeResult}
 ---
   `;
 };
+
+function poisonRoll(challengeDice:number, rollResult:FuzzyDice.opposedCheckResponse):FuzzyDice.poisonedOpposedCheckResponse {
+
+  const poisonedRollResult:FuzzyDice.poisonedOpposedCheckResponse =  {
+    "num_successes": rollResult.num_successes,
+    "num_criticals": rollResult.num_criticals,
+    "num_opposed_successes": 0,
+    "num_opposed_criticals": 0,
+    "outcome": rollResult.outcome,
+    "magnitude": rollResult.magnitude,
+  };
+
+  for(let i = 0; i < challengeDice; i++) {
+    const diceRoll = Math.floor(Math.random() * 8) + 1;
+    if(diceRoll == 8) {
+      poisonedRollResult.num_opposed_criticals += 1;
+    }
+    else if(diceRoll >= 5) {
+      poisonedRollResult.num_opposed_successes += 1;
+    }
+  }
+
+  if(poisonedRollResult.num_opposed_criticals >= 2) {
+    poisonedRollResult.outcome = "poisoned";
+  }
+
+  poisonedRollResult.magnitude =
+    (poisonedRollResult.num_criticals + poisonedRollResult.num_successes) -
+    (poisonedRollResult.num_opposed_criticals + poisonedRollResult.num_opposed_successes);
+
+
+  return poisonedRollResult;
+}
 
 // Request a player to perform a roll.
 export const rollRequest = (member: string, playerDice: number): string => {
