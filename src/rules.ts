@@ -1,5 +1,8 @@
 import * as FuzzyDice from "fuzzy-dice";
 
+// Poison Feature Flag
+const poisonDice = true;
+
 // Wordsmith Dice
 // 8 Sides, 4 Blanks, 1 Crit Symbols, 2 Crit Symbols for a critical roll.
 const wsDiceType = new FuzzyDice.Dice(8, 4, 1, 2);
@@ -191,24 +194,28 @@ function poisonRoll(challengeDice:number, rollResult:FuzzyDice.opposedCheckRespo
     "magnitude": rollResult.magnitude,
   };
 
-  for(let i = 0; i < challengeDice; i++) {
-    const diceRoll = Math.floor(Math.random() * 8) + 1;
-    if(diceRoll == 8) {
-      poisonedRollResult.num_opposed_criticals += 1;
+  if(poisonDice) {
+    for(let i = 0; i < challengeDice; i++) {
+      const diceRoll = Math.floor(Math.random() * 8) + 1;
+      if(diceRoll == 8) {
+        poisonedRollResult.num_opposed_criticals += 1;
+      }
+      else if(diceRoll >= 5) {
+        poisonedRollResult.num_opposed_successes += 1;
+      }
     }
-    else if(diceRoll >= 5) {
-      poisonedRollResult.num_opposed_successes += 1;
+
+    if(poisonedRollResult.num_opposed_criticals >= 2) {
+      poisonedRollResult.outcome = "poisoned";
     }
+
+    poisonedRollResult.magnitude =
+      (poisonedRollResult.num_criticals + poisonedRollResult.num_successes) -
+      (poisonedRollResult.num_opposed_criticals + poisonedRollResult.num_opposed_successes);
   }
-
-  if(poisonedRollResult.num_opposed_criticals >= 2) {
-    poisonedRollResult.outcome = "poisoned";
+  else {
+    poisonedRollResult.num_opposed_successes = rollResult.num_opposed_successes;
   }
-
-  poisonedRollResult.magnitude =
-    (poisonedRollResult.num_criticals + poisonedRollResult.num_successes) -
-    (poisonedRollResult.num_opposed_criticals + poisonedRollResult.num_opposed_successes);
-
 
   return poisonedRollResult;
 }
