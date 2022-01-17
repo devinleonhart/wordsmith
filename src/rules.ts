@@ -1,7 +1,7 @@
 import * as FuzzyDice from "fuzzy-dice";
 
 // Poison Feature Flag
-const poisonDice = true;
+const poisonDice = false;
 
 // Wordsmith Dice
 // 8 Sides, 4 Blanks, 1 Crit Symbols, 2 Crit Symbols for a critical roll.
