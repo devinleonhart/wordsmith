@@ -18,7 +18,7 @@ declare module "fuzzy-dice" {
     num_criticals: number;
     num_opposed_successes: number;
     num_opposed_criticals: number;
-    outcome: string;
+    outcome: "failure" | "partial success" | "success" | "critical success" | "poisoned";
     magnitude: number;
   }
 
