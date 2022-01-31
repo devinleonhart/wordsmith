@@ -40,7 +40,7 @@ enum Outcomes {
   partialSuccess= "partial success",
   stumble= "stumble",
   success= "success",
-  poisoned= "poisoned",
+  poisoned= "distortion",
   unknown= "unknown",
 }
 
