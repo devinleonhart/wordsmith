@@ -60,7 +60,7 @@ export function buildEmoteString(emote:string, numberOfEmotes:number):string {
 export function poisonRoll(challengeDice:number, rollResult:FuzzyDice.opposedCheckResponse):FuzzyDice.poisonedOpposedCheckResponse {
 
   // Poison Feature Flag
-  const poisonDice = true;
+  const poisonDice = false;
 
   const poisonedRollResult:FuzzyDice.poisonedOpposedCheckResponse =  {
     "num_successes": rollResult.num_successes,
