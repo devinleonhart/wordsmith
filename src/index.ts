@@ -1,11 +1,11 @@
 import { readdirSync } from "fs";
 import { resolve } from "path";
-import { Client, Collection, Intents } from "discord.js";
+import { Client, Events, Collection, GatewayIntentBits } from "discord.js";
 
 import settings from "./settings";
 
 const client = new Client({
-  "intents": [Intents.FLAGS.GUILD_MESSAGES] // Our bot intends to read messages.
+  "intents": [GatewayIntentBits.Guilds] // Our bot would like to interact with servers.
 });
 
 client.commands = new Collection();
@@ -15,7 +15,7 @@ for (const file of commandFiles) {
   client.commands.set(command.data.name, command);
 }
 
-client.once("ready", c => {
+client.once(Events.ClientReady, c => {
   console.log(`Ready! Logged in as ${c.user.tag}`);
 });
 

@@ -1,12 +1,14 @@
-FROM node:16-alpine3.11
+FROM node:lts-alpine3.16
+
+RUN npm install -g pnpm
 
 RUN mkdir app
 
 WORKDIR /app
 
 COPY ./src/ ./src
-COPY ["./tsconfig.json", "./package.json", "./package-lock.json", "./"]
+COPY ["./tsconfig.json", "./package.json", "./pnpm-lock.yaml", "./"]
 
-RUN npm i && npm run build
+RUN pnpm i && pnpm build
 
-CMD ["npm", "run", "start"]
+CMD ["pnpm", "start"]
