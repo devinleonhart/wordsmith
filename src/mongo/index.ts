@@ -1,7 +1,7 @@
 
 // import { MongoClient } from "mongodb";
 import mongoose from "mongoose";
-import settings from "./settings";
+import settings from "../settings";
 import { Character, Game, User } from "./models";
 
 const uri = settings.mongoConnectionURI;

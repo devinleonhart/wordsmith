@@ -2,10 +2,14 @@ import { Schema, Types, model} from "mongoose";
 
 const characterSchema = new Schema({
   name: {
+    required: true,
     type: String,
     unique: true
   },
-  owner: Types.ObjectId,
+  owner: {
+    required: true,
+    type: Types.ObjectId
+  },
   items: [String],
   words: [String],
   star: Boolean
@@ -14,10 +18,8 @@ const characterSchema = new Schema({
 const gameSchema = new Schema({
   discordChannelID: {
     type: String,
-    unique: true
-  },
-  discordChannelName: {
-    type: String
+    unique: true,
+    required: true
   },
   characters: [characterSchema]
 });
@@ -25,7 +27,8 @@ const gameSchema = new Schema({
 const userSchema = new Schema({
   discordUserID: {
     type: String,
-    unique: true
+    unique: true,
+    required: true
   },
   games: [gameSchema]
 });
