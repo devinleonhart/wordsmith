@@ -8,7 +8,7 @@ const characterSchema = new Schema({
   },
   owner: {
     required: true,
-    type: Types.ObjectId
+    type: String
   },
   items: [String],
   words: [String],
@@ -24,17 +24,8 @@ const gameSchema = new Schema({
   characters: [characterSchema]
 });
 
-const userSchema = new Schema({
-  discordUserID: {
-    type: String,
-    unique: true,
-    required: true
-  },
-  games: [gameSchema]
-});
 
 const Character = model("Character", characterSchema);
 const Game = model("Game", gameSchema);
-const User = model("User", userSchema);
 
-export { Character, Game, User };
+export { Character, Game };

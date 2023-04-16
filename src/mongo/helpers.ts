@@ -1,29 +1,24 @@
 import { Types } from "mongoose";
-import { Character, Game, User } from "./models";
+import { Character, Game } from "./models";
 
 // Character
 
-export const createCharacter = async(characterName: string, gameID: Types.ObjectId, userID: Types.ObjectId) => {
+export const createCharacter = async(characterName: string, gameID: Types.ObjectId, userID: string) => {
   try {
-    const user = await User.findById(userID);
-    if(user) {
-      const game = await Game.findById(gameID);
-      if(game) {
-        const character = await Character.create({
-          name: characterName,
-          owner: user._id,
-          items: [],
-          words: [],
-          star: false
-        });
-        game.characters.push(character);
-        game.save();
-      }
-      else {
-        throw new Error("Game not found!");
-      }
-    } else {
-      throw new Error("User not found!");
+    const game = await Game.findById(gameID);
+    if(game) {
+      const character = await Character.create({
+        name: characterName,
+        owner: userID,
+        items: [],
+        words: [],
+        star: false
+      });
+      game.characters.push(character);
+      game.save();
+    }
+    else {
+      throw new Error("Game not found!");
     }
   }
   catch(error) {
@@ -49,11 +44,11 @@ export const deleteCharacter = async(characterID: Types.ObjectId, gameID: Types.
   }
 };
 
-export const findCharacter = async(characterID: Types.ObjectId) => {
+export const findCharacterByID = async(characterID: Types.ObjectId) => {
   try {
     const character = await Character.findById(characterID);
     if(character) {
-      return character;
+      return character._id;
     }
     else {
       throw new Error("Character not found!");
@@ -196,11 +191,11 @@ export const deleteGame = async(gameID: Types.ObjectId) => {
   }
 };
 
-export const findGame = async(gameID: Types.ObjectId) => {
+export const findGameByID = async(gameID: Types.ObjectId) => {
   try {
     const game = await Game.findById(gameID);
     if(game) {
-      return game;
+      return game._id;
     }
     else {
       throw new Error("Game not found!");
@@ -212,43 +207,18 @@ export const findGame = async(gameID: Types.ObjectId) => {
   }
 };
 
-// User
-
-export const createUser = async(discordUserID: string) => {
+export const findGameByDiscordChannelID = async(channelID: string):Promise<Types.ObjectId | undefined> => {
   try {
-    await User.create({
-      discordUserID,
-      games: []
-    });
-  }
-  catch(error) {
-    console.error("createUser has failed...");
-    console.error(error);
-  }
-};
-
-export const deleteUser = async(userID: Types.ObjectId) => {
-  try {
-    await User.deleteOne(userID);
-  }
-  catch(error) {
-    console.error("deleteUser has failed...");
-    console.error(error);
-  }
-};
-
-export const findUser = async(userID: Types.ObjectId) => {
-  try {
-    const user = await User.findById(userID);
-    if(user) {
-      return user;
+    const game = await Game.findOne({discordChannelID: channelID});
+    if(game) {
+      return game._id;
     }
     else {
-      throw new Error("User not found!");
+      throw new Error("Game not found!");
     }
   }
   catch(error) {
-    console.error("findUser has failed...");
+    console.error("findGame has failed...");
     console.error(error);
   }
 };
