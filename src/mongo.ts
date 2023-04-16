@@ -1,24 +1,30 @@
-import { MongoClient } from "mongodb";
+
+// import { MongoClient } from "mongodb";
+import mongoose from "mongoose";
 import settings from "./settings";
+import { Character, Game, User } from "./models";
 
 const uri = settings.mongoConnectionURI;
-const client = new MongoClient(uri);
+// const client = new MongoClient(uri);
 
-async function connectToDatabase() {
+async function setupMongo() {
   try {
-    await client.connect();
-    await listDatabases(client);
+    await mongoose.connect(uri);
+    await listModels();
 
   } catch(err) {
     console.error(err);
   }
 }
 
-async function listDatabases(client: MongoClient){
-  const databasesList = await client.db().admin().listDatabases();
+async function listModels(){
+  const characters = await Character.find();
+  const games = await Game.find();
+  const users = await User.find();
 
-  console.log("Databases:");
-  databasesList.databases.forEach(db => console.log(` - ${db.name}`));
+  console.log("Characters:", characters);
+  console.log("Game:", games);
+  console.log("Users:", users);
 }
 
-export { connectToDatabase };
+export { setupMongo };

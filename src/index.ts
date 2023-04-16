@@ -1,13 +1,13 @@
 import { readdirSync } from "fs";
 import { resolve } from "path";
 import { Client, Events, Collection, GatewayIntentBits } from "discord.js";
-import { connectToDatabase } from "./mongo";
+import { setupMongo } from "./mongo";
 
 import settings from "./settings";
 
 (async() => {
 
-  await connectToDatabase();
+  await setupMongo();
 
   const client = new Client({
     "intents": [GatewayIntentBits.Guilds] // Our bot would like to interact with servers.
