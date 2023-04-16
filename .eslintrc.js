@@ -15,7 +15,6 @@ module.exports = {
     "comma-dangle": ["error", "only-multiline"],
     "@typescript-eslint/indent": ["error", 2],
     "no-tabs": ["error", {}],
-    "quote-props": ["error", "always"],
     "quotes": ["error", "double"],
     "semi": ["error", "always"],
     "space-before-function-paren": ["error", "never"],

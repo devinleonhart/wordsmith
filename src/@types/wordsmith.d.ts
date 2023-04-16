@@ -20,6 +20,7 @@ interface Settings {
   clientID: string
   guildID: string
   secretKey: string,
+  mongoConnectionURI: string,
 }
 
 type callback = (value?: string) => void;
