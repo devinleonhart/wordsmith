@@ -23,6 +23,13 @@ interface Settings {
   mongoConnectionURI: string,
 }
 
+interface CharacterData {
+  name: string;
+  star: boolean;
+  items: string[];
+  words: string[];
+}
+
 type callback = (value?: string) => void;
 
 type handlerCallback = (...args: any) => any;

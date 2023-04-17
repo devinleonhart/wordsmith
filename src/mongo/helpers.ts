@@ -60,6 +60,59 @@ export const findCharacterByID = async(characterID: Types.ObjectId) => {
   }
 };
 
+export const findCharacterByName = async(name: string) => {
+  try {
+    const character = await Character.findOne({name});
+    if(character) {
+      return character._id;
+    }
+    else {
+      throw new Error("Character not found!");
+    }
+  }
+  catch(error) {
+    console.error("findCharacterByName has failed...");
+    console.error(error);
+  }
+};
+
+export const findCharacterByOwner = async(userID: string) => {
+  try {
+    const character = await Character.findOne({owner: userID});
+    if(character) {
+      return character._id;
+    }
+    else {
+      throw new Error("Character not found!");
+    }
+  }
+  catch(error) {
+    console.error("findCharacterByName has failed...");
+    console.error(error);
+  }
+};
+
+export const getCharacterData = async(characterID: Types.ObjectId) => {
+  try {
+    const character = await Character.findById(characterID);
+    if(character) {
+      return {
+        name: character.name,
+        items: character.items,
+        star: character.star,
+        words: character.words
+      } as CharacterData;
+    }
+    else {
+      throw new Error("Character not found!");
+    }
+  }
+  catch(error) {
+    console.error("getCharacterData has failed...");
+    console.error(error);
+  }
+};
+
 export const awardCharacterStar = async(characterID: Types.ObjectId) => {
   try {
     const character = await Character.findById(characterID);
