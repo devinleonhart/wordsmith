@@ -7,7 +7,7 @@ const commandName = "r";
 
 module.exports = {
   "data": new SlashCommandBuilder()
-    .setName("r")
+    .setName(commandName)
     .setDescription("Make a roll in wordsmith.")
     .addIntegerOption(option =>
       option.setName("player-dice")

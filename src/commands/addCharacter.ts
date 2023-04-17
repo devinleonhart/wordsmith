@@ -2,7 +2,7 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 import { CommandInteraction } from "discord.js";
 import { createCharacter, findGameByDiscordChannelID } from "../mongo/helpers";
 
-const commandName = "addCharacter";
+const commandName = "add-character";
 
 module.exports = {
   "data": new SlashCommandBuilder()

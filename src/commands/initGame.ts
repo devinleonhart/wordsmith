@@ -2,7 +2,7 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 import { CommandInteraction } from "discord.js";
 import { createGame } from "../mongo/helpers";
 
-const commandName = "initGame";
+const commandName = "init-game";
 
 module.exports = {
   "data": new SlashCommandBuilder()

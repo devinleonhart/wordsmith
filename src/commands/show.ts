@@ -3,7 +3,7 @@ import { CommandInteraction } from "discord.js";
 import { findCharacterByOwner, getCharacterData } from "../mongo/helpers";
 import { DiscordEmotes } from "../rules-util";
 
-const commandName = "showCharacter";
+const commandName = "show";
 
 module.exports = {
   "data": new SlashCommandBuilder()

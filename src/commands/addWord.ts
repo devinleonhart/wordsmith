@@ -2,7 +2,7 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 import { CommandInteraction } from "discord.js";
 import { awardCharacterWord, findCharacterByOwner } from "../mongo/helpers";
 
-const commandName = "addWord";
+const commandName = "add-word";
 
 module.exports = {
   "data": new SlashCommandBuilder()

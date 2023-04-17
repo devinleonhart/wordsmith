@@ -3,7 +3,7 @@ import { CommandInteraction } from "discord.js";
 import { useCharacterStar, findCharacterByOwner } from "../mongo/helpers";
 import { DiscordEmotes } from "../rules-util";
 
-const commandName = "removeStar";
+const commandName = "remove-star";
 
 module.exports = {
   "data": new SlashCommandBuilder()

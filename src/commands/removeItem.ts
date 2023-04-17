@@ -2,7 +2,7 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 import { CommandInteraction } from "discord.js";
 import { findCharacterByOwner, removeCharacterItem } from "../mongo/helpers";
 
-const commandName = "removeItem";
+const commandName = "remove-item";
 
 module.exports = {
   "data": new SlashCommandBuilder()
