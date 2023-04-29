@@ -26,7 +26,7 @@ module.exports = {
     try {
       if(characterID && w) {
         await awardCharacterWord(characterID, w);
-        await interaction.reply("Word added!");
+        await interaction.reply(`${w} added!`);
       }
     } catch (error) {
       console.error(error);

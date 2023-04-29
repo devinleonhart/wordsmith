@@ -26,7 +26,7 @@ module.exports = {
     try {
       if(characterID && i) {
         await awardCharacterItem(characterID, i);
-        await interaction.reply("Item added!");
+        await interaction.reply(`${i} added!`);
       }
     } catch (error) {
       console.error(error);
