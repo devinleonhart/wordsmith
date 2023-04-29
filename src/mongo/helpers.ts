@@ -134,8 +134,10 @@ export const awardCharacterWord = async(characterID: Types.ObjectId, word: strin
   try {
     const character = await Character.findById(characterID);
     if(character) {
-      character.words.push(word);
-      await character.save();
+      if(!character.words.includes(word)) {
+        character.words.push(word);
+        await character.save();
+      }
     }
     else {
       throw new Error("Character not found!");
@@ -151,8 +153,10 @@ export const awardCharacterItem = async(characterID: Types.ObjectId, item: strin
   try {
     const character = await Character.findById(characterID);
     if(character) {
-      character.items.push(item);
-      await character.save();
+      if(!character.words.includes(item)) {
+        character.items.push(item);
+        await character.save();
+      }
     }
     else {
       throw new Error("Character not found!");
