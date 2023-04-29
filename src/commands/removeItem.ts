@@ -7,10 +7,10 @@ const commandName = "remove-item";
 module.exports = {
   "data": new SlashCommandBuilder()
     .setName(commandName)
-    .setDescription("Add a item to a character.")
+    .setDescription("Remove an item from a character.")
     .addStringOption(option =>
       option.setName("item")
-        .setDescription("The item you'd like to add.")
+        .setDescription("The item you'd like to remove.")
         .setRequired(true)),
   async execute(interaction:CommandInteraction) {
 
@@ -26,7 +26,7 @@ module.exports = {
     try {
       if(characterID && i) {
         await removeCharacterItem(characterID, i);
-        await interaction.reply("Item removed!");
+        await interaction.reply(`${i} removed!`);
       }
     } catch (error) {
       console.error(error);

@@ -7,10 +7,10 @@ const commandName = "remove-word";
 module.exports = {
   "data": new SlashCommandBuilder()
     .setName(commandName)
-    .setDescription("Add a word to a character.")
+    .setDescription("Remove a word from a character.")
     .addStringOption(option =>
       option.setName("word")
-        .setDescription("The word you'd like to add.")
+        .setDescription("The word you'd like to remove.")
         .setRequired(true)),
   async execute(interaction:CommandInteraction) {
 
@@ -26,7 +26,7 @@ module.exports = {
     try {
       if(characterID && w) {
         await removeCharacterWord(characterID, w);
-        await interaction.reply("Word removed!");
+        await interaction.reply(`${w} removed!`);
       }
     } catch (error) {
       console.error(error);

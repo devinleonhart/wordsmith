@@ -168,10 +168,15 @@ export const removeCharacterItem = async(characterID: Types.ObjectId, itemToRemo
   try {
     const character = await Character.findById(characterID);
     if(character) {
-      character.items = character.items.filter((item) => {
-        item !== itemToRemove;
-      });
-      await character.save();
+      if (character.items.includes(itemToRemove)) {
+        character.items = character.items.filter((item) => {
+          item !== itemToRemove;
+        });
+        await character.save();
+      }
+      else {
+        throw new Error(`The character does not have the item ${itemToRemove}!`);
+      }
     }
     else {
       throw new Error("Character not found!");
@@ -187,10 +192,15 @@ export const removeCharacterWord = async(characterID: Types.ObjectId, wordToRemo
   try {
     const character = await Character.findById(characterID);
     if(character) {
-      character.words = character.words.filter((word) => {
-        word !== wordToRemove;
-      });
-      await character.save();
+      if (character.words.includes(wordToRemove)) {
+        character.words = character.words.filter((word) => {
+          word !== wordToRemove;
+        });
+        await character.save();
+      }
+      else {
+        throw new Error(`The character does not have the word ${wordToRemove}!`);
+      }
     }
     else {
       throw new Error("Character not found!");
