@@ -3,8 +3,7 @@ import { Schema, model} from "mongoose";
 const characterSchema = new Schema({
   name: {
     required: true,
-    type: String,
-    unique: true
+    type: String
   },
   owner: {
     required: true,
