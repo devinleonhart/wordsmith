@@ -1,5 +1,6 @@
 import { Types } from "mongoose";
 import { Character, Game } from "./models";
+import { WordsmithError } from "../classes/wordsmithError"
 
 // Character
 
@@ -22,8 +23,8 @@ export const createCharacter = async(characterName: string, gameID: Types.Object
     }
   }
   catch(error) {
-    console.error("createCharacter has failed...");
-    console.error(error);
+    console.error(error)
+    throw(new WordsmithError("createCharacter has failed..."))
   }
 };
 
@@ -39,8 +40,8 @@ export const deleteCharacter = async(characterID: Types.ObjectId, gameID: Types.
     }
   }
   catch(error) {
-    console.error("deleteCharacter has failed...");
-    console.error(error);
+    console.error(error)
+    throw(new WordsmithError("deleteCharacter has failed..."))
   }
 };
 
@@ -55,8 +56,8 @@ export const findCharacterByID = async(characterID: Types.ObjectId) => {
     }
   }
   catch(error) {
-    console.error("findCharacter has failed...");
-    console.error(error);
+    console.error(error)
+    throw(new WordsmithError("findCharacterByID has failed..."))
   }
 };
 
@@ -71,8 +72,8 @@ export const findCharacterByName = async(name: string) => {
     }
   }
   catch(error) {
-    console.error("findCharacterByName has failed...");
-    console.error(error);
+    console.error(error)
+    throw(new WordsmithError("findCharacterByName has failed..."))
   }
 };
 
@@ -88,8 +89,8 @@ export const findCharacterByOwner = async(userID: string, discordChannelID: stri
     }
   }
   catch(error) {
-    console.error("findCharacterByName has failed...");
-    console.error(error);
+    console.error(error)
+    throw(new WordsmithError("findCharacterByOwner has failed..."))
   }
 };
 
@@ -109,8 +110,8 @@ export const getCharacterData = async(characterID: Types.ObjectId) => {
     }
   }
   catch(error) {
-    console.error("getCharacterData has failed...");
-    console.error(error);
+    console.error(error)
+    throw(new WordsmithError("getCharacterData has failed..."))
   }
 };
 
@@ -126,8 +127,8 @@ export const awardCharacterStar = async(characterID: Types.ObjectId) => {
     }
   }
   catch(error) {
-    console.error("awardCharacterStar has failed...");
-    console.error(error);
+    console.error(error)
+    throw(new WordsmithError("awardCharacterStar has failed..."))
   }
 };
 
@@ -145,8 +146,8 @@ export const awardCharacterWord = async(characterID: Types.ObjectId, word: strin
     }
   }
   catch(error) {
-    console.error("awardCharacterWord has failed...");
-    console.error(error);
+    console.error(error)
+    throw(new WordsmithError("awardCharacterWord has failed..."))
   }
 };
 
@@ -164,8 +165,8 @@ export const awardCharacterItem = async(characterID: Types.ObjectId, item: strin
     }
   }
   catch(error) {
-    console.error("awardCharacterItem has failed...");
-    console.error(error);
+    console.error(error)
+    throw(new WordsmithError("awardCharacterItem has failed..."))
   }
 };
 
@@ -188,8 +189,8 @@ export const removeCharacterItem = async(characterID: Types.ObjectId, itemToRemo
     }
   }
   catch(error) {
-    console.error("removeCharacterItem has failed...");
-    console.error(error);
+    console.error(error)
+    throw(new WordsmithError("removeCharacterItem has failed..."))
   }
 };
 
@@ -212,8 +213,8 @@ export const removeCharacterWord = async(characterID: Types.ObjectId, wordToRemo
     }
   }
   catch(error) {
-    console.error("removeCharacterWord has failed...");
-    console.error(error);
+    console.error(error)
+    throw(new WordsmithError("removeCharacterWord has failed..."))
   }
 };
 
@@ -229,14 +230,18 @@ export const useCharacterStar = async(characterID: Types.ObjectId) => {
     }
   }
   catch(error) {
-    console.error("useCharacterStar has failed...");
-    console.error(error);
+    console.error(error)
+    throw(new WordsmithError("useCharacterStar has failed..."))
   }
 };
 
 // Game
 
 export const createGame = async(discordChannelID: string) => {
+  const game = await findGameByDiscordChannelID(discordChannelID)
+  if(game) {
+    throw new WordsmithError("A game already exists for this channel!")
+  }
   try {
     await Game.create({
       discordChannelID,
@@ -244,49 +249,40 @@ export const createGame = async(discordChannelID: string) => {
     });
   }
   catch(error) {
-    console.error("createGame has failed...");
-    console.error(error);
+    console.error(error)
+    throw(new WordsmithError("createGame has failed..."))
   }
 };
 
-export const deleteGame = async(gameID: Types.ObjectId) => {
+export const deleteGame = async(discordChannelID: string) => {
   try {
-    await Game.deleteOne(gameID);
-  }
-  catch(error) {
-    console.error("deleteGame has failed...");
-    console.error(error);
-  }
-};
-
-export const findGameByID = async(gameID: Types.ObjectId) => {
-  try {
-    const game = await Game.findById(gameID);
+    const game = await Game.findOne({discordChannelID: discordChannelID})
     if(game) {
-      return game._id;
+      game.characters.forEach(async (character) => {
+        await Character.deleteOne(character._id)
+      });
+      await Game.deleteOne(game._id);
     }
     else {
-      throw new Error("Game not found!");
+      throw new WordsmithError("Cannot delete! No game was found!")
     }
   }
   catch(error) {
-    console.error("findGame has failed...");
-    console.error(error);
+    console.error(error)
+    throw(new WordsmithError("deleteGame has failed..."))
   }
 };
 
-export const findGameByDiscordChannelID = async(channelID: string):Promise<Types.ObjectId | undefined> => {
+export const findGameByDiscordChannelID = async(channelID: string):Promise<Types.ObjectId | null> => {
   try {
     const game = await Game.findOne({discordChannelID: channelID});
     if(game) {
       return game._id;
     }
-    else {
-      throw new Error("Game not found!");
-    }
+    return null;
   }
   catch(error) {
-    console.error("findGame has failed...");
-    console.error(error);
+    console.error(error)
+    throw(new WordsmithError("findGameByDiscordChannelID has failed..."))
   }
 };

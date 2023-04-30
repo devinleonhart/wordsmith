@@ -2,8 +2,8 @@ import { readdirSync } from "fs";
 import { resolve } from "path";
 import { Client, Events, Collection, GatewayIntentBits } from "discord.js";
 import { setupMongo } from "./mongo";
-
 import settings from "./settings";
+import { WordsmithError } from "./classes/wordsmithError"
 
 (async() => {
 
@@ -35,8 +35,10 @@ import settings from "./settings";
     try {
       await command.execute(interaction);
     } catch (error) {
-      console.error(error);
-      await interaction.reply({ "content": "There was an error while executing this command!", "ephemeral": true });
+      if(error instanceof WordsmithError) {
+        await interaction.reply({ "content": `${error.message}`, "ephemeral": true });
+      }
+      // Do nothing with any other error type. We do not wish to return unknown errors to the client.
     }
   });
 
