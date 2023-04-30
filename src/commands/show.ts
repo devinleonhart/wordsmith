@@ -28,7 +28,7 @@ module.exports = {
 function formatCharacterData(data: CharacterData):string {
   return `
   ${data.name} ${data.star ? DiscordEmotes.star : ""}
-  Items: ${data.items.join(" ")}
-  Words: ${data.words.join(" ")}
+  Items: ${data.items.join(" | ")}
+  Words: ${data.words.join(" | ")}
   `;
 }
