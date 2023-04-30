@@ -16,7 +16,7 @@ module.exports = {
 
     const playerID = interaction.user.id;
     const discordChannelID = interaction.channelId;
-    const characterID = await findCharacterByOwner(playerID, discordChannelID;
+    const characterID = await findCharacterByOwner(playerID, discordChannelID);
 
     let i = "";
     const item = interaction.options.get("item");
