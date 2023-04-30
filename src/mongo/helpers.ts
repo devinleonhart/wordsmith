@@ -28,12 +28,15 @@ export const createCharacter = async(characterName: string, gameID: Types.Object
   }
 };
 
-export const deleteCharacter = async(characterID: Types.ObjectId, gameID: Types.ObjectId) => {
+export const deleteCharacter = async(characterID: Types.ObjectId, discordChannelID: string) => {
   try {
-    const game = await Game.findById(gameID);
+    const gameID = await findGameByDiscordChannelID(discordChannelID)
+    const game = await Game.findById(gameID)
+
     if(game) {
       await game.characters.pull({_id: characterID});
       game.save();
+      Character.deleteOne({characterID: characterID})
     }
     else {
       throw new Error("Game not found!");
@@ -46,9 +49,11 @@ export const deleteCharacter = async(characterID: Types.ObjectId, gameID: Types.
 };
 
 export const findCharacterByOwner = async(userID: string, discordChannelID: string) => {
+
+  const game = await Game.findOne({discordChannelID: discordChannelID})
+  const character = game?.characters.find((character) => character.owner == userID);
+
   try {
-    const game = await Game.findOne({discordChannelID: discordChannelID})
-    const character = game?.characters.find((character) => character.owner == userID);
     if(character) {
       return character._id;
     }
