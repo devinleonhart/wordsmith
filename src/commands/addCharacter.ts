@@ -17,6 +17,7 @@ module.exports = {
         .setDescription("The owner of the character.")
         .setRequired(true)),
   async execute(interaction:CommandInteraction) {
+
     let cName = "";
     const characterName = interaction.options.get("character-name");
     if(characterName) {
@@ -35,5 +36,6 @@ module.exports = {
       await createCharacter(cName, gameID, ownerID);
       await interaction.reply(`${cName} created!`);
     }
+
   },
 };

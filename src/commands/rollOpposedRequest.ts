@@ -41,12 +41,7 @@ module.exports = {
       cdice = cdiceOption.value as number;
     }
 
-    try {
-      const result = rollOpposedRequest(cname, pdice, cdice);
-      await interaction.reply(result);
-    } catch (error) {
-      console.error(error);
-      await interaction.reply(`Something went wrong with /${commandName}`);
-    }
+    const result = rollOpposedRequest(cname, pdice, cdice);
+    await interaction.reply(result);
   },
 };

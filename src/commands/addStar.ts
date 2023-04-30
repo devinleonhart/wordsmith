@@ -15,14 +15,10 @@ module.exports = {
     const discordChannelID = interaction.channelId;
     const characterID = await findCharacterByOwner(playerID, discordChannelID);
 
-    try {
-      if(characterID) {
-        await awardCharacterStar(characterID);
-        await interaction.reply(DiscordEmotes.star);
-      }
-    } catch (error) {
-      console.error(error);
-      await interaction.reply(`Something went wrong with /${commandName}`);
+    if(characterID) {
+      await awardCharacterStar(characterID);
+      await interaction.reply(DiscordEmotes.star);
     }
+
   },
 };

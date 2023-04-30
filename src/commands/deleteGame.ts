@@ -9,8 +9,10 @@ module.exports = {
     .setName(commandName)
     .setDescription("Delete the wordsmith game in this channel."),
   async execute(interaction:CommandInteraction) {
+
     const discordChannelID = interaction.channelId;
     await deleteGame(discordChannelID);
     await interaction.reply("Game deleted!");
+
   },
 };

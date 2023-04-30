@@ -24,14 +24,10 @@ module.exports = {
       w = word.value as string;
     }
 
-    try {
-      if(characterID && w) {
-        await removeCharacterWord(characterID, w);
-        await interaction.reply(`${w} removed!`);
-      }
-    } catch (error) {
-      console.error(error);
-      await interaction.reply(`Something went wrong with /${commandName}`);
+    if(characterID && w) {
+      await removeCharacterWord(characterID, w);
+      await interaction.reply(`${w} removed!`);
     }
+
   },
 };

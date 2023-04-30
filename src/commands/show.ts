@@ -11,21 +11,17 @@ module.exports = {
     .setDescription("Show your character!"),
   async execute(interaction:CommandInteraction) {
 
-    const playerID = interaction.user.id;
-    const discordChannelID = interaction.channelId;
-    const characterID = await findCharacterByOwner(playerID, discordChannelID);
+  const playerID = interaction.user.id;
+  const discordChannelID = interaction.channelId;
+  const characterID = await findCharacterByOwner(playerID, discordChannelID);
 
-    try {
-      if(characterID) {
-        const characterData = await getCharacterData(characterID);
-        if(characterData) {
-          await interaction.reply(formatCharacterData(characterData));
-        }
+    if(characterID) {
+      const characterData = await getCharacterData(characterID);
+      if(characterData) {
+        await interaction.reply(formatCharacterData(characterData));
       }
-    } catch (error) {
-      console.error(error);
-      await interaction.reply(`Something went wrong with /${commandName}`);
     }
+
   },
 };
 

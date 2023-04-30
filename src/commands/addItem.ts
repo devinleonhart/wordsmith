@@ -24,14 +24,10 @@ module.exports = {
       i = item.value as string;
     }
 
-    try {
-      if(characterID && i) {
-        await awardCharacterItem(characterID, i);
-        await interaction.reply(`${i} added!`);
-      }
-    } catch (error) {
-      console.error(error);
-      await interaction.reply(`Something went wrong with /${commandName}`);
+    if(characterID && i) {
+      await awardCharacterItem(characterID, i);
+      await interaction.reply(`${i} added!`);
     }
+
   },
 };

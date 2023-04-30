@@ -31,12 +31,7 @@ module.exports = {
       pdice = pdiceOption.value as number;
     }
 
-    try {
-      const result = rollRequest(cname, pdice);
-      await interaction.reply(result);
-    } catch (error) {
-      console.error(error);
-      await interaction.reply(`Something went wrong with /${commandName}`);
-    }
+    const result = rollRequest(cname, pdice);
+    await interaction.reply(result);
   },
 };
