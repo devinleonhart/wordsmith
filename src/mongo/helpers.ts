@@ -45,38 +45,6 @@ export const deleteCharacter = async(characterID: Types.ObjectId, gameID: Types.
   }
 };
 
-export const findCharacterByID = async(characterID: Types.ObjectId) => {
-  try {
-    const character = await Character.findById(characterID);
-    if(character) {
-      return character._id;
-    }
-    else {
-      throw new Error("Character not found!");
-    }
-  }
-  catch(error) {
-    console.error(error)
-    throw(new WordsmithError("findCharacterByID has failed..."))
-  }
-};
-
-export const findCharacterByName = async(name: string) => {
-  try {
-    const character = await Character.findOne({name});
-    if(character) {
-      return character._id;
-    }
-    else {
-      throw new Error("Character not found!");
-    }
-  }
-  catch(error) {
-    console.error(error)
-    throw(new WordsmithError("findCharacterByName has failed..."))
-  }
-};
-
 export const findCharacterByOwner = async(userID: string, discordChannelID: string) => {
   try {
     const game = await Game.findOne({discordChannelID: discordChannelID})
@@ -155,13 +123,13 @@ export const awardCharacterItem = async(characterID: Types.ObjectId, item: strin
   try {
     const character = await Character.findById(characterID);
     if(character) {
-      if(!character.words.includes(item)) {
+      if(!character.items.includes(item)) {
         character.items.push(item);
         await character.save();
       }
     }
     else {
-      throw new Error("Character not found!");
+      throw new WordsmithError("Character not found!");
     }
   }
   catch(error) {
@@ -181,11 +149,11 @@ export const removeCharacterItem = async(characterID: Types.ObjectId, itemToRemo
         await character.save();
       }
       else {
-        throw new Error(`The character does not have the item ${itemToRemove}!`);
+        throw new WordsmithError(`The character does not have the item ${itemToRemove}!`);
       }
     }
     else {
-      throw new Error("Character not found!");
+      throw new WordsmithError("Character not found!");
     }
   }
   catch(error) {
