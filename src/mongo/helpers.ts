@@ -36,7 +36,7 @@ export const deleteCharacter = async(characterID: Types.ObjectId, discordChannel
     if(game) {
       await game.characters.pull({_id: characterID});
       game.save();
-      Character.deleteOne({characterID: characterID})
+      await Character.deleteOne({_id: characterID})
     }
     else {
       throw new Error("Game not found!");
