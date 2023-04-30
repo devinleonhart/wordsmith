@@ -15,7 +15,8 @@ module.exports = {
   async execute(interaction:CommandInteraction) {
 
     const playerID = interaction.user.id;
-    const characterID = await findCharacterByOwner(playerID);
+    const discordChannelID = interaction.channelId;
+    const characterID = await findCharacterByOwner(playerID, discordChannelID);
 
     let i = "";
     const item = interaction.options.get("item");

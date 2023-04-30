@@ -76,9 +76,10 @@ export const findCharacterByName = async(name: string) => {
   }
 };
 
-export const findCharacterByOwner = async(userID: string) => {
+export const findCharacterByOwner = async(userID: string, discordChannelID: string) => {
   try {
-    const character = await Character.findOne({owner: userID});
+    const game = await Game.findOne({discordChannelID: discordChannelID})
+    const character = game?.characters.find((character) => character.owner == userID);
     if(character) {
       return character._id;
     }
