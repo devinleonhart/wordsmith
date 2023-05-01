@@ -125,9 +125,6 @@ export const findCharacterInGameByOwner = async(userID: string, discordChannelID
     if(character) {
       return character._id;
     }
-    else {
-      throw new Error("Character not found!");
-    }
   }
   catch(error) {
     console.error(error);
