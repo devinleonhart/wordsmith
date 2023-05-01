@@ -147,6 +147,10 @@ export const getCharacterData = async(sco:SlashCommandOptions) => {
 
   const characterID = await findCharacterInGameByOwner(sco.playerID, sco.discordChannelID);
 
+  if(!characterID) {
+    throw new WordsmithError("There is no character data to show! Add a character!");
+  }
+
   try {
     const character = await Character.findById(characterID);
     if(character) {
@@ -156,9 +160,6 @@ export const getCharacterData = async(sco:SlashCommandOptions) => {
         star: character.star,
         words: character.words
       } as CharacterData;
-    }
-    else {
-      throw new Error("Character not found!");
     }
   }
   catch(error) {
