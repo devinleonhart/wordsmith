@@ -30,6 +30,16 @@ interface CharacterData {
   words: string[];
 }
 
+interface SlashCommandOptions {
+  playerID: string,
+  discordChannelID: string
+  options?: {
+    characterName?: string
+    item?: string
+    word?: string
+  }
+}
+
 type callback = (value?: string) => void;
 
 type handlerCallback = (...args: any) => any;

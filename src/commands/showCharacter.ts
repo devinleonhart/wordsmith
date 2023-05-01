@@ -1,9 +1,9 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { CommandInteraction } from "discord.js";
-import { findCharacterByOwner, getCharacterData } from "../mongo/helpers";
+import { getCharacterData } from "../mongo/helpers";
 import { DiscordEmotes } from "../rules-util";
 
-const commandName = "show";
+const commandName = "show-character";
 
 module.exports = {
   "data": new SlashCommandBuilder()
@@ -11,17 +11,14 @@ module.exports = {
     .setDescription("Show your character!"),
   async execute(interaction:CommandInteraction) {
 
-  const playerID = interaction.user.id;
-  const discordChannelID = interaction.channelId;
-  const characterID = await findCharacterByOwner(playerID, discordChannelID);
 
-    if(characterID) {
-      const characterData = await getCharacterData(characterID);
-      if(characterData) {
-        await interaction.reply(formatCharacterData(characterData));
-      }
-    }
+    const sco:SlashCommandOptions = {
+      playerID: interaction.user.id,
+      discordChannelID: interaction.channelId
+    };
 
+    const characterData = await getCharacterData(sco);
+    await interaction.reply(formatCharacterData(characterData));
   },
 };
 

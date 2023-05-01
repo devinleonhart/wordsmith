@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { CommandInteraction } from "discord.js";
-import { useCharacterStar, findCharacterByOwner } from "../mongo/helpers";
+import { removeStar } from "../mongo/helpers";
 import { DiscordEmotes } from "../rules-util";
 
 const commandName = "remove-star";
@@ -11,14 +11,12 @@ module.exports = {
     .setDescription("Spend a character's star!"),
   async execute(interaction:CommandInteraction) {
 
-    const playerID = interaction.user.id;
-    const discordChannelID = interaction.channelId;
-    const characterID = await findCharacterByOwner(playerID, discordChannelID);
+    const sco:SlashCommandOptions = {
+      playerID: interaction.user.id,
+      discordChannelID: interaction.channelId
+    };
 
-    if(characterID) {
-      await useCharacterStar(characterID);
-      await interaction.reply(DiscordEmotes.smirkingCatWithBeer);
-    }
-
+    await removeStar(sco);
+    await interaction.reply(DiscordEmotes.smirkingCatWithBeer);
   },
 };

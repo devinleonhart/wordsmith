@@ -1,56 +1,118 @@
 import { Types } from "mongoose";
 import { Character, Game } from "./models";
-import { WordsmithError } from "../classes/wordsmithError"
+import { WordsmithError } from "../classes/wordsmithError";
 
-// Character
+export const addCharacter = async(sco:SlashCommandOptions) => {
 
-export const createCharacter = async(characterName: string, gameID: Types.ObjectId, userID: string) => {
+  const gameID = await findGameByDiscordChannelID(sco.discordChannelID);
+
   try {
     const game = await Game.findById(gameID);
-    if(game) {
-      const character = await Character.create({
-        name: characterName,
-        owner: userID,
-        items: [],
-        words: [],
-        star: false
-      });
-      game.characters.push(character);
-      game.save();
-    }
-    else {
-      throw new Error("Game not found!");
-    }
+    const character = await Character.create({
+      name: sco.options?.characterName,
+      owner: sco.playerID,
+      items: [],
+      words: [],
+      star: false
+    });
+    game?.characters.push(character);
+    game?.save();
   }
   catch(error) {
-    console.error(error)
-    throw(new WordsmithError("createCharacter has failed..."))
+    console.error(error);
+    throw(new WordsmithError("addCharacter has failed..."));
   }
 };
 
-export const deleteCharacter = async(characterID: Types.ObjectId, discordChannelID: string) => {
+export const addItem = async(sco:SlashCommandOptions) => {
+
+  const characterID = await findCharacterInGameByOwner(sco.playerID, sco.discordChannelID);
+
   try {
-    const gameID = await findGameByDiscordChannelID(discordChannelID)
-    const game = await Game.findById(gameID)
-
-    if(game) {
-      await game.characters.pull({_id: characterID});
-      game.save();
-      await Character.deleteOne({_id: characterID})
+    const character = await Character.findById(characterID);
+    if(sco.options?.item && !character?.items.includes(sco.options.item)) {
+      character?.items.push(sco.options.item);
+      await character?.save();
     }
     else {
-      throw new Error("Game not found!");
+      throw new WordsmithError(`${character?.name} already has that item!`);
     }
   }
   catch(error) {
-    console.error(error)
-    throw(new WordsmithError("deleteCharacter has failed..."))
+    if(error instanceof WordsmithError) {
+      throw(error);
+    }
+    else {
+      console.error(error);
+      throw(new WordsmithError("addItem has failed..."));
+    }
   }
 };
 
-export const findCharacterByOwner = async(userID: string, discordChannelID: string) => {
+export const addStar = async(sco:SlashCommandOptions) => {
 
-  const game = await Game.findOne({discordChannelID: discordChannelID})
+  const characterID = await findCharacterInGameByOwner(sco.playerID, sco.discordChannelID);
+
+  try {
+    const character = await Character.findById(characterID);
+    if(character) {
+      character.star = true;
+      await character.save();
+    }
+  }
+  catch(error) {
+    console.error(error);
+    throw(new WordsmithError("addStar has failed..."));
+  }
+};
+
+export const addWord = async(sco:SlashCommandOptions) => {
+
+  const characterID = await findCharacterInGameByOwner(sco.playerID, sco.discordChannelID);
+
+  try {
+    const character = await Character.findById(characterID);
+    if(sco.options?.word && !character?.words.includes(sco.options.word)) {
+      character?.words.push(sco.options.word);
+      await character?.save();
+    }
+    else {
+      throw new WordsmithError(`${character?.name} already has that word!`);
+    }
+  }
+  catch(error) {
+    if(error instanceof WordsmithError) {
+      throw(error);
+    }
+    else {
+      console.error(error);
+      throw(new WordsmithError("addWord has failed..."));
+    }
+  }
+};
+
+export const createGame = async(sco:SlashCommandOptions) => {
+
+  const game = await findGameByDiscordChannelID(sco.discordChannelID);
+
+  if(game) {
+    throw new WordsmithError("A game already exists for this channel!");
+  }
+  try {
+    await Game.create({
+      discordChannelID: sco.discordChannelID,
+      characters: []
+    });
+  }
+  catch(error) {
+    console.error(error);
+    throw(new WordsmithError("createGame has failed..."));
+  }
+};
+
+export const findCharacterInGameByOwner = async(userID: string, discordChannelID: string) => {
+
+  const game = await Game.findOne({discordChannelID: discordChannelID});
   const character = game?.characters.find((character) => character.owner == userID);
 
   try {
@@ -62,12 +124,29 @@ export const findCharacterByOwner = async(userID: string, discordChannelID: stri
     }
   }
   catch(error) {
-    console.error(error)
-    throw(new WordsmithError("findCharacterByOwner has failed..."))
+    console.error(error);
+    throw(new WordsmithError("findCharacterInGameByOwner has failed..."));
   }
 };
 
-export const getCharacterData = async(characterID: Types.ObjectId) => {
+export const findGameByDiscordChannelID = async(channelID: string):Promise<Types.ObjectId | null> => {
+  try {
+    const game = await Game.findOne({discordChannelID: channelID});
+    if(game) {
+      return game._id;
+    }
+    return null;
+  }
+  catch(error) {
+    console.error(error);
+    throw(new WordsmithError("findGameByDiscordChannelID has failed..."));
+  }
+};
+
+export const getCharacterData = async(sco:SlashCommandOptions) => {
+
+  const characterID = await findCharacterInGameByOwner(sco.playerID, sco.discordChannelID);
+
   try {
     const character = await Character.findById(characterID);
     if(character) {
@@ -83,118 +162,73 @@ export const getCharacterData = async(characterID: Types.ObjectId) => {
     }
   }
   catch(error) {
-    console.error(error)
-    throw(new WordsmithError("getCharacterData has failed..."))
+    console.error(error);
+    throw(new WordsmithError("getCharacterData has failed..."));
   }
 };
 
-export const awardCharacterStar = async(characterID: Types.ObjectId) => {
+export const removeCharacter = async(sco:SlashCommandOptions) => {
+
+  const gameID = await findGameByDiscordChannelID(sco.discordChannelID);
+  let characterID;
+  try {
+    characterID = await findCharacterInGameByOwner(sco.playerID, sco.discordChannelID);
+  }
+  catch(error) {
+    throw new WordsmithError("You do not have a character in this game!");
+  }
+
+  try {
+    const game = await Game.findById(gameID);
+    await game?.characters.pull({_id: characterID});
+    game?.save();
+    await Character.deleteOne({_id: characterID});
+  }
+  catch(error) {
+    console.error(error);
+    throw(new WordsmithError("removeCharacter has failed..."));
+  }
+
+
+};
+
+export const removeItem = async(sco:SlashCommandOptions) => {
+
+  const characterID = await findCharacterInGameByOwner(sco.playerID, sco.discordChannelID);
+
   try {
     const character = await Character.findById(characterID);
-    if(character) {
-      character.star = true;
+    if (sco.options?.item && character?.items.includes(sco.options.item)) {
+      character.items = character.items.filter((item) => {
+        return item !== sco.options?.item;
+      });
       await character.save();
     }
     else {
-      throw new Error("Character not found!");
+      throw new WordsmithError(`${character?.name} does not have ${sco.options?.item}!`);
     }
   }
   catch(error) {
-    console.error(error)
-    throw(new WordsmithError("awardCharacterStar has failed..."))
-  }
-};
-
-export const awardCharacterWord = async(characterID: Types.ObjectId, word: string) => {
-  try {
-    const character = await Character.findById(characterID);
-    if(character) {
-      if(!character.words.includes(word)) {
-        character.words.push(word);
-        await character.save();
-      }
+    if(error instanceof WordsmithError) {
+      throw(error);
     }
     else {
-      throw new Error("Character not found!");
+      console.error(error);
+      throw(new WordsmithError("removeItem has failed..."));
     }
-  }
-  catch(error) {
-    console.error(error)
-    throw(new WordsmithError("awardCharacterWord has failed..."))
   }
 };
 
-export const awardCharacterItem = async(characterID: Types.ObjectId, item: string) => {
-  try {
-    const character = await Character.findById(characterID);
-    if(character) {
-      if(!character.items.includes(item)) {
-        character.items.push(item);
-        await character.save();
-      }
-    }
-    else {
-      throw new WordsmithError("Character not found!");
-    }
-  }
-  catch(error) {
-    console.error(error)
-    throw(new WordsmithError("awardCharacterItem has failed..."))
-  }
-};
+export const removeStar = async(sco:SlashCommandOptions) => {
 
-export const removeCharacterItem = async(characterID: Types.ObjectId, itemToRemove: string) => {
-  try {
-    const character = await Character.findById(characterID);
-    if(character) {
-      if (character.items.includes(itemToRemove)) {
-        character.items = character.items.filter((item) => {
-          item !== itemToRemove;
-        });
-        await character.save();
-      }
-      else {
-        throw new WordsmithError(`The character does not have the item ${itemToRemove}!`);
-      }
-    }
-    else {
-      throw new WordsmithError("Character not found!");
-    }
-  }
-  catch(error) {
-    console.error(error)
-    throw(new WordsmithError("removeCharacterItem has failed..."))
-  }
-};
+  const characterID = await findCharacterInGameByOwner(sco.playerID, sco.discordChannelID);
 
-export const removeCharacterWord = async(characterID: Types.ObjectId, wordToRemove: string) => {
   try {
     const character = await Character.findById(characterID);
     if(character) {
-      if (character.words.includes(wordToRemove)) {
-        character.words = character.words.filter((word) => {
-          word !== wordToRemove;
-        });
-        await character.save();
+      if(!character.star) {
+        throw new WordsmithError(`${character.name} doesn't have a star!`);
       }
-      else {
-        throw new Error(`The character does not have the word ${wordToRemove}!`);
-      }
-    }
-    else {
-      throw new Error("Character not found!");
-    }
-  }
-  catch(error) {
-    console.error(error)
-    throw(new WordsmithError("removeCharacterWord has failed..."))
-  }
-};
-
-export const useCharacterStar = async(characterID: Types.ObjectId) => {
-  try {
-    const character = await Character.findById(characterID);
-    if(character) {
       character.star = false;
       await character.save();
     }
@@ -203,59 +237,39 @@ export const useCharacterStar = async(characterID: Types.ObjectId) => {
     }
   }
   catch(error) {
-    console.error(error)
-    throw(new WordsmithError("useCharacterStar has failed..."))
-  }
-};
-
-// Game
-
-export const createGame = async(discordChannelID: string) => {
-  const game = await findGameByDiscordChannelID(discordChannelID)
-  if(game) {
-    throw new WordsmithError("A game already exists for this channel!")
-  }
-  try {
-    await Game.create({
-      discordChannelID,
-      characters: []
-    });
-  }
-  catch(error) {
-    console.error(error)
-    throw(new WordsmithError("createGame has failed..."))
-  }
-};
-
-export const deleteGame = async(discordChannelID: string) => {
-  try {
-    const game = await Game.findOne({discordChannelID: discordChannelID})
-    if(game) {
-      game.characters.forEach(async (character) => {
-        await Character.deleteOne(character._id)
-      });
-      await Game.deleteOne(game._id);
+    if(error instanceof WordsmithError) {
+      throw(error);
     }
     else {
-      throw new WordsmithError("Cannot delete! No game was found!")
+      console.error(error);
+      throw(new WordsmithError("removeStar has failed..."));
     }
-  }
-  catch(error) {
-    console.error(error)
-    throw(new WordsmithError("deleteGame has failed..."))
   }
 };
 
-export const findGameByDiscordChannelID = async(channelID: string):Promise<Types.ObjectId | null> => {
+export const removeWord = async(sco:SlashCommandOptions) => {
+
+  const characterID = await findCharacterInGameByOwner(sco.playerID, sco.discordChannelID);
+
   try {
-    const game = await Game.findOne({discordChannelID: channelID});
-    if(game) {
-      return game._id;
+    const character = await Character.findById(characterID);
+    if (sco.options?.word && character?.words.includes(sco.options?.word)) {
+      character.words = character.words.filter((word) => {
+        return word !== sco.options?.word;
+      });
+      await character.save();
     }
-    return null;
+    else {
+      throw new WordsmithError(`${character?.name} does not have ${sco.options?.word}!`);
+    }
   }
   catch(error) {
-    console.error(error)
-    throw(new WordsmithError("findGameByDiscordChannelID has failed..."))
+    if(error instanceof WordsmithError) {
+      throw(error);
+    }
+    else {
+      console.error(error);
+      throw(new WordsmithError("removeWord has failed..."));
+    }
   }
 };

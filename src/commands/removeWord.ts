@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { CommandInteraction } from "discord.js";
-import { findCharacterByOwner, removeCharacterWord } from "../mongo/helpers";
+import { removeWord } from "../mongo/helpers";
 
 const commandName = "remove-word";
 
@@ -14,20 +14,16 @@ module.exports = {
         .setRequired(true)),
   async execute(interaction:CommandInteraction) {
 
-    const playerID = interaction.user.id;
-    const discordChannelID = interaction.channelId;
-    const characterID = await findCharacterByOwner(playerID, discordChannelID);
+    const sco:SlashCommandOptions = {
+      playerID: interaction.user.id,
+      discordChannelID: interaction.channelId,
+      options: {
+        word: interaction.options.get("word")?.value as string
+      }
+    };
 
-    let w = "";
-    const word = interaction.options.get("word");
-    if(word) {
-      w = word.value as string;
-    }
-
-    if(characterID && w) {
-      await removeCharacterWord(characterID, w);
-      await interaction.reply(`${w} removed!`);
-    }
+    await removeWord(sco);
+    await interaction.reply(`${sco.options?.word} removed!`);
 
   },
 };

@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { CommandInteraction } from "discord.js";
-import { deleteCharacter, findCharacterByOwner } from "../mongo/helpers";
+import { removeCharacter } from "../mongo/helpers";
 
 const commandName = "remove-character";
 
@@ -10,13 +10,13 @@ module.exports = {
     .setDescription("Remove your character from this wordsmith channel."),
   async execute(interaction:CommandInteraction) {
 
-    const discordChannelID = interaction.channelId;
-    const characterID = await findCharacterByOwner(interaction.user.id, discordChannelID)
+    const sco:SlashCommandOptions = {
+      playerID: interaction.user.id,
+      discordChannelID: interaction.channelId
+    };
 
-    if(characterID) {
-      await deleteCharacter(characterID, discordChannelID);
-      await interaction.reply(`Character deleted!`);
-    }
+    await removeCharacter(sco);
+    await interaction.reply("Character deleted!");
 
   },
 };

@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { CommandInteraction } from "discord.js";
-import { awardCharacterItem, findCharacterByOwner } from "../mongo/helpers";
+import { addItem } from "../mongo/helpers";
 
 const commandName = "add-item";
 
@@ -14,20 +14,16 @@ module.exports = {
         .setRequired(true)),
   async execute(interaction:CommandInteraction) {
 
-    const playerID = interaction.user.id;
-    const discordChannelID = interaction.channelId;
-    const characterID = await findCharacterByOwner(playerID, discordChannelID);
+    const sco:SlashCommandOptions = {
+      playerID: interaction.user.id,
+      discordChannelID: interaction.channelId,
+      options: {
+        item: interaction.options.get("item")?.value as string
+      }
+    };
 
-    let i = "";
-    const item = interaction.options.get("item");
-    if(item) {
-      i = item.value as string;
-    }
-
-    if(characterID && i) {
-      await awardCharacterItem(characterID, i);
-      await interaction.reply(`${i} added!`);
-    }
+    await addItem(sco);
+    await interaction.reply(`${sco.options?.item} added!`);
 
   },
 };
