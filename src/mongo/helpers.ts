@@ -49,23 +49,6 @@ export const addItem = async(sco:SlashCommandOptions) => {
   }
 };
 
-export const addStar = async(sco:SlashCommandOptions) => {
-
-  const characterID = await findCharacterInGameByOwner(sco.playerID, sco.discordChannelID);
-
-  try {
-    const character = await Character.findById(characterID);
-    if(character) {
-      character.star = true;
-      await character.save();
-    }
-  }
-  catch(error) {
-    console.error(error);
-    throw(new WordsmithError("addStar has failed..."));
-  }
-};
-
 export const addWord = async(sco:SlashCommandOptions) => {
 
   const characterID = await findCharacterInGameByOwner(sco.playerID, sco.discordChannelID);
@@ -88,6 +71,23 @@ export const addWord = async(sco:SlashCommandOptions) => {
       console.error(error);
       throw(new WordsmithError("addWord has failed..."));
     }
+  }
+};
+
+export const awardStar = async(sco:SlashCommandOptions) => {
+
+  const characterID = await findCharacterInGameByOwner(sco.playerID, sco.discordChannelID);
+
+  try {
+    const character = await Character.findById(characterID);
+    if(character) {
+      character.star = true;
+      await character.save();
+    }
+  }
+  catch(error) {
+    console.error(error);
+    throw(new WordsmithError("addStar has failed..."));
   }
 };
 
@@ -219,34 +219,6 @@ export const removeItem = async(sco:SlashCommandOptions) => {
   }
 };
 
-export const removeStar = async(sco:SlashCommandOptions) => {
-
-  const characterID = await findCharacterInGameByOwner(sco.playerID, sco.discordChannelID);
-
-  try {
-    const character = await Character.findById(characterID);
-    if(character) {
-      if(!character.star) {
-        throw new WordsmithError(`${character.name} doesn't have a star!`);
-      }
-      character.star = false;
-      await character.save();
-    }
-    else {
-      throw new Error("Character not found!");
-    }
-  }
-  catch(error) {
-    if(error instanceof WordsmithError) {
-      throw(error);
-    }
-    else {
-      console.error(error);
-      throw(new WordsmithError("removeStar has failed..."));
-    }
-  }
-};
-
 export const removeWord = async(sco:SlashCommandOptions) => {
 
   const characterID = await findCharacterInGameByOwner(sco.playerID, sco.discordChannelID);
@@ -270,6 +242,34 @@ export const removeWord = async(sco:SlashCommandOptions) => {
     else {
       console.error(error);
       throw(new WordsmithError("removeWord has failed..."));
+    }
+  }
+};
+
+export const useStar = async(sco:SlashCommandOptions) => {
+
+  const characterID = await findCharacterInGameByOwner(sco.playerID, sco.discordChannelID);
+
+  try {
+    const character = await Character.findById(characterID);
+    if(character) {
+      if(!character.star) {
+        throw new WordsmithError(`${character.name} doesn't have a star!`);
+      }
+      character.star = false;
+      await character.save();
+    }
+    else {
+      throw new Error("Character not found!");
+    }
+  }
+  catch(error) {
+    if(error instanceof WordsmithError) {
+      throw(error);
+    }
+    else {
+      console.error(error);
+      throw(new WordsmithError("removeStar has failed..."));
     }
   }
 };

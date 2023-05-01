@@ -1,9 +1,9 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { CommandInteraction } from "discord.js";
-import { addStar } from "../mongo/helpers";
+import { awardStar } from "../mongo/helpers";
 import { DiscordEmotes } from "../rules-util";
 
-const commandName = "add-star";
+const commandName = "award-star";
 
 module.exports = {
   "data": new SlashCommandBuilder()
@@ -16,7 +16,7 @@ module.exports = {
       discordChannelID: interaction.channelId
     };
 
-    await addStar(sco);
+    await awardStar(sco);
     await interaction.reply(DiscordEmotes.star);
 
   },

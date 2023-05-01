@@ -1,9 +1,9 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { CommandInteraction } from "discord.js";
-import { removeStar } from "../mongo/helpers";
+import { useStar } from "../mongo/helpers";
 import { DiscordEmotes } from "../rules-util";
 
-const commandName = "remove-star";
+const commandName = "use-star";
 
 module.exports = {
   "data": new SlashCommandBuilder()
@@ -16,7 +16,7 @@ module.exports = {
       discordChannelID: interaction.channelId
     };
 
-    await removeStar(sco);
+    await useStar(sco);
     await interaction.reply(DiscordEmotes.smirkingCatWithBeer);
   },
 };
