@@ -118,13 +118,10 @@ export const createGame = async(sco:SlashCommandOptions) => {
 
 export const findCharacterInGameByOwner = async(userID: string, discordChannelID: string) => {
 
-  const game = await Game.findOne({discordChannelID: discordChannelID});
-  const character = game?.characters.find((character) => character.owner == userID);
-
   try {
-    if(character) {
-      return character._id;
-    }
+    const game = await Game.findOne({discordChannelID: discordChannelID});
+    const character = game?.characters.find((character) => character.owner == userID);
+    return character?._id;
   }
   catch(error) {
     console.error(error);
