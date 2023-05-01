@@ -4,6 +4,12 @@ import { WordsmithError } from "../classes/wordsmithError";
 
 export const addCharacter = async(sco:SlashCommandOptions) => {
 
+  const existingCharacter = await findCharacterInGameByOwner(sco.playerID, sco.discordChannelID);
+
+  if(existingCharacter) {
+    throw(new WordsmithError("You already own a character in this game!"));
+  }
+
   const gameID = await findGameByDiscordChannelID(sco.discordChannelID);
 
   try {
