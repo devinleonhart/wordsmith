@@ -22,10 +22,10 @@ module.exports = {
   },
 };
 
-function formatCharacterData(data: CharacterData):string {
+function formatCharacterData(data: CharacterData | undefined):string {
   return `
-  ${data.name} ${data.star ? DiscordEmotes.star : ""}
-  Items: ${data.items.join(" | ")}
-  Words: ${data.words.join(" | ")}
+  ${data?.name} ${data?.star ? DiscordEmotes.star : ""}
+  Items: ${data?.items.join(" | ")}
+  Words: ${data?.words.join(" | ")}
   `;
 }
