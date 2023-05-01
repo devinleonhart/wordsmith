@@ -170,12 +170,10 @@ export const getCharacterData = async(sco:SlashCommandOptions) => {
 
 export const removeCharacter = async(sco:SlashCommandOptions) => {
 
+  const characterID = await findCharacterInGameByOwner(sco.playerID, sco.discordChannelID);
   const gameID = await findGameByDiscordChannelID(sco.discordChannelID);
-  let characterID;
-  try {
-    characterID = await findCharacterInGameByOwner(sco.playerID, sco.discordChannelID);
-  }
-  catch(error) {
+
+  if(!characterID) {
     throw new WordsmithError("You do not have a character in this game!");
   }
 
@@ -189,7 +187,6 @@ export const removeCharacter = async(sco:SlashCommandOptions) => {
     console.error(error);
     throw(new WordsmithError("removeCharacter has failed..."));
   }
-
 
 };
 
