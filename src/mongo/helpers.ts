@@ -89,8 +89,8 @@ export const awardStar = async(sco:SlashCommandOptions) => {
     callingUserIsGM = await isGM(sco.playerID, game._id);
   }
 
-  if(callingUserIsGM) {
-    const characterID = await findCharacterInGameByOwner(sco.playerID, sco.discordChannelID);
+  if(callingUserIsGM && sco.options?.user) {
+    const characterID = await findCharacterInGameByOwner(sco.options?.user, sco.discordChannelID);
 
     try {
       const character = await Character.findById(characterID);
