@@ -82,18 +82,30 @@ export const addWord = async(sco:SlashCommandOptions) => {
 
 export const awardStar = async(sco:SlashCommandOptions) => {
 
-  const characterID = await findCharacterInGameByOwner(sco.playerID, sco.discordChannelID);
+  const game = await findGameByDiscordChannelID(sco.discordChannelID);
+  let callingUserIsGM:boolean | undefined = false;
 
-  try {
-    const character = await Character.findById(characterID);
-    if(character) {
-      character.star = true;
-      await character.save();
+  if(game) {
+    callingUserIsGM = await isGM(sco.playerID, game._id);
+  }
+
+  if(callingUserIsGM) {
+    const characterID = await findCharacterInGameByOwner(sco.playerID, sco.discordChannelID);
+
+    try {
+      const character = await Character.findById(characterID);
+      if(character) {
+        character.star = true;
+        await character.save();
+      }
+    }
+    catch(error) {
+      console.error(error);
+      throw(new WordsmithError("addStar has failed..."));
     }
   }
-  catch(error) {
-    console.error(error);
-    throw(new WordsmithError("addStar has failed..."));
+  else {
+    throw(new WordsmithError("Only the GM of this game can award stars!"));
   }
 };
 
@@ -107,6 +119,7 @@ export const createGame = async(sco:SlashCommandOptions) => {
   try {
     await Game.create({
       discordChannelID: sco.discordChannelID,
+      gm: sco.playerID,
       characters: []
     });
   }
@@ -244,6 +257,22 @@ export const removeWord = async(sco:SlashCommandOptions) => {
   }
 };
 
+export const switchGM = async(sco:SlashCommandOptions) => {
+
+  const gameID = await findGameByDiscordChannelID(sco.discordChannelID);
+
+  try {
+    const game = await Game.findById(gameID);
+    if(game && sco.options?.user) {
+      game.gm = sco.options?.user;
+    }
+  }
+  catch(error) {
+    console.error(error);
+    throw(new WordsmithError("switchGM has failed..."));
+  }
+};
+
 export const useStar = async(sco:SlashCommandOptions) => {
 
   const characterID = await findCharacterInGameByOwner(sco.playerID, sco.discordChannelID);
@@ -271,3 +300,21 @@ export const useStar = async(sco:SlashCommandOptions) => {
     }
   }
 };
+
+async function isGM(playerID: string, gameID: Types.ObjectId):Promise<boolean | undefined> {
+  try {
+    const game = await Game.findById(gameID);
+    if(game) {
+      return game.gm === playerID;
+    }
+  }
+  catch(error) {
+    if(error instanceof WordsmithError) {
+      throw(error);
+    }
+    else {
+      console.error(error);
+      throw new WordsmithError("isGM has failed...");
+    }
+  }
+}

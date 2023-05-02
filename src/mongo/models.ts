@@ -20,6 +20,10 @@ const gameSchema = new Schema({
     unique: true,
     required: true
   },
+  gm: {
+    required: true,
+    type: String
+  },
   characters: [characterSchema]
 });
 

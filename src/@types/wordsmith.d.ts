@@ -36,6 +36,7 @@ interface SlashCommandOptions {
   options?: {
     characterName?: string
     item?: string
+    user?: string
     word?: string
   }
 }
