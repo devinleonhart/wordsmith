@@ -11,7 +11,8 @@ module.exports = {
     .setDescription("Award a character with a star!")
     .addUserOption(option =>
       option.setName("user")
-        .setDescription("The user who will get the star!")),
+        .setDescription("The user who will get the star!")
+        .setRequired(true)),
   async execute(interaction:CommandInteraction) {
 
     const sco:SlashCommandOptions = {

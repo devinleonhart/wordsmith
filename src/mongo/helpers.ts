@@ -105,7 +105,7 @@ export const awardStar = async(sco:SlashCommandOptions) => {
     }
   }
   else {
-    throw(new WordsmithError("Only the GM of this game can award stars!"));
+    throw(new WordsmithError("Only the GM can award stars!"));
   }
 };
 
