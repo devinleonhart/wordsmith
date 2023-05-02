@@ -265,6 +265,7 @@ export const switchGM = async(sco:SlashCommandOptions) => {
     const game = await Game.findById(gameID);
     if(game && sco.options?.user) {
       game.gm = sco.options?.user;
+      await game.save();
     }
   }
   catch(error) {

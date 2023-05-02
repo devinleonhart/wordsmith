@@ -10,7 +10,8 @@ module.exports = {
     .setDescription("Make another use the gm of this game.")
     .addUserOption(option =>
       option.setName("user")
-        .setDescription("The user who will become the gm.")),
+        .setDescription("The user who will become the gm.")
+        .setRequired(true)),
   async execute(interaction:CommandInteraction) {
 
     const sco:SlashCommandOptions = {
@@ -22,7 +23,7 @@ module.exports = {
     };
 
     await switchGM(sco);
-    await interaction.reply(`${sco.options?.characterName} created!`);
+    await interaction.reply("GM swapped!");
 
   },
 };
