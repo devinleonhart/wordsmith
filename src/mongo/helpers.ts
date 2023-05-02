@@ -98,10 +98,18 @@ export const awardStar = async(sco:SlashCommandOptions) => {
         character.star = true;
         await character.save();
       }
+      else {
+        throw new WordsmithError("The player you selected doesn't have a character.");
+      }
     }
     catch(error) {
-      console.error(error);
-      throw(new WordsmithError("addStar has failed..."));
+      if(error instanceof WordsmithError) {
+        throw(error);
+      }
+      else {
+        console.error(error);
+        throw(new WordsmithError("awardStar has failed..."));
+      }
     }
   }
   else {
@@ -288,7 +296,7 @@ export const useStar = async(sco:SlashCommandOptions) => {
       await character.save();
     }
     else {
-      throw new Error("Character not found!");
+      throw new WordsmithError("You do not have a character! Create one first!");
     }
   }
   catch(error) {
