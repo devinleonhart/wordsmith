@@ -268,17 +268,27 @@ export const removeWord = async(sco:SlashCommandOptions) => {
 export const switchGM = async(sco:SlashCommandOptions) => {
 
   const gameID = await findGameByDiscordChannelID(sco.discordChannelID);
+  let callingUserIsGM:boolean | undefined = false;
 
-  try {
-    const game = await Game.findById(gameID);
-    if(game && sco.options?.user) {
-      game.gm = sco.options?.user;
-      await game.save();
+  if(gameID) {
+    callingUserIsGM = await isGM(sco.playerID, gameID);
+  }
+
+  if(callingUserIsGM) {
+    try {
+      const game = await Game.findById(gameID);
+      if(game && sco.options?.user) {
+        game.gm = sco.options?.user;
+        await game.save();
+      }
+    }
+    catch(error) {
+      console.error(error);
+      throw(new WordsmithError("switchGM has failed..."));
     }
   }
-  catch(error) {
-    console.error(error);
-    throw(new WordsmithError("switchGM has failed..."));
+  else {
+    throw(new WordsmithError("Only the GM can switch GMs!"));
   }
 };
 
