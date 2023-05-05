@@ -1,14 +1,18 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { CommandInteraction } from "discord.js";
 
-import { rollOpposed } from "../rules";
+import { rollOpposedRequest } from "../../rules";
 
-const commandName = "ro";
+const commandName = "ror";
 
 module.exports = {
   "data": new SlashCommandBuilder()
     .setName(commandName)
-    .setDescription("Make an opposed roll in wordsmith.")
+    .setDescription("Request that a character make an opposed roll.")
+    .addStringOption(option =>
+      option.setName("character-name")
+        .setDescription("The name of the character that must roll dice.")
+        .setRequired(true))
     .addIntegerOption(option =>
       option.setName("player-dice")
         .setDescription("The number of player dice to roll.")
@@ -19,9 +23,10 @@ module.exports = {
         .setRequired(true)),
   async execute(interaction:CommandInteraction) {
 
-    let name = "";
-    if(interaction.member) {
-      name = interaction.member.user.username;
+    let cname = "";
+    const cnameOption = interaction.options.get("character-name");
+    if(cnameOption) {
+      cname = cnameOption.value as string;
     }
 
     let pdice = 0;
@@ -36,8 +41,7 @@ module.exports = {
       cdice = cdiceOption.value as number;
     }
 
-    const result = rollOpposed(name, pdice, cdice);
+    const result = rollOpposedRequest(cname, pdice, cdice);
     await interaction.reply(result);
-
   },
 };

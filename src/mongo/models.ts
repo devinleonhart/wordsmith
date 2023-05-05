@@ -9,6 +9,10 @@ const characterSchema = new Schema({
     required: true,
     type: String
   },
+  active: {
+    required: true,
+    type: String
+  },
   items: [String],
   words: [String],
   star: Boolean

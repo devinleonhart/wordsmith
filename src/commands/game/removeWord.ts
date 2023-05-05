@@ -1,16 +1,16 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { CommandInteraction } from "discord.js";
-import { addItem } from "../mongo/helpers";
+import { removeWord } from "../../mongo/helpers";
 
-const commandName = "add-item";
+const commandName = "remove-word";
 
 module.exports = {
   "data": new SlashCommandBuilder()
     .setName(commandName)
-    .setDescription("Add a item to a character.")
+    .setDescription("Remove a word from a character.")
     .addStringOption(option =>
-      option.setName("item")
-        .setDescription("The item you'd like to add.")
+      option.setName("word")
+        .setDescription("The word you'd like to remove.")
         .setRequired(true)),
   async execute(interaction:CommandInteraction) {
 
@@ -18,12 +18,12 @@ module.exports = {
       playerID: interaction.user.id,
       discordChannelID: interaction.channelId,
       options: {
-        item: interaction.options.get("item")?.value as string
+        word: interaction.options.get("word")?.value as string
       }
     };
 
-    await addItem(sco);
-    await interaction.reply(`${sco.options?.item} added!`);
+    await removeWord(sco);
+    await interaction.reply(`${sco.options?.word} removed!`);
 
   },
 };

@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { CommandInteraction } from "discord.js";
-import { awardStar } from "../mongo/helpers";
-import { DiscordEmotes } from "../rules-util";
+import { awardStar } from "../../mongo/helpers";
+import { DiscordEmotes } from "../../rules-util";
 
 const commandName = "award-star";
 

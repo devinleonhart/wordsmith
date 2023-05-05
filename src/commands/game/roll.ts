@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { CommandInteraction } from "discord.js";
 
-import { roll } from "../rules";
+import { roll } from "../../rules";
 
 const commandName = "r";
 

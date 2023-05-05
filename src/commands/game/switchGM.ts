@@ -1,16 +1,16 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { CommandInteraction } from "discord.js";
-import { addWord } from "../mongo/helpers";
+import { switchGM } from "../../mongo/helpers";
 
-const commandName = "add-word";
+const commandName = "switch-gm";
 
 module.exports = {
   "data": new SlashCommandBuilder()
     .setName(commandName)
-    .setDescription("Add a word to a character.")
-    .addStringOption(option =>
-      option.setName("word")
-        .setDescription("The word you'd like to add.")
+    .setDescription("Make another use the gm of this game.")
+    .addUserOption(option =>
+      option.setName("user")
+        .setDescription("The user who will become the gm.")
         .setRequired(true)),
   async execute(interaction:CommandInteraction) {
 
@@ -18,13 +18,12 @@ module.exports = {
       playerID: interaction.user.id,
       discordChannelID: interaction.channelId,
       options: {
-        word: interaction.options.get("word")?.value as string
+        user: interaction.options.get("user")?.value as string
       }
     };
 
-    await addWord(sco);
-    await interaction.reply(`${sco.options?.word} added!`);
-
+    await switchGM(sco);
+    await interaction.reply("GM swapped!");
 
   },
 };

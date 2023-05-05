@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { CommandInteraction } from "discord.js";
-import { addCharacter } from "../mongo/helpers";
+import { addCharacter } from "../../mongo/helpers";
 
 const commandName = "add-character";
 

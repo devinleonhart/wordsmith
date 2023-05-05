@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { CommandInteraction } from "discord.js";
-import { getCharacterData } from "../mongo/helpers";
-import { DiscordEmotes } from "../rules-util";
+import { getCharacterData } from "../../mongo/helpers";
+import { DiscordEmotes } from "../../rules-util";
 
 const commandName = "show-character";
 

@@ -4,12 +4,6 @@ import { WordsmithError } from "../classes/wordsmithError";
 
 export const addCharacter = async(sco:SlashCommandOptions) => {
 
-  const existingCharacter = await findCharacterInGameByOwner(sco.playerID, sco.discordChannelID);
-
-  if(existingCharacter) {
-    throw(new WordsmithError("You already own a character in this game!"));
-  }
-
   const gameID = await findGameByDiscordChannelID(sco.discordChannelID);
 
   try {
@@ -17,6 +11,7 @@ export const addCharacter = async(sco:SlashCommandOptions) => {
     const character = await Character.create({
       name: sco.options?.characterName,
       owner: sco.playerID,
+      active: true, // Creating a character makes it your active character.
       items: [],
       words: [],
       star: false
@@ -32,7 +27,7 @@ export const addCharacter = async(sco:SlashCommandOptions) => {
 
 export const addItem = async(sco:SlashCommandOptions) => {
 
-  const characterID = await findCharacterInGameByOwner(sco.playerID, sco.discordChannelID);
+  const characterID = await findActiveCharacterInGameByOwner(sco.playerID, sco.discordChannelID);
 
   try {
     const character = await Character.findById(characterID);
@@ -57,7 +52,7 @@ export const addItem = async(sco:SlashCommandOptions) => {
 
 export const addWord = async(sco:SlashCommandOptions) => {
 
-  const characterID = await findCharacterInGameByOwner(sco.playerID, sco.discordChannelID);
+  const characterID = await findActiveCharacterInGameByOwner(sco.playerID, sco.discordChannelID);
 
   try {
     const character = await Character.findById(characterID);
@@ -90,7 +85,7 @@ export const awardStar = async(sco:SlashCommandOptions) => {
   }
 
   if(callingUserIsGM && sco.options?.user) {
-    const characterID = await findCharacterInGameByOwner(sco.options?.user, sco.discordChannelID);
+    const characterID = await findActiveCharacterInGameByOwner(sco.options?.user, sco.discordChannelID);
 
     try {
       const character = await Character.findById(characterID);
@@ -137,19 +132,6 @@ export const createGame = async(sco:SlashCommandOptions) => {
   }
 };
 
-export const findCharacterInGameByOwner = async(userID: string, discordChannelID: string) => {
-
-  try {
-    const game = await Game.findOne({discordChannelID: discordChannelID});
-    const character = game?.characters.find((character) => character.owner == userID);
-    return character?._id;
-  }
-  catch(error) {
-    console.error(error);
-    throw(new WordsmithError("findCharacterInGameByOwner has failed..."));
-  }
-};
-
 export const findGameByDiscordChannelID = async(channelID: string):Promise<Types.ObjectId | null> => {
   try {
     const game = await Game.findOne({discordChannelID: channelID});
@@ -166,7 +148,7 @@ export const findGameByDiscordChannelID = async(channelID: string):Promise<Types
 
 export const getCharacterData = async(sco:SlashCommandOptions) => {
 
-  const characterID = await findCharacterInGameByOwner(sco.playerID, sco.discordChannelID);
+  const characterID = await findActiveCharacterInGameByOwner(sco.playerID, sco.discordChannelID);
 
   if(!characterID) {
     throw new WordsmithError("There is no character data to show! Add a character!");
@@ -191,7 +173,7 @@ export const getCharacterData = async(sco:SlashCommandOptions) => {
 
 export const removeCharacter = async(sco:SlashCommandOptions) => {
 
-  const characterID = await findCharacterInGameByOwner(sco.playerID, sco.discordChannelID);
+  const characterID = await findActiveCharacterInGameByOwner(sco.playerID, sco.discordChannelID);
   const gameID = await findGameByDiscordChannelID(sco.discordChannelID);
 
   if(!characterID) {
@@ -213,7 +195,7 @@ export const removeCharacter = async(sco:SlashCommandOptions) => {
 
 export const removeItem = async(sco:SlashCommandOptions) => {
 
-  const characterID = await findCharacterInGameByOwner(sco.playerID, sco.discordChannelID);
+  const characterID = await findActiveCharacterInGameByOwner(sco.playerID, sco.discordChannelID);
 
   try {
     const character = await Character.findById(characterID);
@@ -240,7 +222,7 @@ export const removeItem = async(sco:SlashCommandOptions) => {
 
 export const removeWord = async(sco:SlashCommandOptions) => {
 
-  const characterID = await findCharacterInGameByOwner(sco.playerID, sco.discordChannelID);
+  const characterID = await findActiveCharacterInGameByOwner(sco.playerID, sco.discordChannelID);
 
   try {
     const character = await Character.findById(characterID);
@@ -294,7 +276,7 @@ export const switchGM = async(sco:SlashCommandOptions) => {
 
 export const useStar = async(sco:SlashCommandOptions) => {
 
-  const characterID = await findCharacterInGameByOwner(sco.playerID, sco.discordChannelID);
+  const characterID = await findActiveCharacterInGameByOwner(sco.playerID, sco.discordChannelID);
 
   try {
     const character = await Character.findById(characterID);
@@ -319,6 +301,19 @@ export const useStar = async(sco:SlashCommandOptions) => {
     }
   }
 };
+
+async function findActiveCharacterInGameByOwner(userID: string, discordChannelID: string) {
+
+  try {
+    const game = await Game.findOne({discordChannelID: discordChannelID});
+    const character = game?.characters.find((character) => (character.owner === userID && character.active));
+    return character?._id;
+  }
+  catch(error) {
+    console.error(error);
+    throw(new WordsmithError("findActiveCharacterInGameByOwner has failed..."));
+  }
+}
 
 async function isGM(playerID: string, gameID: Types.ObjectId):Promise<boolean | undefined> {
   try {

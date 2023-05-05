@@ -1,13 +1,13 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { CommandInteraction } from "discord.js";
-import { createGame } from "../mongo/helpers";
+import { removeCharacter } from "../../mongo/helpers";
 
-const commandName = "create-game";
+const commandName = "remove-character";
 
 module.exports = {
   "data": new SlashCommandBuilder()
     .setName(commandName)
-    .setDescription("Create a new wordsmith game in this channel."),
+    .setDescription("Remove your character from this wordsmith channel."),
   async execute(interaction:CommandInteraction) {
 
     const sco:SlashCommandOptions = {
@@ -15,8 +15,8 @@ module.exports = {
       discordChannelID: interaction.channelId
     };
 
-    await createGame(sco);
-    await interaction.reply("Game created!");
+    await removeCharacter(sco);
+    await interaction.reply("Character deleted!");
 
   },
 };

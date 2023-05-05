@@ -1,16 +1,16 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { CommandInteraction } from "discord.js";
-import { switchGM } from "../mongo/helpers";
+import { removeItem } from "../../mongo/helpers";
 
-const commandName = "switch-gm";
+const commandName = "remove-item";
 
 module.exports = {
   "data": new SlashCommandBuilder()
     .setName(commandName)
-    .setDescription("Make another use the gm of this game.")
-    .addUserOption(option =>
-      option.setName("user")
-        .setDescription("The user who will become the gm.")
+    .setDescription("Remove an item from a character.")
+    .addStringOption(option =>
+      option.setName("item")
+        .setDescription("The item you'd like to remove.")
         .setRequired(true)),
   async execute(interaction:CommandInteraction) {
 
@@ -18,12 +18,11 @@ module.exports = {
       playerID: interaction.user.id,
       discordChannelID: interaction.channelId,
       options: {
-        user: interaction.options.get("user")?.value as string
+        item: interaction.options.get("item")?.value as string
       }
     };
 
-    await switchGM(sco);
-    await interaction.reply("GM swapped!");
-
+    await removeItem(sco);
+    await interaction.reply(`${sco.options?.item} removed!`);
   },
 };
