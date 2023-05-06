@@ -22,6 +22,7 @@ module.exports = {
       components: [
         new ActionRowBuilder<UserSelectMenuBuilder>().addComponents(menu),
       ],
+      ephemeral: true,
     });
   },
 };
