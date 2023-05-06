@@ -16,6 +16,10 @@ export const addCharacter = async (sco: SlashCommandOptions) => {
       star: false,
     });
     if (character) {
+      // Deactivate all characters other than the new one.
+      game?.characters.forEach((character) => {
+        character.active = false;
+      });
       game?.characters.push(character);
       game?.save();
     }
