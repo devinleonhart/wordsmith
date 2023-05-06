@@ -4,11 +4,14 @@ if (process.env.NODE_ENV === "development") {
   config();
 }
 
-const settings:Settings = {
+const settings: Settings = {
   clientID: "707732906466082843",
   guildID: "203642332531261441",
   secretKey: process.env.WORDSMITH_SECRET_KEY || "",
-  mongoConnectionURI: process.env.NODE_ENV === "development" ? `mongodb://${process.env.DATABASE_HOST}/wordsmith` : `mongodb://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@${process.env.DATABASE_HOST}/wordsmith`
+  mongoConnectionURI:
+    process.env.NODE_ENV === "development"
+      ? `mongodb://${process.env.DATABASE_HOST}/wordsmith`
+      : `mongodb://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@${process.env.DATABASE_HOST}/wordsmith`,
 };
 
 export default settings;

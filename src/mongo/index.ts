@@ -6,7 +6,7 @@ const uri = settings.mongoConnectionURI;
 async function setupMongo() {
   try {
     await mongoose.connect(uri);
-  } catch(err) {
+  } catch (err) {
     console.error(err);
   }
 }

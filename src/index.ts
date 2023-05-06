@@ -12,6 +12,7 @@ import settings from "./settings";
   });
 
   client.commands = new Collection();
+  client.selectMenus = new Collection();
 
   const functionFolders = readdirSync(resolve(__dirname, "./functions"));
   for (const folder of functionFolders) {
@@ -25,5 +26,6 @@ import settings from "./settings";
 
   client.handleEvents();
   client.handleCommands();
+  client.handleComponents();
   client.login(settings.secretKey);
 })();

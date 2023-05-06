@@ -10,7 +10,7 @@ module.exports = {
       if (!command) return;
 
       try {
-        await command.execute(interaction);
+        await command.execute(interaction, client);
       } catch (error) {
         if (error instanceof WordsmithError) {
           await interaction.reply({
@@ -19,6 +19,17 @@ module.exports = {
           });
         }
         // Do nothing with any other error type. We do not wish to return unknown errors to the client.
+      }
+    } else if (interaction.isStringSelectMenu()) {
+      const { selectMenus } = client;
+      const { customId } = interaction;
+      const menu = selectMenus.get(customId);
+      if (!menu) throw new Error("There is no code for this selectMenu.");
+
+      try {
+        await menu.execute(interaction, client);
+      } catch (error) {
+        console.error(error);
       }
     }
   },

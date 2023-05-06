@@ -1,36 +1,35 @@
-import { Schema, model} from "mongoose";
+import { Schema, model } from "mongoose";
 
 const characterSchema = new Schema({
   name: {
     required: true,
-    type: String
+    type: String,
   },
   owner: {
     required: true,
-    type: String
+    type: String,
   },
   active: {
     required: true,
-    type: String
+    type: Boolean,
   },
   items: [String],
   words: [String],
-  star: Boolean
+  star: Boolean,
 });
 
 const gameSchema = new Schema({
   discordChannelID: {
     type: String,
     unique: true,
-    required: true
+    required: true,
   },
   gm: {
     required: true,
-    type: String
+    type: String,
   },
-  characters: [characterSchema]
+  characters: [characterSchema],
 });
-
 
 const Character = model("Character", characterSchema);
 const Game = model("Game", gameSchema);

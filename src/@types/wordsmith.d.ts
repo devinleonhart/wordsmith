@@ -1,26 +1,26 @@
 interface Command {
-  name: string,
-  helpText: string,
-  parameters: string[],
-  callback: handlerCallback,
+  name: string;
+  helpText: string;
+  parameters: string[];
+  callback: handlerCallback;
 }
 
 interface rollOpposedData {
-  challengeBlanks: number,
-  challengeResult: string,
-  explanation: string,
-  outcome: string,
-  playerBlanks: number,
-  playerName: string,
-  playerResult: string,
-  reaction: string,
+  challengeBlanks: number;
+  challengeResult: string;
+  explanation: string;
+  outcome: string;
+  playerBlanks: number;
+  playerName: string;
+  playerResult: string;
+  reaction: string;
 }
 
 interface Settings {
-  clientID: string
-  guildID: string
-  secretKey: string,
-  mongoConnectionURI: string,
+  clientID: string;
+  guildID: string;
+  secretKey: string;
+  mongoConnectionURI: string;
 }
 
 interface CharacterData {
@@ -31,14 +31,15 @@ interface CharacterData {
 }
 
 interface SlashCommandOptions {
-  playerID: string,
-  discordChannelID: string
+  playerID: string;
+  discordChannelID: string;
   options?: {
-    characterName?: string
-    item?: string
-    user?: string
-    word?: string
-  }
+    characterID?: string;
+    characterName?: string;
+    item?: string;
+    user?: string;
+    word?: string;
+  };
 }
 
 type callback = (value?: string) => void;

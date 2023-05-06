@@ -1,12 +1,9 @@
 {
   "compilerOptions": {
-    "typeRoots": [
-      "src/@types",
-      "node_modules/@types",
-    ],
-    "outDir": "dist",
+    "typeRoots": ["src/@types", "node_modules/@types"],
+    "outDir": "dist"
   },
   "include": ["src"],
   "exclude": ["node_modules"],
-  "extends": "@tsconfig/node18/tsconfig.json",
+  "extends": "@tsconfig/node18/tsconfig.json"
 }

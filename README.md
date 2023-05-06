@@ -18,6 +18,7 @@ Play Wordsmith in Discord!
 ### Development
 
 This project uses [dotenv](https://github.com/motdotla/dotenv#readme) for environment variables in development.
+
 1. Create `.env` at the project root.
 2. Do not commit this to source. It's in the .gitignore.
 3. Add `WORDSMITH_SECRET_KEY=XXX` to `.env` where `XXX` should equal the secret key available on the Developer Dashboard under Bot > Build-A-Bot.
