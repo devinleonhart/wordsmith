@@ -204,9 +204,15 @@ export const removeCharacter = async (sco: SlashCommandOptions) => {
 
   try {
     const game = await Game.findById(gameID);
-    await game?.characters.pull({ _id: characterID });
-    game?.save();
-    await Character.deleteOne({ _id: characterID });
+    if (game && game.characters) {
+      await game?.characters.pull({ _id: characterID });
+      // Because the active character is being deleted, activate another character.
+      if (game.characters[0]) {
+        game.characters[0].active = true;
+      }
+      game?.save();
+      await Character.deleteOne({ _id: characterID });
+    }
   } catch (error) {
     console.error(error);
     throw new WordsmithError("removeCharacter has failed...");
