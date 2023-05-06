@@ -23,7 +23,7 @@ module.exports = {
     }
 
     await interaction.reply({
-      content: `${character.name} is now your active character!`,
+      content: `${character.name} is now ${interaction.user.username}'s active character!`,
     });
   },
 };
