@@ -10,8 +10,8 @@ const settings: Settings = {
   secretKey: process.env.WORDSMITH_SECRET_KEY || "",
   mongoConnectionURI:
     process.env.NODE_ENV === "development"
-      ? `mongodb://${process.env.DATABASE_HOST}/wordsmith`
-      : `mongodb://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@${process.env.DATABASE_HOST}/wordsmith`,
+      ? `mongodb://${process.env.DATABASE_HOST}${process.env.DATABASE_PORT}/wordsmith`
+      : `mongodb://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@${process.env.DATABASE_HOST}:${process.env.DATABASE_PORT}/wordsmith`,
 };
 
 export default settings;
