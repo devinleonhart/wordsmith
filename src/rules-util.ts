@@ -1,10 +1,9 @@
 export enum Copy {
-  almostMessage = "You're gaining ground! Momentum +1",
-  criticalSuccessMessage = "You heroically defeat the challenge! Momentum +4",
-  failureMessage = "A severe setback... You don't get what you asked for. Momentum -3",
-  missMessage = "You can feel victory slipping away. Momentum -1",
-  stumbleMessage = "A serious error pushes you further from your goal. Momentum -2",
-  successMessage = "You did it! Momentum +3",
+  criticalSuccessMessage = "Critical Success! You have succeeded with style!",
+  successMessage = "You did it!",
+  majorDefeatMessage = "Ouch! You have suffered major defeat...",
+  minorDefeatMessage = "Almost! You have suffered minor defeat...",
+  failureMessage = "Failure! You have suffered a major defeat... and possibly lose health!",
   unknownMessage = "An unknown outcome has been rolled.",
 }
 
@@ -17,18 +16,16 @@ export enum DiscordEmotes {
   questionMark = ":question:",
   screamCat = ":scream_cat:",
   smileCat = ":smile_cat:",
-  smileyCat = ":smiley_cat:",
   smirkingCatWithBeer = ":beer: :smirk_cat:",
   star = ":star2:",
 }
 
 export enum Outcomes {
-  almost = "almost",
+  majorDefeat = "major defeat",
+  minorDefeat = "minor defeat",
+  partialSuccess = "partial success",
   criticalSuccess = "critical success",
   failure = "failure",
-  miss = "miss",
-  partialSuccess = "partial success",
-  stumble = "stumble",
   success = "success",
   unknown = "unknown",
 }
