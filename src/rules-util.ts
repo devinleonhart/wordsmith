@@ -18,6 +18,7 @@ export enum DiscordEmotes {
   smileCat = ":smile_cat:",
   smirkingCatWithBeer = ":beer: :smirk_cat:",
   star = ":star2:",
+  skull = ":skull_crossbones:",
 }
 
 export enum Outcomes {
@@ -49,6 +50,24 @@ export function buildEmoteString(
   let emotes = "";
   for (let i = 0; i < numberOfEmotes; i++) {
     emotes += `${emote} `;
+  }
+  return emotes;
+}
+
+export function buildPoisonedEmoteString(
+  emote: string,
+  poisonedEmote: string,
+  numberOfEmotes: number,
+  poisonedChance: number
+): string {
+  let emotes = "";
+  for (let i = 0; i < numberOfEmotes; i++) {
+    if(Math.random() < poisonedChance) {
+      emotes += `${poisonedEmote} `;
+    }
+    else {
+      emotes += `${emote} `;
+    }
   }
   return emotes;
 }
