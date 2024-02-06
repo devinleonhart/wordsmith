@@ -54,6 +54,16 @@ export function buildEmoteString(
   return emotes;
 }
 
+/**
+ * Builds a "poisoned" string of emotes. A poisoned emote is one that has a percentage
+ * chance of returning a different emote instead of a regular one.
+ *
+ * @param {string} emote - A Discord emote. eg: :star:
+ * @param {string} poisonedEmote - The replaced remote. eg: :skull:
+ * @param {number} numberOfEmotes - The number of emotes that should be returned in the string.
+ * @param {number} poisonedChance - The chance of a poisoned emote being returned. 0-1
+ * @return {string} The emotes as a single string.
+ */
 export function buildPoisonedEmoteString(
   emote: string,
   poisonedEmote: string,

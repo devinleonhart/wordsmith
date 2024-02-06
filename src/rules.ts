@@ -4,8 +4,7 @@ import {
   DiscordEmotes,
   Outcomes,
   ValidationError,
-  buildEmoteString,
-  buildPoisonedEmoteString
+  buildEmoteString
 } from "./rules-util";
 
 // Wordsmith Dice
@@ -132,17 +131,13 @@ export const rollOpposed = (
     DiscordEmotes.blueDiamond,
     data.playerBlanks
   );
-  data.challengeResult += buildPoisonedEmoteString(
+  data.challengeResult += buildEmoteString(
     DiscordEmotes.orangeDiamond,
-    DiscordEmotes.skull,
-    rollResult.num_opposed_successes,
-    0.125
+    rollResult.num_opposed_successes
   );
-  data.challengeResult += buildPoisonedEmoteString(
+  data.challengeResult += buildEmoteString(
     DiscordEmotes.blueDiamond,
-    DiscordEmotes.skull,
-    data.challengeBlanks,
-    0.125
+    data.challengeBlanks
   );
 
   return `
