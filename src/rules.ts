@@ -91,15 +91,9 @@ export const rollOpposed = (
       data.reaction = DiscordEmotes.smileCat;
       break;
     case Outcomes.partialSuccess:
-      if (Math.abs(rollResult.magnitude) >= 1 && Math.abs(rollResult.magnitude) <= 2) {
-        data.explanation = Copy.minorDefeatMessage;
-        data.outcome = Outcomes.minorDefeat;
-        data.reaction = DiscordEmotes.poutingCat;
-      } else if (Math.abs(rollResult.magnitude) >= 3) {
-        data.explanation = Copy.majorDefeatMessage;
-        data.outcome = Outcomes.majorDefeat;
-        data.reaction = DiscordEmotes.cryingCatFace;
-      }
+      data.explanation = Copy.partialSuccess;
+      data.outcome = Outcomes.partialSuccess;
+      data.reaction = DiscordEmotes.poutingCat;
       break;
     case Outcomes.criticalSuccess:
       data.explanation = Copy.criticalSuccessMessage;

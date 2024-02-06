@@ -1,9 +1,8 @@
 export enum Copy {
   criticalSuccessMessage = "Critical Success! You have succeeded with style!",
   successMessage = "You did it!",
-  majorDefeatMessage = "Ouch! You have suffered major defeat...",
-  minorDefeatMessage = "Almost! You have suffered minor defeat...",
-  failureMessage = "Failure! You have suffered a major defeat... and possibly lose health!",
+  partialSuccess = "Almost...",
+  failureMessage = "Failure!",
   unknownMessage = "An unknown outcome has been rolled.",
 }
 
@@ -22,8 +21,6 @@ export enum DiscordEmotes {
 }
 
 export enum Outcomes {
-  majorDefeat = "major defeat",
-  minorDefeat = "minor defeat",
   partialSuccess = "partial success",
   criticalSuccess = "critical success",
   failure = "failure",
