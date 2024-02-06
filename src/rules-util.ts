@@ -1,8 +1,8 @@
 export enum Copy {
-  criticalSuccessMessage = "Critical Success! You have succeeded with style!",
-  successMessage = "You did it!",
-  partialSuccess = "Almost...",
-  failureMessage = "Failure!",
+  criticalSuccessMessage = "Critical Success!",
+  successMessage = "Success!",
+  partialSuccess = "Partial Success",
+  failureMessage = "Failure...",
   unknownMessage = "An unknown outcome has been rolled.",
 }
 
