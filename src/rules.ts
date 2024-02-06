@@ -1,6 +1,5 @@
 import * as FuzzyDice from "fuzzy-dice";
 import {
-  Copy,
   DiscordEmotes,
   Outcomes,
   ValidationError,
@@ -74,7 +73,6 @@ export const rollOpposed = (
   const data: rollOpposedData = {
     challengeBlanks: challengeDice - rollResult.num_opposed_successes,
     challengeResult: "",
-    explanation: "",
     outcome: "",
     playerBlanks:
       playerDice - rollResult.num_successes - rollResult.num_criticals,
@@ -83,30 +81,25 @@ export const rollOpposed = (
     reaction: "",
   };
 
-  // Populate the reaction, outcome and explanation.
+  // Populate the reaction and outcome.
   switch (rollResult.outcome) {
     case Outcomes.success:
-      data.explanation = Copy.successMessage;
       data.outcome = Outcomes.success;
       data.reaction = DiscordEmotes.smileCat;
       break;
     case Outcomes.partialSuccess:
-      data.explanation = Copy.partialSuccess;
       data.outcome = Outcomes.partialSuccess;
       data.reaction = DiscordEmotes.poutingCat;
       break;
     case Outcomes.criticalSuccess:
-      data.explanation = Copy.criticalSuccessMessage;
       data.outcome = Outcomes.criticalSuccess;
       data.reaction = DiscordEmotes.smirkingCatWithBeer;
       break;
     case Outcomes.failure:
-      data.explanation = Copy.failureMessage;
       data.outcome = Outcomes.failure;
       data.reaction = DiscordEmotes.screamCat;
       break;
     default:
-      data.explanation = Copy.unknownMessage;
       data.outcome = Outcomes.unknown;
       data.reaction = DiscordEmotes.questionMark;
       break;
@@ -137,7 +130,6 @@ export const rollOpposed = (
   return `
 ---
 **${data.outcome.toUpperCase()}** ${data.reaction}
-${data.explanation}
 
 ${data.playerName}'s Roll: ${data.playerResult}
 Challenge Roll: ${data.challengeResult}

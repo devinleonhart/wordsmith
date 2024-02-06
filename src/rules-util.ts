@@ -1,11 +1,3 @@
-export enum Copy {
-  criticalSuccessMessage = "Critical Success!",
-  successMessage = "Success!",
-  partialSuccess = "Partial Success",
-  failureMessage = "Failure...",
-  unknownMessage = "An unknown outcome has been rolled.",
-}
-
 export enum DiscordEmotes {
   redDiamond = ":diamonds:",
   blueDiamond = ":small_blue_diamond:",

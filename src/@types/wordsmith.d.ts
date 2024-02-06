@@ -8,7 +8,6 @@ interface Command {
 interface rollOpposedData {
   challengeBlanks: number;
   challengeResult: string;
-  explanation: string;
   outcome: string;
   playerBlanks: number;
   playerName: string;
