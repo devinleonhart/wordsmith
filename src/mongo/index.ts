@@ -1,16 +1,16 @@
-import mongoose from "mongoose";
-import settings from "../settings";
+import mongoose from 'mongoose'
+import settings from '../settings'
 
-const uri = settings.mongoConnectionURI;
+const uri = settings.mongoConnectionURI
 
-async function setupMongo() {
+async function setupMongo (): Promise<void> {
   try {
-    console.log("Connecting to MongoDB...")
-    await mongoose.connect(uri);
-    console.log("Connnected to MongoDB!")
+    console.log('Connecting to MongoDB...')
+    await mongoose.connect(uri)
+    console.log('Connnected to MongoDB!')
   } catch (err) {
-    console.error(err);
+    console.error(err)
   }
 }
 
-export { setupMongo };
+export { setupMongo }

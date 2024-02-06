@@ -1,23 +1,23 @@
-import { UserSelectMenuInteraction } from "discord.js";
-import { switchGM } from "../../mongo/helpers";
+import { type UserSelectMenuInteraction } from 'discord.js'
+import { switchGM } from '../../mongo/helpers'
 
 module.exports = {
   data: {
-    name: "switch-gm-menu",
+    name: 'switch-gm-menu'
   },
-  async execute(interaction: UserSelectMenuInteraction) {
+  async execute (interaction: UserSelectMenuInteraction) {
     const sco: SlashCommandOptions = {
       playerID: interaction.user.id,
       discordChannelID: interaction.channelId,
       options: {
-        user: interaction.values[0],
-      },
-    };
+        user: interaction.values[0]
+      }
+    }
 
-    await switchGM(sco);
+    await switchGM(sco)
 
     await interaction.reply({
-      content: `GM swapped!`,
-    });
-  },
-};
+      content: 'GM swapped!'
+    })
+  }
+}

@@ -1,31 +1,31 @@
-import { readdirSync } from "fs";
-import { resolve } from "path";
-import { Client, Collection, GatewayIntentBits } from "discord.js";
-import { setupMongo } from "./mongo";
-import settings from "./settings";
+import { readdirSync } from 'fs'
+import { resolve } from 'path'
+import { Client, Collection, GatewayIntentBits } from 'discord.js'
+import { setupMongo } from './mongo'
+import settings from './settings';
 
 (async () => {
-  await setupMongo();
+  await setupMongo()
 
   const client = new Client({
-    intents: [GatewayIntentBits.Guilds], // Our bot would like to interact with servers.
-  });
+    intents: [GatewayIntentBits.Guilds] // Our bot would like to interact with servers.
+  })
 
-  client.commands = new Collection();
-  client.selectMenus = new Collection();
+  client.commands = new Collection()
+  client.selectMenus = new Collection()
 
-  const functionFolders = readdirSync(resolve(__dirname, "./functions"));
+  const functionFolders = readdirSync(resolve(__dirname, './functions'))
   for (const folder of functionFolders) {
     const functionFiles = readdirSync(
       resolve(__dirname, `./functions/${folder}`)
-    );
+    )
     for (const file of functionFiles) {
-      require(`./functions/${folder}/${file}`)(client);
+      require(`./functions/${folder}/${file}`)(client)
     }
   }
 
-  client.handleEvents();
-  client.handleCommands();
-  client.handleComponents();
-  client.login(settings.secretKey);
-})();
+  await client.handleEvents()
+  await client.handleCommands()
+  await client.handleComponents()
+  await client.login(settings.secretKey)
+})().catch(error => { console.error('Unhandled promise rejection:', error) })

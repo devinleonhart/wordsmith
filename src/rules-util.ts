@@ -1,28 +1,28 @@
 export enum DiscordEmotes {
-  redDiamond = ":diamonds:",
-  blueDiamond = ":small_blue_diamond:",
-  cryingCatFace = ":crying_cat_face:",
-  orangeDiamond = ":small_orange_diamond:",
-  poutingCat = ":pouting_cat:",
-  questionMark = ":question:",
-  screamCat = ":scream_cat:",
-  smileCat = ":smile_cat:",
-  smirkingCatWithBeer = ":beer: :smirk_cat:",
-  star = ":star2:",
-  skull = ":skull_crossbones:",
+  redDiamond = ':diamonds:',
+  blueDiamond = ':small_blue_diamond:',
+  cryingCatFace = ':crying_cat_face:',
+  orangeDiamond = ':small_orange_diamond:',
+  poutingCat = ':pouting_cat:',
+  questionMark = ':question:',
+  screamCat = ':scream_cat:',
+  smileCat = ':smile_cat:',
+  smirkingCatWithBeer = ':beer: :smirk_cat:',
+  star = ':star2:',
+  skull = ':skull_crossbones:',
 }
 
 export enum Outcomes {
-  partialSuccess = "partial success",
-  criticalSuccess = "critical success",
-  failure = "failure",
-  success = "success",
-  unknown = "unknown",
+  partialSuccess = 'partial success',
+  criticalSuccess = 'critical success',
+  failure = 'failure',
+  success = 'success',
+  unknown = 'unknown',
 }
 
 export enum ValidationError {
-  notEnoughChallengeDice = "The number of challenge dice cannot be less than 1.",
-  notEnoughPlayerDice = "The number of player dice cannot be less than 1.",
+  notEnoughChallengeDice = 'The number of challenge dice cannot be less than 1.',
+  notEnoughPlayerDice = 'The number of player dice cannot be less than 1.',
 }
 
 /**
@@ -32,15 +32,15 @@ export enum ValidationError {
  * @param {number} numberOfEmotes - The number of emotes that should be returned in the string.
  * @return {string} The emotes as a single string.
  */
-export function buildEmoteString(
+export function buildEmoteString (
   emote: string,
   numberOfEmotes: number
 ): string {
-  let emotes = "";
+  let emotes = ''
   for (let i = 0; i < numberOfEmotes; i++) {
-    emotes += `${emote} `;
+    emotes += `${emote} `
   }
-  return emotes;
+  return emotes
 }
 
 /**
@@ -53,20 +53,19 @@ export function buildEmoteString(
  * @param {number} poisonedChance - The chance of a poisoned emote being returned. 0-1
  * @return {string} The emotes as a single string.
  */
-export function buildPoisonedEmoteString(
+export function buildPoisonedEmoteString (
   emote: string,
   poisonedEmote: string,
   numberOfEmotes: number,
   poisonedChance: number
 ): string {
-  let emotes = "";
+  let emotes = ''
   for (let i = 0; i < numberOfEmotes; i++) {
-    if(Math.random() < poisonedChance) {
-      emotes += `${poisonedEmote} `;
-    }
-    else {
-      emotes += `${emote} `;
+    if (Math.random() < poisonedChance) {
+      emotes += `${poisonedEmote} `
+    } else {
+      emotes += `${emote} `
     }
   }
-  return emotes;
+  return emotes
 }
