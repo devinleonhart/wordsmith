@@ -8,24 +8,6 @@ module.exports = {
       const command = client.commands.get(interaction.commandName)
       if (!command) return
       await handleExecute(command, interaction, client)
-    } else if (interaction.isStringSelectMenu()) {
-      const { selectMenus } = client
-      const { customId } = interaction
-      const menu = selectMenus.get(customId)
-      if (!menu) throw new Error('No user selectMenu command found!')
-      await handleExecute(menu, interaction, client)
-    } else if (interaction.isUserSelectMenu()) {
-      const { selectMenus } = client
-      const { customId } = interaction
-      const menu = selectMenus.get(customId)
-      if (!menu) throw new Error('No user selectMenu command found!')
-      await handleExecute(menu, interaction, client)
-    } else if (interaction.isContextMenuCommand()) {
-      const { commands } = client
-      const { commandName } = interaction
-      const contextCommand = commands.get(commandName)
-      if (!contextCommand) throw new Error('No console command found!')
-      await handleExecute(contextCommand, interaction, client)
     }
   }
 }

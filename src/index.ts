@@ -1,12 +1,9 @@
 import { readdirSync } from 'fs'
 import { resolve } from 'path'
 import { Client, Collection, GatewayIntentBits } from 'discord.js'
-import { setupMongo } from './mongo'
 import settings from './settings';
 
 (async () => {
-  await setupMongo()
-
   const client = new Client({
     intents: [GatewayIntentBits.Guilds] // Our bot would like to interact with servers.
   })
@@ -26,6 +23,5 @@ import settings from './settings';
 
   await client.handleEvents()
   await client.handleCommands()
-  await client.handleComponents()
   await client.login(settings.secretKey)
 })().catch(error => { console.error('Unhandled promise rejection:', error) })
