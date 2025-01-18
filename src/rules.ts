@@ -11,6 +11,60 @@ import {
 const wsDiceType = new FuzzyDice.Dice(8, 4, 1, 2)
 
 /**
+ * Rolls a d20 dice and then uses emotes to display the result.
+ *
+ * @param {string} playerName - The name of the player rolling dice.
+ * @param {targetNumber} dice - The number the player must roll to pass the challenge.
+ * @return {string} The dice roll expressed as emotes.
+ */
+export const RollD20 = (playerName: string, targetNumber: number): string => {
+  if (targetNumber <= 0 || targetNumber >= 21) {
+    return ValidationError.notInDiceRange
+  }
+
+  const rollResult = Math.floor(Math.random() * 20) + 1
+
+  const data: rollD20Data = {
+    targetNumber,
+    outcome: '',
+    playerName,
+    playerResult: rollResult.toString(),
+    reaction: ''
+  }
+
+  // Populate the reaction and outcome.
+  if (rollResult === 1) {
+    // Disaster!
+    data.outcome = Outcomes.disaster
+    data.reaction = DiscordEmotes.skull
+  } else if (rollResult === 20 || rollResult === targetNumber) {
+    // Criticial!
+    data.outcome = Outcomes.criticalSuccess
+    data.reaction = DiscordEmotes.smirkingCatWithBeer
+  } else if (rollResult > targetNumber) {
+    // Success!
+    data.outcome = Outcomes.success
+    data.reaction = DiscordEmotes.smileCat
+  } else if (Math.abs(rollResult - targetNumber) <= 3) {
+    // Partial Success!
+    data.outcome = Outcomes.partialSuccess
+    data.reaction = DiscordEmotes.poutingCat
+  } else {
+    // Failure!
+    data.outcome = Outcomes.failure
+    data.reaction = DiscordEmotes.screamCat
+  }
+
+  return `
+---
+**${data.outcome.toUpperCase()}** ${data.reaction}
+
+${data.playerName}'s Roll: ${data.playerResult}
+---
+  `
+}
+
+/**
  * Rolls dice and then uses emotes to display the result.
  *
  * @param {string} playerName - The name of the player rolling dice.

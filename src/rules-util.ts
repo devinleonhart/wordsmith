@@ -18,9 +18,11 @@ export enum Outcomes {
   failure = 'failure',
   success = 'success',
   unknown = 'unknown',
+  disaster = 'disaster'
 }
 
 export enum ValidationError {
+  notInDiceRange = 'The target number must be one of the values of a d20.',
   notEnoughChallengeDice = 'The number of challenge dice cannot be less than 1.',
   notEnoughPlayerDice = 'The number of player dice cannot be less than 1.',
 }

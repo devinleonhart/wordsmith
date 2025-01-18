@@ -5,6 +5,14 @@ interface Command {
   callback: handlerCallback
 }
 
+interface rollD20Data {
+  targetNumber: number
+  outcome: string
+  playerName: string
+  playerResult: string
+  reaction: string
+}
+
 interface rollOpposedData {
   challengeBlanks: number
   challengeResult: string
@@ -19,7 +27,6 @@ interface Settings {
   clientID: string
   guildID: string
   secretKey: string
-  mongoConnectionURI: string
 }
 
 interface WSCharacterData {
