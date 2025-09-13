@@ -1,26 +1,38 @@
 # Wordsmith Discord Bot
 
-Play Wordsmith in Discord!
+A Discord bot for playing Wordsmith dice games.
 
-## Add your bot to the Discord server.
+## Setup
 
-1. Have the owner of the bot log into the [Developer Dashboard](https://discordapp.com/developers/applications/).
-2. Make sure you either own the server or have the "Manage Server" permission for the server that will have the bot as a user.
-3. Have the owner of the bot visit OAuth2 section of the Dashboard and generate the OAuth url with the "bot" scope.
-4. Visit the URL. Authorize the bot on the server. If you cannot, check your permissions.
+1. Get a Discord bot token from [Discord Developer Portal](https://discord.com/developers/applications/)
+2. Copy `.env.example` to `.env` and add your bot token
+3. Add bot to your Discord server with "bot" scope
 
-### Production
+## Development
 
-1. Add `NODE_ENV='production'` to the environment.
-2. Add `WORDSMITH_SECRET_KEY=XXX` to the environment where `XXX` is the secret key available on the Developer Dashboard under Bot > Build-A-Bot.
-3. Use `npm run build` to generate an output build in `./dist`. Run this with node on your server.
+**Docker Compose**
+```bash
+docker compose up -d
+docker compose logs -f
+docker compose down
+```
 
-### Development
+**Local Development**
+```bash
+pnpm install
+pnpm dev
+```
 
-This project uses [dotenv](https://github.com/motdotla/dotenv#readme) for environment variables in development.
+## Production
 
-1. Create `.env` at the project root.
-2. Do not commit this to source. It's in the .gitignore.
-3. Add `WORDSMITH_SECRET_KEY=XXX` to `.env` where `XXX` should equal the secret key available on the Developer Dashboard under Bot > Build-A-Bot.
+**Docker**
+```bash
+docker build -t wordsmith-bot .
+docker run -d --env-file .env wordsmith-bot
+```
 
-Use `npm run dev` for nodemon.
+**Manual**
+```bash
+pnpm build
+NODE_ENV=production pnpm start
+```

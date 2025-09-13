@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from '@discordjs/builders'
-import { type CommandInteraction } from 'discord.js'
+import { type ChatInputCommandInteraction } from 'discord.js'
 
 import { RollD20 } from '../../rules'
 
@@ -15,7 +15,7 @@ module.exports = {
         .setDescription('The number you need to roll to pass the challenge.')
         .setRequired(true)
     ),
-  async execute (interaction: CommandInteraction) {
+  async execute (interaction: ChatInputCommandInteraction) {
     let name = ''
     if (interaction.member) {
       name = interaction.member.user.username
