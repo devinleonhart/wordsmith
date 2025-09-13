@@ -6,8 +6,9 @@
     "dev": "NODE_ENV=development nodemon",
     "lint": "eslint src/",
     "lint:fix": "eslint --fix src/",
+    "quality": "tsc --noEmit && pnpm lint && pnpm test",
     "start": "NODE_ENV=production node ./dist/index.js",
-    "test": "vitest run",
+    "test": "vitest run --silent",
     "test:coverage": "vitest run --coverage",
     "test:ui": "vitest --ui",
     "test:watch": "vitest --watch"

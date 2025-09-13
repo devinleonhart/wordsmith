@@ -6,6 +6,7 @@ export default defineConfig({
     environment: 'node',
     include: ['**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
     exclude: ['node_modules', 'dist', 'build'],
+    silent: true,
     coverage: {
       reporter: ['text', 'json', 'html'],
       exclude: [
