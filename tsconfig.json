@@ -1,9 +1,12 @@
 {
   "compilerOptions": {
     "typeRoots": ["src/@types", "node_modules/@types"],
-    "outDir": "dist"
+    "outDir": "dist",
+    "target": "ES2022",
+    "module": "CommonJS",
+    "moduleResolution": "node"
   },
   "include": ["./src"],
   "exclude": ["node_modules", "dist"],
-  "extends": "@tsconfig/node20/tsconfig.json"
+  "extends": "@tsconfig/node24/tsconfig.json"
 }

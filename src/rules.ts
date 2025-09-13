@@ -6,6 +6,24 @@ import {
   buildEmoteString
 } from './rules-util'
 
+interface rollD20Data {
+  targetNumber: number
+  outcome: string
+  playerName: string
+  playerResult: string
+  reaction: string
+}
+
+interface rollOpposedData {
+  challengeBlanks: number
+  challengeResult: string
+  outcome: string
+  playerBlanks: number
+  playerName: string
+  playerResult: string
+  reaction: string
+}
+
 // Wordsmith Dice
 // 8 Sides, 4 Blanks, 1 Crit Symbols, 2 Crit Symbols for a critical roll.
 const wsDiceType = new FuzzyDice.Dice(8, 4, 1, 2)

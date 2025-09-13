@@ -9,20 +9,20 @@
     "start": "NODE_ENV=production node ./dist/index.js"
   },
   "dependencies": {
-    "@discordjs/builders": "^1.7.0",
-    "discord.js": "^14.14.1",
-    "dotenv": "^16.4.1",
-    "fuzzy-dice": "^2.0.0"
+    "@discordjs/builders": "~1.11.3",
+    "discord.js": "~14.22.1",
+    "dotenv": "~17.2.2",
+    "fuzzy-dice": "~2.0.0"
   },
   "devDependencies": {
-    "@tsconfig/node20": "^20.1.2",
-    "@types/node": "^18.19.14",
-    "@typescript-eslint/eslint-plugin": "^8.43.0",
-    "@typescript-eslint/parser": "^8.43.0",
-    "eslint": "^9.35.0",
-    "nodemon": "3.1.10",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.3.3",
-    "typescript-eslint": "^8.43.0"
+    "@tsconfig/node24": "~24.0.1",
+    "@types/node": "~24.3.3",
+    "@typescript-eslint/eslint-plugin": "~8.43.0",
+    "@typescript-eslint/parser": "~8.43.0",
+    "eslint": "~9.35.0",
+    "nodemon": "~3.1.10",
+    "ts-node": "~10.9.2",
+    "typescript": "~5.9.2",
+    "typescript-eslint": "~8.43.0"
   }
 }
