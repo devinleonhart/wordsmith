@@ -19,7 +19,6 @@ declare module 'fuzzy-dice' {
     crit_threshold: number
     generator?: () => number
 
-    /* eslint-disable */
     constructor (
       num_sides: number,
       num_blank_sides: number,
@@ -27,17 +26,14 @@ declare module 'fuzzy-dice' {
       crit_threshold: number,
       generator?
     )
-    /* eslint-enable */
   }
 
   export function roll (dice: Dice, pdice: number): rollResponse
 
-  /* eslint-disable */
   export function opposed_check (
     dice_type: Dice,
     num_dice: number,
     opposed_dice_type: Dice,
     num_opposed_dice: number
   ): opposedCheckResponse
-  /* eslint-enable */
 }

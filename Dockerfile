@@ -1,4 +1,4 @@
-FROM node:20.11-alpine3.18
+FROM node:24.8.0-alpine3.21
 
 RUN npm install -g pnpm
 

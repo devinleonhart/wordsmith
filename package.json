@@ -4,28 +4,34 @@
   "scripts": {
     "build": "rm -rf ./dist && tsc",
     "dev": "NODE_ENV=development nodemon",
-    "lint": "eslint ./src/*.ts ./src/**/*.ts",
-    "lint-fix": "eslint --fix ./src/*.ts ./src/**/*.ts",
-    "start": "NODE_ENV=production node ./dist/index.js"
+    "lint": "eslint src/",
+    "lint:fix": "eslint --fix src/",
+    "quality": "tsc --noEmit && pnpm lint && pnpm test",
+    "start": "NODE_ENV=production node ./dist/index.js",
+    "test": "vitest run --silent",
+    "test:coverage": "vitest run --coverage",
+    "test:ui": "vitest --ui",
+    "test:watch": "vitest --watch"
   },
   "dependencies": {
-    "@discordjs/builders": "^1.7.0",
-    "discord.js": "^14.14.1",
-    "dotenv": "^16.4.1",
-    "fuzzy-dice": "^2.0.0"
+    "@discordjs/builders": "~1.11.3",
+    "discord.js": "~14.22.1",
+    "dotenv": "~17.2.2",
+    "fuzzy-dice": "~2.0.0",
+    "pokenode-ts": "~1.20.0"
   },
   "devDependencies": {
-    "@tsconfig/node20": "^20.1.2",
-    "@types/node": "^18.19.14",
-    "@typescript-eslint/eslint-plugin": "^6.21.0",
-    "@typescript-eslint/parser": "^5.62.0",
-    "eslint": "^8.56.0",
-    "eslint-config-standard-with-typescript": "^43.0.1",
-    "eslint-plugin-import": "^2.29.1",
-    "eslint-plugin-n": "^16.6.2",
-    "eslint-plugin-promise": "^6.1.1",
-    "nodemon": "^3.0.3",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.3.3"
+    "@tsconfig/node24": "~24.0.1",
+    "@types/node": "~24.3.3",
+    "@typescript-eslint/eslint-plugin": "~8.43.0",
+    "@typescript-eslint/parser": "~8.43.0",
+    "@vitest/coverage-v8": "3.2.4",
+    "@vitest/ui": "^3.2.4",
+    "eslint": "~9.35.0",
+    "nodemon": "~3.1.10",
+    "ts-node": "~10.9.2",
+    "typescript": "~5.9.2",
+    "typescript-eslint": "~8.43.0",
+    "vitest": "^3.2.4"
   }
 }
