@@ -57,7 +57,7 @@ module.exports = {
     const defenderTypes = defenderType2 ? [defenderType1, defenderType2] : [defenderType1]
 
     try {
-      const multiplier = calculateTypeEffectiveness(attackType, defenderTypes)
+      const multiplier = await calculateTypeEffectiveness(attackType, defenderTypes)
       const description = getEffectivenessDescription(multiplier)
 
       const defenderTypeString = defenderTypes

@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from '@discordjs/builders'
 import { type ChatInputCommandInteraction } from 'discord.js'
-import { PokemonClient } from 'pokenode-ts'
+import { pokemonClient } from '../../utils/pokemon-client'
 
 const commandName = 'pokemon'
 
@@ -25,7 +25,6 @@ module.exports = {
     try {
       await interaction.deferReply()
 
-      const pokemonClient = new PokemonClient()
       const pokemon = await pokemonClient.getPokemonByName(pokemonName.toLowerCase())
       const types = pokemon.types
         .map((typeInfo: any) => typeInfo.type.name)

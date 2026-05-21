@@ -2,78 +2,88 @@ import { describe, it, expect, beforeEach, vi } from 'vitest'
 
 const mockGetPokemonByName = vi.fn()
 
-vi.mock('pokenode-ts', () => ({
-  PokemonClient: vi.fn().mockImplementation(() => ({
-    getPokemonByName: mockGetPokemonByName
-  }))
+vi.mock('../../src/utils/pokemon-client', () => ({
+  pokemonClient: { getPokemonByName: mockGetPokemonByName },
+  moveClient: {}
 }))
 
-describe('Pokemon Command Integration', () => {
-  let pokemonCommand: any
-  let mockInteraction: any
+describe('Pokemon Command', () => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let cmd: any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let interaction: any
 
   beforeEach(async () => {
     vi.clearAllMocks()
-
-    pokemonCommand = require('../../dist/commands/game/pokemon')
-
-    mockInteraction = {
-      options: {
-        getString: vi.fn()
-      },
+    cmd = await import('../../src/commands/game/pokemon')
+    interaction = {
+      options: { getString: vi.fn() },
       reply: vi.fn(),
       deferReply: vi.fn(),
       editReply: vi.fn()
     }
   })
 
-  it('should have correct command configuration', () => {
-    expect(pokemonCommand.data.name).toBe('pokemon')
-    expect(pokemonCommand.data.description).toBe('Get the types of a Pokémon by name.')
+  it('should have correct command name and description', () => {
+    expect(cmd.default.data.name).toBe('pokemon')
+    expect(cmd.default.data.description).toBe('Get the types of a Pokémon by name.')
   })
 
-  it('should format single type correctly', async () => {
-    mockInteraction.options.getString.mockReturnValue('charmander')
+  it('should reply with an error when no name is provided', async () => {
+    interaction.options.getString.mockReturnValue(null)
+    await cmd.default.execute(interaction)
+    expect(interaction.reply).toHaveBeenCalledWith('Please provide a Pokémon name.')
+    expect(mockGetPokemonByName).not.toHaveBeenCalled()
+  })
+
+  it('should format a single-type Pokémon correctly', async () => {
+    interaction.options.getString.mockReturnValue('charmander')
     mockGetPokemonByName.mockResolvedValue({
       name: 'charmander',
       types: [{ type: { name: 'fire' } }]
     })
-
-    await pokemonCommand.execute(mockInteraction)
-
-    expect(mockInteraction.editReply).toHaveBeenCalledWith('**Charmander** is a fire type Pokémon.')
+    await cmd.default.execute(interaction)
+    expect(interaction.editReply).toHaveBeenCalledWith('**Charmander** is a fire type Pokémon.')
   })
 
-  it('should format multiple types correctly', async () => {
-    mockInteraction.options.getString.mockReturnValue('bulbasaur')
+  it('should format a dual-type Pokémon correctly', async () => {
+    interaction.options.getString.mockReturnValue('bulbasaur')
     mockGetPokemonByName.mockResolvedValue({
       name: 'bulbasaur',
-      types: [
-        { type: { name: 'grass' } },
-        { type: { name: 'poison' } }
-      ]
+      types: [{ type: { name: 'grass' } }, { type: { name: 'poison' } }]
     })
-
-    await pokemonCommand.execute(mockInteraction)
-
-    expect(mockInteraction.editReply).toHaveBeenCalledWith('**Bulbasaur** is a grass, poison type Pokémon.')
+    await cmd.default.execute(interaction)
+    expect(interaction.editReply).toHaveBeenCalledWith('**Bulbasaur** is a grass, poison type Pokémon.')
   })
 
-  it('should handle Pokemon not found error', async () => {
-    mockInteraction.options.getString.mockReturnValue('fakemon')
+  it('should capitalise the Pokémon name in the response', async () => {
+    interaction.options.getString.mockReturnValue('pikachu')
+    mockGetPokemonByName.mockResolvedValue({
+      name: 'pikachu',
+      types: [{ type: { name: 'electric' } }]
+    })
+    await cmd.default.execute(interaction)
+    expect(interaction.editReply).toHaveBeenCalledWith(
+      expect.stringContaining('**Pikachu**')
+    )
+  })
+
+  it('should pass the lowercased name to the API', async () => {
+    interaction.options.getString.mockReturnValue('CHARIZARD')
+    mockGetPokemonByName.mockResolvedValue({
+      name: 'charizard',
+      types: [{ type: { name: 'fire' } }, { type: { name: 'flying' } }]
+    })
+    await cmd.default.execute(interaction)
+    expect(mockGetPokemonByName).toHaveBeenCalledWith('charizard')
+  })
+
+  it('should reply with a not-found message on API error', async () => {
+    interaction.options.getString.mockReturnValue('fakemon')
     mockGetPokemonByName.mockRejectedValue(new Error('Not found'))
-
-    await pokemonCommand.execute(mockInteraction)
-
-    expect(mockInteraction.editReply).toHaveBeenCalledWith('Could not find a Pokémon named "fakemon". Please check the spelling and try again.')
-  })
-
-  it('should handle missing name gracefully', async () => {
-    mockInteraction.options.getString.mockReturnValue(null)
-
-    await pokemonCommand.execute(mockInteraction)
-
-    expect(mockInteraction.reply).toHaveBeenCalledWith('Please provide a Pokémon name.')
-    expect(mockGetPokemonByName).not.toHaveBeenCalled()
+    await cmd.default.execute(interaction)
+    expect(interaction.editReply).toHaveBeenCalledWith(
+      'Could not find a Pokémon named "fakemon". Please check the spelling and try again.'
+    )
   })
 })

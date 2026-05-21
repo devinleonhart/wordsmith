@@ -15,16 +15,15 @@ export default defineConfig({
         'src/@types/',
         '**/*.d.ts',
         'vitest.config.ts',
-        // Exclude infrastructure files that are hard to test in isolation
+        // Exclude bootstrapping/infrastructure files with no testable logic
         'src/index.ts',
-        'src/commands/**',
         'src/events/**',
         'src/functions/**',
         'eslint.config.js'
       ],
       thresholds: {
         global: {
-          branches: 85,  // Currently at 85%
+          branches: 90,
           functions: 90,
           lines: 90,
           statements: 90

@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from '@discordjs/builders'
 import { type ChatInputCommandInteraction } from 'discord.js'
-import { PokemonClient } from 'pokenode-ts'
+import { pokemonClient } from '../../utils/pokemon-client'
 import { calculateTypeEffectiveness, getEffectivenessDescription, getValidTypes } from '../../utils/pokemon-types'
 
 const commandName = 'effectiveness'
@@ -39,7 +39,6 @@ module.exports = {
     try {
       await interaction.deferReply()
 
-      const pokemonClient = new PokemonClient()
       const pokemon = await pokemonClient.getPokemonByName(pokemonName.toLowerCase())
 
       // Extract the Pokémon's types
@@ -47,7 +46,7 @@ module.exports = {
         .map((typeInfo: any) => typeInfo.type.name)
 
       // Calculate effectiveness
-      const multiplier = calculateTypeEffectiveness(attackType, pokemonTypes)
+      const multiplier = await calculateTypeEffectiveness(attackType, pokemonTypes)
       const description = getEffectivenessDescription(multiplier)
 
       // Format the response

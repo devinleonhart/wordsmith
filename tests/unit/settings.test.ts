@@ -12,49 +12,33 @@ describe('Settings', () => {
     process.env = originalEnv
   })
 
-  it('should use environment variable for secret key', async () => {
+  it('should read WORDSMITH_SECRET_KEY from the environment', async () => {
     process.env.WORDSMITH_SECRET_KEY = 'test-secret-key'
-
     const settings = await import('../../src/settings')
     expect(settings.default.secretKey).toBe('test-secret-key')
   })
 
-  it('should use empty string as fallback for missing secret key', async () => {
+  it('should fall back to empty string when WORDSMITH_SECRET_KEY is absent', async () => {
     delete process.env.WORDSMITH_SECRET_KEY
-
     const settings = await import('../../src/settings')
     expect(settings.default.secretKey).toBe('')
   })
 
-  it('should have correct client and guild IDs', async () => {
+  it('should have the correct hardcoded client and guild IDs', async () => {
     const settings = await import('../../src/settings')
     expect(settings.default.clientID).toBe('707732906466082843')
     expect(settings.default.guildID).toBe('203642332531261441')
   })
 
-  it('should handle different environment scenarios', async () => {
-    process.env.WORDSMITH_SECRET_KEY = 'different-secret'
-
-    const settings = await import('../../src/settings')
-    expect(settings.default.secretKey).toBe('different-secret')
-  })
-
-  it('should call config() in development mode', async () => {
+  it('should still read WORDSMITH_SECRET_KEY in development mode', async () => {
     process.env.NODE_ENV = 'development'
-
-    vi.resetModules()
+    process.env.WORDSMITH_SECRET_KEY = 'dev-secret'
     const settings = await import('../../src/settings')
-
-    expect(settings.default).toHaveProperty('secretKey')
+    expect(settings.default.secretKey).toBe('dev-secret')
   })
 
-  it('should have all required properties', async () => {
+  it('should expose all required properties as strings', async () => {
     const settings = await import('../../src/settings')
-
-    expect(settings.default).toHaveProperty('secretKey')
-    expect(settings.default).toHaveProperty('clientID')
-    expect(settings.default).toHaveProperty('guildID')
-
     expect(typeof settings.default.secretKey).toBe('string')
     expect(typeof settings.default.clientID).toBe('string')
     expect(typeof settings.default.guildID).toBe('string')

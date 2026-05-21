@@ -3,6 +3,7 @@
   "version": "2.0.0",
   "scripts": {
     "build": "rm -rf ./dist && tsc",
+    "cmd": "ts-node --files ./scripts/cmd.ts",
     "dev": "NODE_ENV=development nodemon",
     "lint": "eslint src/",
     "lint:fix": "eslint --fix src/",
@@ -14,24 +15,27 @@
     "test:watch": "vitest --watch"
   },
   "dependencies": {
-    "@discordjs/builders": "~1.11.3",
-    "discord.js": "~14.22.1",
-    "dotenv": "~17.2.2",
+    "@discordjs/builders": "~1.14.1",
+    "discord.js": "~14.26.4",
+    "dotenv": "~17.4.2",
     "fuzzy-dice": "~2.0.0",
     "pokenode-ts": "~1.20.0"
   },
+  "pnpm": {
+    "onlyBuiltDependencies": ["esbuild"]
+  },
   "devDependencies": {
-    "@tsconfig/node24": "~24.0.1",
-    "@types/node": "~24.3.3",
-    "@typescript-eslint/eslint-plugin": "~8.43.0",
-    "@typescript-eslint/parser": "~8.43.0",
-    "@vitest/coverage-v8": "3.2.4",
-    "@vitest/ui": "^3.2.4",
-    "eslint": "~9.35.0",
-    "nodemon": "~3.1.10",
+    "@tsconfig/node24": "~24.0.4",
+    "@types/node": "~24.12.4",
+    "@typescript-eslint/eslint-plugin": "~8.59.4",
+    "@typescript-eslint/parser": "~8.59.4",
+    "@vitest/coverage-v8": "~4.1.7",
+    "@vitest/ui": "~4.1.7",
+    "eslint": "~10.4.0",
+    "nodemon": "~3.1.14",
     "ts-node": "~10.9.2",
-    "typescript": "~5.9.2",
-    "typescript-eslint": "~8.43.0",
-    "vitest": "^3.2.4"
+    "typescript": "~6.0.3",
+    "typescript-eslint": "~8.59.4",
+    "vitest": "~4.1.7"
   }
 }
