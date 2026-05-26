@@ -14,8 +14,10 @@ services:
       - ./nodemon.json:/app/nodemon.json:ro
       - ./pnpm-lock.yaml:/app/pnpm-lock.yaml:ro
       - node_modules:/app/node_modules
+      - wordsmith_data:/app/data
     environment:
       - NODE_ENV=development
+      - DATABASE_PATH=/app/data/wordsmith.db
     env_file:
       - .env
     stdin_open: true
@@ -23,3 +25,4 @@ services:
 
 volumes:
   node_modules:
+  wordsmith_data:

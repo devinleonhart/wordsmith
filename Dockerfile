@@ -1,13 +1,13 @@
-FROM node:24.8.0-alpine3.21
+FROM node:24.16.0-alpine
 
-RUN npm install -g pnpm
+RUN npm install -g pnpm@11.3.0
 
-RUN mkdir app
+RUN mkdir -p /app/data
 
 WORKDIR /app
 
 COPY ./src/ ./src
-COPY ["./tsconfig.json", "./package.json", "./pnpm-lock.yaml", "./"]
+COPY ["./tsconfig.json", "./package.json", "./pnpm-lock.yaml", "./.npmrc", "./pnpm-workspace.yaml", "./"]
 
 RUN pnpm i && pnpm build
 

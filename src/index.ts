@@ -1,9 +1,12 @@
 import { readdirSync } from 'fs'
 import { resolve } from 'path'
 import { Client, Collection, GatewayIntentBits } from 'discord.js'
-import settings from './settings';
+import settings from './settings'
+import { initDb } from './database/db'
 
-(async () => {
+initDb()
+
+;(async () => {
   const client = new Client({
     intents: [GatewayIntentBits.Guilds] // Our bot would like to interact with servers.
   })
