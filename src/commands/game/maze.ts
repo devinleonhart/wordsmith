@@ -133,8 +133,11 @@ async function handleGo (interaction: ChatInputCommandInteraction, guildId: stri
 }
 
 async function handleLook (interaction: ChatInputCommandInteraction, guildId: string): Promise<void> {
+  console.log(`[maze look] guildId=${guildId}`)
   const state = ensureState(guildId)
+  console.log(`[maze look] state=${JSON.stringify(state)}`)
   const square = getSquare(state.x, state.y)
+  console.log(`[maze look] square=${square?.description?.slice(0, 30)}`)
 
   if (!square) throw new WordsmithError('Current position is invalid. Use `/maze reset` to start over.')
 
@@ -147,7 +150,9 @@ async function handleLook (interaction: ChatInputCommandInteraction, guildId: st
     .setTitle(`${square.description} You are here.`)
     .setDescription(renderMap(maze, state, visited, goalKey))
 
+  console.log('[maze look] calling interaction.reply')
   await interaction.reply({ embeds: [embed] })
+  console.log('[maze look] reply sent')
 }
 
 async function handleReset (interaction: ChatInputCommandInteraction, guildId: string): Promise<void> {
