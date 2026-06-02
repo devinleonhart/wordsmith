@@ -2,27 +2,27 @@ import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { MessageFlags } from 'discord.js'
 
 vi.mock('../../src/database/mazeRepository', () => ({
-  getState:      vi.fn(),
-  setState:      vi.fn(),
-  getVisited:    vi.fn(),
-  addVisited:    vi.fn(),
+  getState:       vi.fn(),
+  setState:       vi.fn(),
+  getVisited:     vi.fn(),
+  addVisited:     vi.fn(),
   isGemCollected: vi.fn(),
-  collectGem:    vi.fn(),
-  initMaze:      vi.fn(),
-  resetMaze:     vi.fn()
+  collectGem:     vi.fn(),
+  initMaze:       vi.fn(),
+  resetMaze:      vi.fn()
 }))
 
 vi.mock('../../src/utils/mazeLoader', () => ({
-  getMaze: vi.fn(() => ({ width: 5, height: 5, start: { x: 1, y: 1 } })),
-  getSquare: vi.fn(),
+  getMaze:    vi.fn(() => ({ width: 5, height: 5, start: { x: 1, y: 1 } })),
+  getSquare:  vi.fn(),
   getGoalKey: vi.fn(() => '3,3')
 }))
 
 const makeInteraction = (subcommand: string, options: Record<string, string> = {}) => ({
   guildId: 'guild-abc',
   options: {
-    getSubcommand: vi.fn(() => subcommand),
-    getString: vi.fn((name: string, _required?: boolean) => options[name] ?? null)
+    getSubcommand:  vi.fn(() => subcommand),
+    getString:      vi.fn((name: string, _required?: boolean) => options[name] ?? null)
   },
   reply: vi.fn()
 })
@@ -71,7 +71,7 @@ describe('/maze command', () => {
       expect(repo.setState).not.toHaveBeenCalled()
     })
 
-    it('moves and replies with embed when target is a passable floor', async () => {
+    it('moves and replies with content when target is a passable floor', async () => {
       repo.getState.mockReturnValue({ x: 1, y: 1 })
       repo.getVisited.mockReturnValue(new Set(['1,1', '2,1']))
       repo.isGemCollected.mockReturnValue(false)
@@ -85,9 +85,9 @@ describe('/maze command', () => {
 
       expect(repo.setState).toHaveBeenCalledWith('guild-abc', 2, 1)
       expect(repo.addVisited).toHaveBeenCalledWith('guild-abc', 2, 1)
-      expect(interaction.reply).toHaveBeenCalledWith(
-        expect.objectContaining({ embeds: expect.any(Array) })
-      )
+      const content = (interaction.reply as ReturnType<typeof vi.fn>).mock.calls[0][0].content
+      expect(content).toContain('A corridor.')
+      expect(content).toContain('You are here.')
     })
 
     it('collects a gem on first entry and does not collect on subsequent visits', async () => {
@@ -103,6 +103,8 @@ describe('/maze command', () => {
       await cmd.default.execute(interaction)
 
       expect(repo.collectGem).toHaveBeenCalledWith('guild-abc', 2, 1)
+      const content = (interaction.reply as ReturnType<typeof vi.fn>).mock.calls[0][0].content
+      expect(content).toContain('emerald')
 
       vi.clearAllMocks()
       repo.getState.mockReturnValue({ x: 1, y: 1 })
@@ -149,8 +151,8 @@ describe('/maze command', () => {
       await cmd.default.execute(interaction)
 
       expect(repo.setState).toHaveBeenCalledWith('guild-abc', 1, 2)
-      const embed = (interaction.reply as ReturnType<typeof vi.fn>).mock.calls[0][0].embeds[0]
-      expect(embed.data.description).toContain('swing your pick')
+      const content = (interaction.reply as ReturnType<typeof vi.fn>).mock.calls[0][0].content
+      expect(content).toContain('swing your pick')
     })
   })
 
@@ -158,7 +160,7 @@ describe('/maze command', () => {
   // /maze look
   // ---------------------------------------------------------------------------
   describe('look subcommand', () => {
-    it('replies with an embed showing the current square description', async () => {
+    it('replies with content showing the current square description', async () => {
       repo.getState.mockReturnValue({ x: 1, y: 1 })
       repo.getVisited.mockReturnValue(new Set(['1,1']))
       loader.getSquare.mockReturnValue({
@@ -169,12 +171,9 @@ describe('/maze command', () => {
       const interaction = makeInteraction('look')
       await cmd.default.execute(interaction)
 
-      expect(interaction.reply).toHaveBeenCalledWith(
-        expect.objectContaining({ embeds: expect.any(Array) })
-      )
-      const embed = (interaction.reply as ReturnType<typeof vi.fn>).mock.calls[0][0].embeds[0]
-      expect(embed.data.title).toContain('The entry chamber.')
-      expect(embed.data.title).toContain('You are here.')
+      const content = (interaction.reply as ReturnType<typeof vi.fn>).mock.calls[0][0].content
+      expect(content).toContain('The entry chamber.')
+      expect(content).toContain('You are here.')
     })
 
     it('inits maze when no state exists', async () => {

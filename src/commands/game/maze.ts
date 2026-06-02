@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from '@discordjs/builders'
-import { type ChatInputCommandInteraction, EmbedBuilder, MessageFlags } from 'discord.js'
+import { type ChatInputCommandInteraction, MessageFlags } from 'discord.js'
 import { WordsmithError } from '../../classes/wordsmithError'
 import { getMaze, getSquare, getGoalKey, type MazeData } from '../../utils/mazeLoader'
 import {
@@ -12,9 +12,6 @@ import {
   resetMaze,
   setState
 } from '../../database/mazeRepository'
-
-const BLURPLE = 0x5865F2
-const GOLD    = 0xFFD700
 
 const DELTAS: Record<string, [number, number]> = {
   north: [0, -1],
@@ -77,6 +74,15 @@ function ensureState (guildId: string): { x: number; y: number } {
   return state
 }
 
+function buildReply (
+  description: string,
+  map: string,
+  extraLines: string[] = []
+): string {
+  const parts = [`**${description} You are here.**`, map, ...extraLines]
+  return parts.filter(Boolean).join('\n\n')
+}
+
 async function handleGo (interaction: ChatInputCommandInteraction, guildId: string): Promise<void> {
   const direction = interaction.options.getString('direction', true)
   const [dx, dy] = DELTAS[direction]
@@ -100,59 +106,31 @@ async function handleGo (interaction: ChatInputCommandInteraction, guildId: stri
   const maze = getMaze()
   const visited = getVisited(guildId)
   const goalKey = getGoalKey()
+  const map = renderMap(maze, { x: nx, y: ny }, visited, goalKey)
 
-  let gemLine: string | null = null
+  const extraLines: string[] = []
+  if (target.diggable) extraLines.push('*You swing your pick and break through the wall.*')
   if (target.gem && !isGemCollected(guildId, nx, ny)) {
     collectGem(guildId, nx, ny)
-    gemLine = `*You pocket the ${target.gem}.*`
+    extraLines.push(`*You pocket the ${target.gem}.*`)
   }
+  if (target.goal) extraLines.push('🎉 **You found the Diamond Vault!**')
 
-  const actionLine = target.diggable
-    ? `*You swing your pick and break through the wall.*`
-    : null
-
-  const isGoal = target.goal
-  const color = isGoal ? GOLD : BLURPLE
-
-  const descriptionParts = [
-    renderMap(maze, { x: nx, y: ny }, visited, goalKey)
-  ]
-  if (actionLine) descriptionParts.unshift(actionLine)
-  if (gemLine) descriptionParts.push(gemLine)
-
-  const title = isGoal
-    ? `${target.description} You are here.`
-    : `${target.description} You are here.`
-
-  const embed = new EmbedBuilder()
-    .setColor(color)
-    .setTitle(title)
-    .setDescription(descriptionParts.join('\n\n'))
-
-  await interaction.reply({ embeds: [embed] })
+  await interaction.reply({ content: buildReply(target.description, map, extraLines) })
 }
 
 async function handleLook (interaction: ChatInputCommandInteraction, guildId: string): Promise<void> {
-  console.log(`[maze look] guildId=${guildId}`)
   const state = ensureState(guildId)
-  console.log(`[maze look] state=${JSON.stringify(state)}`)
   const square = getSquare(state.x, state.y)
-  console.log(`[maze look] square=${square?.description?.slice(0, 30)}`)
 
   if (!square) throw new WordsmithError('Current position is invalid. Use `/maze reset` to start over.')
 
   const maze = getMaze()
   const visited = getVisited(guildId)
   const goalKey = getGoalKey()
+  const map = renderMap(maze, state, visited, goalKey)
 
-  const embed = new EmbedBuilder()
-    .setColor(square.goal ? GOLD : BLURPLE)
-    .setTitle(`${square.description} You are here.`)
-    .setDescription(renderMap(maze, state, visited, goalKey))
-
-  console.log('[maze look] calling interaction.reply')
-  await interaction.reply({ embeds: [embed] })
-  console.log('[maze look] reply sent')
+  await interaction.reply({ content: buildReply(square.description, map) })
 }
 
 async function handleReset (interaction: ChatInputCommandInteraction, guildId: string): Promise<void> {
