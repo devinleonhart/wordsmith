@@ -4,6 +4,7 @@
   "scripts": {
     "build": "rm -rf ./dist && tsc",
     "cmd": "ts-node --files ./scripts/cmd.ts",
+    "maze-gen": "ts-node --files ./scripts/generate-maze.ts",
     "dev": "NODE_ENV=development nodemon",
     "lint": "eslint src/",
     "lint:fix": "eslint --fix src/",

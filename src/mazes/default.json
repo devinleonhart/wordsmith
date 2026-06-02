@@ -1,0 +1,352 @@
+{
+  "width": 11,
+  "height": 11,
+  "start": {
+    "x": 1,
+    "y": 1
+  },
+  "squares": [
+    {
+      "x": 1,
+      "y": 1,
+      "passable": true,
+      "diggable": false,
+      "gem": null,
+      "goal": false,
+      "description": "The entry chamber. Rough walls press close on either side. Fresh air still drifts in from behind you."
+    },
+    {
+      "x": 2,
+      "y": 1,
+      "passable": true,
+      "diggable": false,
+      "gem": null,
+      "goal": false,
+      "description": "A narrow corridor. The ceiling is close overhead."
+    },
+    {
+      "x": 3,
+      "y": 1,
+      "passable": true,
+      "diggable": false,
+      "gem": null,
+      "goal": false,
+      "description": "A chamber where several cuts meet. The air hangs still."
+    },
+    {
+      "x": 5,
+      "y": 1,
+      "passable": true,
+      "diggable": false,
+      "gem": null,
+      "goal": false,
+      "description": "A passage propped up by rusted iron brackets."
+    },
+    {
+      "x": 6,
+      "y": 1,
+      "passable": true,
+      "diggable": false,
+      "gem": null,
+      "goal": false,
+      "description": "A quiet section of tunnel. The silence here feels deliberate."
+    },
+    {
+      "x": 7,
+      "y": 1,
+      "passable": false,
+      "diggable": true,
+      "gem": null,
+      "goal": false,
+      "description": "Dense earth veined with soft mineral deposits."
+    },
+    {
+      "x": 8,
+      "y": 1,
+      "passable": true,
+      "diggable": false,
+      "gem": null,
+      "goal": false,
+      "description": "A crossroads carved deep in the rock. The stone here is older."
+    },
+    {
+      "x": 9,
+      "y": 1,
+      "passable": true,
+      "diggable": false,
+      "gem": null,
+      "goal": false,
+      "description": "A corridor with fossilised shells pressed into the walls."
+    },
+    {
+      "x": 2,
+      "y": 2,
+      "passable": true,
+      "diggable": false,
+      "gem": null,
+      "goal": false,
+      "description": "A passage propped up by rusted iron brackets."
+    },
+    {
+      "x": 5,
+      "y": 2,
+      "passable": true,
+      "diggable": false,
+      "gem": null,
+      "goal": false,
+      "description": "A crossroads carved deep in the rock. The stone here is older."
+    },
+    {
+      "x": 9,
+      "y": 2,
+      "passable": true,
+      "diggable": false,
+      "gem": "amethyst",
+      "goal": false,
+      "description": "A cluster of purple amethyst erupts from the far wall like frozen violet fire."
+    },
+    {
+      "x": 2,
+      "y": 3,
+      "passable": false,
+      "diggable": true,
+      "gem": null,
+      "goal": false,
+      "description": "A thick seam of clay. Your pick sinks in with a satisfying thud."
+    },
+    {
+      "x": 5,
+      "y": 3,
+      "passable": false,
+      "diggable": true,
+      "gem": null,
+      "goal": false,
+      "description": "Compacted sand and clay. Your pick sinks in easily."
+    },
+    {
+      "x": 2,
+      "y": 4,
+      "passable": true,
+      "diggable": false,
+      "gem": null,
+      "goal": false,
+      "description": "A passage thick with the smell of damp earth and cold stone."
+    },
+    {
+      "x": 3,
+      "y": 4,
+      "passable": true,
+      "diggable": false,
+      "gem": null,
+      "goal": false,
+      "description": "A rough-hewn passage. Pickaxe marks line the walls."
+    },
+    {
+      "x": 4,
+      "y": 4,
+      "passable": true,
+      "diggable": false,
+      "gem": "sapphire",
+      "goal": false,
+      "description": "A deep blue sapphire gleams from a natural shelf, refracting your torchlight into cold sparks."
+    },
+    {
+      "x": 5,
+      "y": 4,
+      "passable": true,
+      "diggable": false,
+      "gem": null,
+      "goal": false,
+      "description": "A widened section of tunnel. Old timber supports prop up the ceiling."
+    },
+    {
+      "x": 6,
+      "y": 4,
+      "passable": false,
+      "diggable": true,
+      "gem": null,
+      "goal": false,
+      "description": "An iron-streaked rock face. Your pick sparks on impact."
+    },
+    {
+      "x": 7,
+      "y": 4,
+      "passable": false,
+      "diggable": true,
+      "gem": null,
+      "goal": false,
+      "description": "Moist clay and embedded stones. Your pick makes short work of it."
+    },
+    {
+      "x": 8,
+      "y": 4,
+      "passable": false,
+      "diggable": true,
+      "gem": null,
+      "goal": false,
+      "description": "A crumbling limestone wall. Dust rains down as your pick strikes."
+    },
+    {
+      "x": 9,
+      "y": 4,
+      "passable": false,
+      "diggable": true,
+      "gem": null,
+      "goal": false,
+      "description": "Loose gravel packed tight. It gives way after a few blows."
+    },
+    {
+      "x": 10,
+      "y": 4,
+      "passable": true,
+      "diggable": false,
+      "gem": "ruby",
+      "goal": false,
+      "description": "A deep crimson vein pools into a loose ruby on the floor, glowing like a banked coal."
+    },
+    {
+      "x": 4,
+      "y": 5,
+      "passable": false,
+      "diggable": true,
+      "gem": null,
+      "goal": false,
+      "description": "Moist clay and embedded stones. Your pick makes short work of it."
+    },
+    {
+      "x": 5,
+      "y": 5,
+      "passable": true,
+      "diggable": false,
+      "gem": null,
+      "goal": false,
+      "description": "A narrow corridor. The ceiling is close overhead."
+    },
+    {
+      "x": 5,
+      "y": 6,
+      "passable": true,
+      "diggable": false,
+      "gem": null,
+      "goal": false,
+      "description": "A passage propped up by rusted iron brackets."
+    },
+    {
+      "x": 1,
+      "y": 7,
+      "passable": true,
+      "diggable": false,
+      "gem": null,
+      "goal": false,
+      "description": "A stretch of tunnel with glassy black walls that absorb the torchlight."
+    },
+    {
+      "x": 2,
+      "y": 7,
+      "passable": true,
+      "diggable": false,
+      "gem": null,
+      "goal": false,
+      "description": "A passage propped up by rusted iron brackets."
+    },
+    {
+      "x": 3,
+      "y": 7,
+      "passable": true,
+      "diggable": false,
+      "gem": null,
+      "goal": false,
+      "description": "A quiet section of tunnel. The silence here feels deliberate."
+    },
+    {
+      "x": 4,
+      "y": 7,
+      "passable": false,
+      "diggable": true,
+      "gem": null,
+      "goal": false,
+      "description": "A thin seam of soft limestone. One good strike and it crumbles."
+    },
+    {
+      "x": 5,
+      "y": 7,
+      "passable": false,
+      "diggable": true,
+      "gem": null,
+      "goal": false,
+      "description": "Compacted sand and clay. Your pick sinks in easily."
+    },
+    {
+      "x": 6,
+      "y": 7,
+      "passable": false,
+      "diggable": true,
+      "gem": null,
+      "goal": false,
+      "description": "A wall of densely packed earth. It resists, then yields."
+    },
+    {
+      "x": 7,
+      "y": 7,
+      "passable": true,
+      "diggable": false,
+      "gem": null,
+      "goal": false,
+      "description": "A section of tunnel where the ceiling soars unexpectedly high."
+    },
+    {
+      "x": 8,
+      "y": 7,
+      "passable": true,
+      "diggable": false,
+      "gem": null,
+      "goal": false,
+      "description": "A passage thick with the smell of damp earth and cold stone."
+    },
+    {
+      "x": 9,
+      "y": 7,
+      "passable": true,
+      "diggable": false,
+      "gem": "emerald",
+      "goal": false,
+      "description": "A glittering hollow in the rock. A flawless emerald rests in a natural cradle of stone."
+    },
+    {
+      "x": 1,
+      "y": 8,
+      "passable": true,
+      "diggable": false,
+      "gem": null,
+      "goal": false,
+      "description": "A sloping stretch of corridor. Water trickles along the far wall."
+    },
+    {
+      "x": 5,
+      "y": 8,
+      "passable": false,
+      "diggable": true,
+      "gem": null,
+      "goal": false,
+      "description": "A clay-heavy face. Your pick finds it workable."
+    },
+    {
+      "x": 5,
+      "y": 9,
+      "passable": true,
+      "diggable": false,
+      "gem": null,
+      "goal": false,
+      "description": "A widened section of tunnel. Old timber supports prop up the ceiling."
+    },
+    {
+      "x": 5,
+      "y": 10,
+      "passable": true,
+      "diggable": false,
+      "gem": null,
+      "goal": true,
+      "description": "The Diamond Vault. The chamber is perfectly smooth, as if shaped by intention rather than tools. At its centre, an enormous diamond the size of a closed fist pulses with pale, cold light — the prize every digger dreams of."
+    }
+  ]
+}

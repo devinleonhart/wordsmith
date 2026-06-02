@@ -63,4 +63,30 @@ function migrate (database: Database.Database): void {
 
     database.pragma('user_version = 2')
   }
+
+  if (version < 3) {
+    database.exec(`
+      CREATE TABLE IF NOT EXISTS maze_state (
+        guild_id TEXT PRIMARY KEY,
+        x        INTEGER NOT NULL,
+        y        INTEGER NOT NULL
+      );
+
+      CREATE TABLE IF NOT EXISTS maze_visited (
+        guild_id TEXT    NOT NULL,
+        x        INTEGER NOT NULL,
+        y        INTEGER NOT NULL,
+        PRIMARY KEY (guild_id, x, y)
+      );
+
+      CREATE TABLE IF NOT EXISTS maze_collected_gems (
+        guild_id TEXT    NOT NULL,
+        x        INTEGER NOT NULL,
+        y        INTEGER NOT NULL,
+        PRIMARY KEY (guild_id, x, y)
+      );
+    `)
+
+    database.pragma('user_version = 3')
+  }
 }
