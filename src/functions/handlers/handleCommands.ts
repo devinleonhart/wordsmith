@@ -18,6 +18,7 @@ module.exports = (client: Client) => {
           `../../commands/${folder}/${file}`
         ))
         client.commands.set(command.data.name, command)
+        console.log(`Loaded command: ${command.data.name} (${file})`)
       }
     }
 

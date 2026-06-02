@@ -12,7 +12,10 @@ module.exports = {
 
     if (interaction.isChatInputCommand()) {
       const command = client.commands.get(interaction.commandName)
-      if (!command) return
+      if (!command) {
+        console.error(`No handler found for command: ${interaction.commandName}`)
+        return
+      }
       await handleExecute(command, interaction, client)
     }
   }
