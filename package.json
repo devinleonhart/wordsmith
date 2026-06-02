@@ -2,7 +2,7 @@
   "name": "wordsmith-discord-bot",
   "version": "2.0.0",
   "scripts": {
-    "build": "rm -rf ./dist && tsc",
+    "build": "rm -rf ./dist && tsc && cp -r ./src/mazes ./dist/mazes",
     "cmd": "ts-node --files ./scripts/cmd.ts",
     "maze-gen": "ts-node --files ./scripts/generate-maze.ts",
     "dev": "NODE_ENV=development nodemon",
