@@ -4,6 +4,7 @@ import { WordsmithError } from '../../classes/wordsmithError'
 module.exports = {
   name: Events.InteractionCreate,
   async execute (interaction: Interaction, client: Client) {
+    console.log(`Interaction received: type=${interaction.type} isChat=${interaction.isChatInputCommand()} name=${(interaction as any).commandName ?? 'n/a'}`)
     if (interaction.isAutocomplete()) {
       const command = client.commands.get(interaction.commandName)
       if (command?.autocomplete) await command.autocomplete(interaction)
