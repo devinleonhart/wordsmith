@@ -87,7 +87,6 @@ describe('/maze command', () => {
       expect(repo.addVisited).toHaveBeenCalledWith('guild-abc', 2, 1)
       const content = (interaction.reply as ReturnType<typeof vi.fn>).mock.calls[0][0].content
       expect(content).toContain('A corridor.')
-      expect(content).toContain('You are here.')
     })
 
     it('collects a gem on first entry and does not collect on subsequent visits', async () => {
@@ -173,7 +172,6 @@ describe('/maze command', () => {
 
       const content = (interaction.reply as ReturnType<typeof vi.fn>).mock.calls[0][0].content
       expect(content).toContain('The entry chamber.')
-      expect(content).toContain('You are here.')
     })
 
     it('inits maze when no state exists', async () => {

@@ -79,7 +79,7 @@ function buildReply (
   map: string,
   extraLines: string[] = []
 ): string {
-  const parts = [`**${description} You are here.**`, map, ...extraLines]
+  const parts = [`**${description}**`, map, ...extraLines]
   return parts.filter(Boolean).join('\n\n')
 }
 
@@ -154,12 +154,17 @@ function renderMap (
     for (let x = 0; x < maze.width; x++) {
       const key = `${x},${y}`
       const square = getSquare(x, y)
+      const isAdjacent = (x === pos.x && Math.abs(y - pos.y) === 1) ||
+                         (y === pos.y && Math.abs(x - pos.x) === 1)
+
       if (key === goalKey && visited.has(key)) {
         row += '💎'
       } else if (x === pos.x && y === pos.y) {
         row += '🔵'
       } else if (visited.has(key)) {
         row += square?.diggable ? '🟫' : '🟩'
+      } else if (isAdjacent && square) {
+        row += square.diggable ? '🟫' : '⬜'
       } else {
         row += '⬛'
       }
