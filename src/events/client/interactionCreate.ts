@@ -27,7 +27,8 @@ async function handleExecute (instance: any, interaction: any, client: any): Pro
         content: `${error.message}`,
         flags: MessageFlags.Ephemeral
       })
+    } else {
+      console.error(`Unhandled error in /${interaction.commandName}:`, error)
     }
-    // Do nothing with any other error type. We do not wish to return unknown errors to the client.
   }
 }
