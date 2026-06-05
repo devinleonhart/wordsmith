@@ -69,7 +69,7 @@ describe('/character command', () => {
   // create
   // ---------------------------------------------------------------------------
   describe('create subcommand', () => {
-    it('creates the character with star false and replies with an embed', async () => {
+    it('creates the character and replies with content', async () => {
       repo.getActiveCharacter.mockReturnValue(null)
       repo.createCharacter.mockReturnValue({ id: 1, userId: 'user-123', name: 'Aldric', star: false })
 
@@ -78,7 +78,7 @@ describe('/character command', () => {
 
       expect(repo.createCharacter).toHaveBeenCalledWith('user-123', 'Aldric', false)
       expect(interaction.reply).toHaveBeenCalledWith(
-        expect.objectContaining({ embeds: expect.any(Array), flags: MessageFlags.Ephemeral })
+        expect.objectContaining({ content: expect.stringContaining('Aldric'), flags: MessageFlags.Ephemeral })
       )
     })
 
@@ -147,7 +147,7 @@ describe('/character command', () => {
   // switch
   // ---------------------------------------------------------------------------
   describe('switch subcommand', () => {
-    it('sets the named character as active and replies with an embed', async () => {
+    it('sets the named character as active and replies with content', async () => {
       repo.getCharacters.mockReturnValue([{ id: 1, name: 'Aldric', star: false }])
 
       const interaction = makeInteraction('switch', { name: 'Aldric' })
@@ -155,7 +155,7 @@ describe('/character command', () => {
 
       expect(repo.setActiveCharacter).toHaveBeenCalledWith('user-123', 1)
       expect(interaction.reply).toHaveBeenCalledWith(
-        expect.objectContaining({ embeds: expect.any(Array), flags: MessageFlags.Ephemeral })
+        expect.objectContaining({ content: expect.stringContaining('Aldric'), flags: MessageFlags.Ephemeral })
       )
     })
 
@@ -172,7 +172,7 @@ describe('/character command', () => {
   // delete
   // ---------------------------------------------------------------------------
   describe('delete subcommand', () => {
-    it('deletes a non-active character and replies with an embed', async () => {
+    it('deletes a non-active character and replies with content', async () => {
       repo.getActiveCharacter.mockReturnValue({ id: 99, name: 'Other', star: false })
       repo.deleteCharacter.mockReturnValue(true)
 
@@ -182,7 +182,7 @@ describe('/character command', () => {
       expect(repo.deleteCharacter).toHaveBeenCalledWith('user-123', 'Aldric')
       expect(repo.setActiveCharacter).not.toHaveBeenCalled()
       expect(interaction.reply).toHaveBeenCalledWith(
-        expect.objectContaining({ embeds: expect.any(Array), flags: MessageFlags.Ephemeral })
+        expect.objectContaining({ content: expect.stringContaining('Aldric'), flags: MessageFlags.Ephemeral })
       )
     })
 
@@ -220,27 +220,30 @@ describe('/character command', () => {
   // info
   // ---------------------------------------------------------------------------
   describe('info subcommand', () => {
-    it('replies with an embed showing the active character', async () => {
+    it('replies with content showing the active character', async () => {
       repo.getActiveCharacter.mockReturnValue({ id: 1, name: 'Aldric', star: true })
       repo.getWords.mockReturnValue(['Jump', 'Shoot'])
+      repo.getItems.mockReturnValue(['Sword'])
 
       const interaction = makeInteraction('info')
       await cmd.default.execute(interaction)
 
-      expect(interaction.reply).toHaveBeenCalledWith(
-        expect.objectContaining({ embeds: expect.any(Array), flags: MessageFlags.Ephemeral })
-      )
+      const content = (interaction.reply as ReturnType<typeof vi.fn>).mock.calls[0][0].content
+      expect(content).toContain('Aldric')
+      expect(content).toContain('Jump')
+      expect(content).toContain('Sword')
     })
 
-    it('replies with an embed when the character has no words', async () => {
+    it('replies with content when the character has no words or items', async () => {
       repo.getActiveCharacter.mockReturnValue({ id: 1, name: 'Aldric', star: false })
       repo.getWords.mockReturnValue([])
+      repo.getItems.mockReturnValue([])
 
       const interaction = makeInteraction('info')
       await cmd.default.execute(interaction)
 
       expect(interaction.reply).toHaveBeenCalledWith(
-        expect.objectContaining({ embeds: expect.any(Array), flags: MessageFlags.Ephemeral })
+        expect.objectContaining({ content: expect.stringContaining('Aldric'), flags: MessageFlags.Ephemeral })
       )
     })
 
@@ -263,7 +266,7 @@ describe('/character command', () => {
   // word add
   // ---------------------------------------------------------------------------
   describe('word add subcommand', () => {
-    it('adds a word to the active character and replies with an embed', async () => {
+    it('adds a word to the active character and replies with content', async () => {
       repo.getActiveCharacter.mockReturnValue({ id: 1, name: 'Aldric', star: false })
 
       const interaction = makeInteraction('add', { word: 'Jump' }, 'word')
@@ -271,7 +274,7 @@ describe('/character command', () => {
 
       expect(repo.addWord).toHaveBeenCalledWith(1, 'Jump')
       expect(interaction.reply).toHaveBeenCalledWith(
-        expect.objectContaining({ embeds: expect.any(Array), flags: MessageFlags.Ephemeral })
+        expect.objectContaining({ content: expect.stringContaining('Jump'), flags: MessageFlags.Ephemeral })
       )
     })
 
@@ -297,7 +300,7 @@ describe('/character command', () => {
   // word delete
   // ---------------------------------------------------------------------------
   describe('word delete subcommand', () => {
-    it('removes a word from the active character and replies with an embed', async () => {
+    it('removes a word from the active character and replies with content', async () => {
       repo.getActiveCharacter.mockReturnValue({ id: 1, name: 'Aldric', star: false })
       repo.deleteWord.mockReturnValue(true)
 
@@ -306,7 +309,7 @@ describe('/character command', () => {
 
       expect(repo.deleteWord).toHaveBeenCalledWith(1, 'Jump')
       expect(interaction.reply).toHaveBeenCalledWith(
-        expect.objectContaining({ embeds: expect.any(Array), flags: MessageFlags.Ephemeral })
+        expect.objectContaining({ content: expect.stringContaining('Jump'), flags: MessageFlags.Ephemeral })
       )
     })
 
@@ -332,7 +335,7 @@ describe('/character command', () => {
   // item add
   // ---------------------------------------------------------------------------
   describe('item add subcommand', () => {
-    it('adds an item to the active character and replies with an embed', async () => {
+    it('adds an item to the active character and replies with content', async () => {
       repo.getActiveCharacter.mockReturnValue({ id: 1, name: 'Aldric', star: false })
 
       const interaction = makeInteraction('add', { item: 'Sword' }, 'item')
@@ -340,7 +343,7 @@ describe('/character command', () => {
 
       expect(repo.addItem).toHaveBeenCalledWith(1, 'Sword')
       expect(interaction.reply).toHaveBeenCalledWith(
-        expect.objectContaining({ embeds: expect.any(Array), flags: MessageFlags.Ephemeral })
+        expect.objectContaining({ content: expect.stringContaining('Sword'), flags: MessageFlags.Ephemeral })
       )
     })
 
@@ -366,7 +369,7 @@ describe('/character command', () => {
   // item delete
   // ---------------------------------------------------------------------------
   describe('item delete subcommand', () => {
-    it('removes an item from the active character and replies with an embed', async () => {
+    it('removes an item from the active character and replies with content', async () => {
       repo.getActiveCharacter.mockReturnValue({ id: 1, name: 'Aldric', star: false })
       repo.deleteItem.mockReturnValue(true)
 
@@ -375,7 +378,7 @@ describe('/character command', () => {
 
       expect(repo.deleteItem).toHaveBeenCalledWith(1, 'Sword')
       expect(interaction.reply).toHaveBeenCalledWith(
-        expect.objectContaining({ embeds: expect.any(Array), flags: MessageFlags.Ephemeral })
+        expect.objectContaining({ content: expect.stringContaining('Sword'), flags: MessageFlags.Ephemeral })
       )
     })
 

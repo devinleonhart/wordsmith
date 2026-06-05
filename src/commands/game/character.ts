@@ -2,7 +2,6 @@ import { SlashCommandBuilder } from '@discordjs/builders'
 import {
   type AutocompleteInteraction,
   type ChatInputCommandInteraction,
-  EmbedBuilder,
   MessageFlags
 } from 'discord.js'
 import { WordsmithError } from '../../classes/wordsmithError'
@@ -19,9 +18,6 @@ import {
   getWords,
   setActiveCharacter
 } from '../../database/characterRepository'
-
-const BLURPLE = 0x5865F2
-const RED = 0xED4245
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -206,12 +202,7 @@ async function handleCreate (interaction: ChatInputCommandInteraction, userId: s
   }
 
   await interaction.reply({
-    embeds: [
-      new EmbedBuilder()
-        .setColor(BLURPLE)
-        .setTitle('Character Created')
-        .setDescription(`**${name}** has been added to your roster.`)
-    ],
+    content: `**Character Created**\n**${name}** has been added to your roster.`,
     flags: MessageFlags.Ephemeral
   })
 }
@@ -233,12 +224,7 @@ async function handleList (interaction: ChatInputCommandInteraction, userId: str
     .join('\n')
 
   await interaction.reply({
-    embeds: [
-      new EmbedBuilder()
-        .setColor(BLURPLE)
-        .setTitle('Your Characters')
-        .setDescription(lines)
-    ],
+    content: `**Your Characters**\n${lines}`,
     flags: MessageFlags.Ephemeral
   })
 }
@@ -252,12 +238,7 @@ async function handleSwitch (interaction: ChatInputCommandInteraction, userId: s
   setActiveCharacter(userId, char.id)
 
   await interaction.reply({
-    embeds: [
-      new EmbedBuilder()
-        .setColor(BLURPLE)
-        .setTitle('Character Switched')
-        .setDescription(`**${name}** is now your active character.`)
-    ],
+    content: `**Character Switched**\n**${name}** is now your active character.`,
     flags: MessageFlags.Ephemeral
   })
 }
@@ -281,12 +262,7 @@ async function handleDelete (interaction: ChatInputCommandInteraction, userId: s
   }
 
   await interaction.reply({
-    embeds: [
-      new EmbedBuilder()
-        .setColor(RED)
-        .setTitle('Character Deleted')
-        .setDescription(description)
-    ],
+    content: `**Character Deleted**\n${description}`,
     flags: MessageFlags.Ephemeral
   })
 }
@@ -303,16 +279,15 @@ async function handleInfo (interaction: ChatInputCommandInteraction, userId: str
   }
 
   const words = getWords(char.id)
-  const embed = new EmbedBuilder()
-    .setColor(BLURPLE)
-    .setTitle(char.name)
-    .addFields({ name: 'Star', value: char.star ? 'Yes' : 'No', inline: true })
+  const items = getItems(char.id)
 
-  if (words.length > 0) {
-    embed.addFields({ name: 'Words', value: words.join(', ') })
-  }
+  const lines: string[] = [
+    `**${char.name}**${char.star ? ' ★' : ''}`,
+  ]
+  if (words.length > 0) lines.push(`**Words:** ${words.join(', ')}`)
+  if (items.length > 0) lines.push(`**Items:** ${items.join(', ')}`)
 
-  await interaction.reply({ embeds: [embed], flags: MessageFlags.Ephemeral })
+  await interaction.reply({ content: lines.join('\n'), flags: MessageFlags.Ephemeral })
 }
 
 async function handleWordAdd (interaction: ChatInputCommandInteraction, userId: string): Promise<void> {
@@ -328,12 +303,7 @@ async function handleWordAdd (interaction: ChatInputCommandInteraction, userId: 
   }
 
   await interaction.reply({
-    embeds: [
-      new EmbedBuilder()
-        .setColor(BLURPLE)
-        .setTitle('Word Added')
-        .setDescription(`**${word}** has been added to **${active.name}**.`)
-    ],
+    content: `**Word Added**\n**${word}** has been added to **${active.name}**.`,
     flags: MessageFlags.Ephemeral
   })
 }
@@ -349,12 +319,7 @@ async function handleWordDelete (interaction: ChatInputCommandInteraction, userI
   }
 
   await interaction.reply({
-    embeds: [
-      new EmbedBuilder()
-        .setColor(RED)
-        .setTitle('Word Removed')
-        .setDescription(`**${word}** has been removed from **${active.name}**.`)
-    ],
+    content: `**Word Removed**\n**${word}** has been removed from **${active.name}**.`,
     flags: MessageFlags.Ephemeral
   })
 }
@@ -372,12 +337,7 @@ async function handleItemAdd (interaction: ChatInputCommandInteraction, userId: 
   }
 
   await interaction.reply({
-    embeds: [
-      new EmbedBuilder()
-        .setColor(BLURPLE)
-        .setTitle('Item Added')
-        .setDescription(`**${item}** has been added to **${active.name}**.`)
-    ],
+    content: `**Item Added**\n**${item}** has been added to **${active.name}**.`,
     flags: MessageFlags.Ephemeral
   })
 }
@@ -393,12 +353,7 @@ async function handleItemDelete (interaction: ChatInputCommandInteraction, userI
   }
 
   await interaction.reply({
-    embeds: [
-      new EmbedBuilder()
-        .setColor(RED)
-        .setTitle('Item Removed')
-        .setDescription(`**${item}** has been removed from **${active.name}**.`)
-    ],
+    content: `**Item Removed**\n**${item}** has been removed from **${active.name}**.`,
     flags: MessageFlags.Ephemeral
   })
 }
