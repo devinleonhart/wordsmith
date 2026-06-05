@@ -1,9 +1,8 @@
 import { SlashCommandBuilder } from '@discordjs/builders'
-import { type ChatInputCommandInteraction, EmbedBuilder, MessageFlags } from 'discord.js'
+import { type ChatInputCommandInteraction, MessageFlags } from 'discord.js'
 import { WordsmithError } from '../../classes/wordsmithError'
 import { getActiveCharacter, setStar } from '../../database/characterRepository'
 
-const BLURPLE = 0x5865F2
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -35,12 +34,7 @@ module.exports = {
     setStar(char.id, false)
 
     await interaction.reply({
-      embeds: [
-        new EmbedBuilder()
-          .setColor(BLURPLE)
-          .setTitle('Star Spent')
-          .setDescription(`**${char.name}**'s star has been spent.`)
-      ]
+      content: `**Star Spent**\n**${char.name}**'s star has been spent.`
     })
   }
 }

@@ -1,9 +1,8 @@
 import { SlashCommandBuilder } from '@discordjs/builders'
-import { type ChatInputCommandInteraction, EmbedBuilder, MessageFlags } from 'discord.js'
+import { type ChatInputCommandInteraction, MessageFlags } from 'discord.js'
 import { WordsmithError } from '../../classes/wordsmithError'
 import { getActiveCharacter, setStar } from '../../database/characterRepository'
 
-const GOLD = 0xF1C40F
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -35,12 +34,7 @@ module.exports = {
     setStar(char.id, true)
 
     await interaction.reply({
-      embeds: [
-        new EmbedBuilder()
-          .setColor(GOLD)
-          .setTitle('★ Star Granted')
-          .setDescription(`**${char.name}** has been granted a star.`)
-      ]
+      content: `★ **Star Granted**\n**${char.name}** has been granted a star.`
     })
   }
 }

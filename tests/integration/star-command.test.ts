@@ -39,7 +39,7 @@ describe('/star command', () => {
 
     expect(repo.setStar).toHaveBeenCalledWith(1, true)
     expect(interaction.reply).toHaveBeenCalledWith(
-      expect.objectContaining({ embeds: expect.any(Array) })
+      expect.objectContaining({ content: expect.stringContaining('Aldric') })
     )
     expect(interaction.reply).toHaveBeenCalledWith(
       expect.not.objectContaining({ flags: MessageFlags.Ephemeral })
