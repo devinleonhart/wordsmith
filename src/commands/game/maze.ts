@@ -114,7 +114,7 @@ async function handleGo (interaction: ChatInputCommandInteraction, guildId: stri
     collectGem(guildId, nx, ny)
     extraLines.push(`*You pocket the ${target.gem}.*`)
   }
-  if (target.goal) extraLines.push('🎉 **You found the Diamond Vault!**')
+  if (target.goal) extraLines.push('🎉 **The diggers win!**')
 
   await interaction.reply({ content: buildReply(target.description, map, extraLines) })
 }

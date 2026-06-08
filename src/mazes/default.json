@@ -13,7 +13,7 @@
       "diggable": false,
       "gem": null,
       "goal": false,
-      "description": "The entry chamber. Rough walls press close on either side. Fresh air still drifts in from behind you."
+      "description": "The entry chamber. Good luck!"
     },
     {
       "x": 2,
@@ -22,7 +22,7 @@
       "diggable": false,
       "gem": null,
       "goal": false,
-      "description": "A narrow corridor. The ceiling is close overhead."
+      "description": "Tunnel."
     },
     {
       "x": 3,
@@ -31,7 +31,7 @@
       "diggable": false,
       "gem": null,
       "goal": false,
-      "description": "A chamber where several cuts meet. The air hangs still."
+      "description": "Tunnel."
     },
     {
       "x": 5,
@@ -40,7 +40,7 @@
       "diggable": false,
       "gem": null,
       "goal": false,
-      "description": "A passage propped up by rusted iron brackets."
+      "description": "Tunnel."
     },
     {
       "x": 6,
@@ -49,7 +49,7 @@
       "diggable": false,
       "gem": null,
       "goal": false,
-      "description": "A quiet section of tunnel. The silence here feels deliberate."
+      "description": "Tunnel."
     },
     {
       "x": 7,
@@ -58,7 +58,7 @@
       "diggable": true,
       "gem": null,
       "goal": false,
-      "description": "Dense earth veined with soft mineral deposits."
+      "description": "Tunnel."
     },
     {
       "x": 8,
@@ -67,7 +67,7 @@
       "diggable": false,
       "gem": null,
       "goal": false,
-      "description": "A crossroads carved deep in the rock. The stone here is older."
+      "description": "Tunnel."
     },
     {
       "x": 9,
@@ -76,7 +76,7 @@
       "diggable": false,
       "gem": null,
       "goal": false,
-      "description": "A corridor with fossilised shells pressed into the walls."
+      "description": "Tunnel."
     },
     {
       "x": 2,
@@ -94,7 +94,7 @@
       "diggable": false,
       "gem": null,
       "goal": false,
-      "description": "A crossroads carved deep in the rock. The stone here is older."
+      "description": "Tunnel."
     },
     {
       "x": 9,
@@ -103,7 +103,7 @@
       "diggable": false,
       "gem": "amethyst",
       "goal": false,
-      "description": "A cluster of purple amethyst erupts from the far wall like frozen violet fire."
+      "description": "A cluster of purple amethyst erupts from the far wall like frozen fire."
     },
     {
       "x": 2,
@@ -112,7 +112,7 @@
       "diggable": true,
       "gem": null,
       "goal": false,
-      "description": "A thick seam of clay. Your pick sinks in with a satisfying thud."
+      "description": "Tunnel."
     },
     {
       "x": 5,
@@ -121,7 +121,7 @@
       "diggable": true,
       "gem": null,
       "goal": false,
-      "description": "Compacted sand and clay. Your pick sinks in easily."
+      "description": "Tunnel."
     },
     {
       "x": 2,
@@ -130,7 +130,7 @@
       "diggable": false,
       "gem": null,
       "goal": false,
-      "description": "A passage thick with the smell of damp earth and cold stone."
+      "description": "Tunnel."
     },
     {
       "x": 3,
@@ -139,7 +139,7 @@
       "diggable": false,
       "gem": null,
       "goal": false,
-      "description": "A rough-hewn passage. Pickaxe marks line the walls."
+      "description": "Tunnel."
     },
     {
       "x": 4,
@@ -148,7 +148,7 @@
       "diggable": false,
       "gem": "sapphire",
       "goal": false,
-      "description": "A deep blue sapphire gleams from a natural shelf, refracting your torchlight into cold sparks."
+      "description": "A deep blue sapphire gleams from a natural shelf."
     },
     {
       "x": 5,
@@ -157,7 +157,7 @@
       "diggable": false,
       "gem": null,
       "goal": false,
-      "description": "A widened section of tunnel. Old timber supports prop up the ceiling."
+      "description": "Tunnel."
     },
     {
       "x": 6,
@@ -166,7 +166,7 @@
       "diggable": true,
       "gem": null,
       "goal": false,
-      "description": "An iron-streaked rock face. Your pick sparks on impact."
+      "description": "Tunnel."
     },
     {
       "x": 7,
@@ -175,7 +175,7 @@
       "diggable": true,
       "gem": null,
       "goal": false,
-      "description": "Moist clay and embedded stones. Your pick makes short work of it."
+      "description": "Tunnel."
     },
     {
       "x": 8,
@@ -184,7 +184,7 @@
       "diggable": true,
       "gem": null,
       "goal": false,
-      "description": "A crumbling limestone wall. Dust rains down as your pick strikes."
+      "description": "Tunnel."
     },
     {
       "x": 9,
@@ -193,7 +193,7 @@
       "diggable": true,
       "gem": null,
       "goal": false,
-      "description": "Loose gravel packed tight. It gives way after a few blows."
+      "description": "Tunnel."
     },
     {
       "x": 10,
@@ -202,7 +202,7 @@
       "diggable": false,
       "gem": "ruby",
       "goal": false,
-      "description": "A deep crimson vein pools into a loose ruby on the floor, glowing like a banked coal."
+      "description": "A deep crimson vein pools into a loose ruby on the floor."
     },
     {
       "x": 4,
@@ -211,7 +211,7 @@
       "diggable": true,
       "gem": null,
       "goal": false,
-      "description": "Moist clay and embedded stones. Your pick makes short work of it."
+      "description": "Tunnel."
     },
     {
       "x": 5,
@@ -229,7 +229,7 @@
       "diggable": false,
       "gem": null,
       "goal": false,
-      "description": "A passage propped up by rusted iron brackets."
+      "description": "Tunnel."
     },
     {
       "x": 1,
@@ -238,7 +238,7 @@
       "diggable": false,
       "gem": null,
       "goal": false,
-      "description": "A stretch of tunnel with glassy black walls that absorb the torchlight."
+      "description": "Tunnel."
     },
     {
       "x": 2,
@@ -247,7 +247,7 @@
       "diggable": false,
       "gem": null,
       "goal": false,
-      "description": "A passage propped up by rusted iron brackets."
+      "description": "Tunnel."
     },
     {
       "x": 3,
@@ -256,7 +256,7 @@
       "diggable": false,
       "gem": null,
       "goal": false,
-      "description": "A quiet section of tunnel. The silence here feels deliberate."
+      "description": "Tunnel."
     },
     {
       "x": 4,
@@ -265,7 +265,7 @@
       "diggable": true,
       "gem": null,
       "goal": false,
-      "description": "A thin seam of soft limestone. One good strike and it crumbles."
+      "description": "Tunnel."
     },
     {
       "x": 5,
@@ -274,7 +274,7 @@
       "diggable": true,
       "gem": null,
       "goal": false,
-      "description": "Compacted sand and clay. Your pick sinks in easily."
+      "description": "Tunnel."
     },
     {
       "x": 6,
@@ -283,7 +283,7 @@
       "diggable": true,
       "gem": null,
       "goal": false,
-      "description": "A wall of densely packed earth. It resists, then yields."
+      "description": "Tunnel."
     },
     {
       "x": 7,
@@ -292,7 +292,7 @@
       "diggable": false,
       "gem": null,
       "goal": false,
-      "description": "A section of tunnel where the ceiling soars unexpectedly high."
+      "description": "Tunnel."
     },
     {
       "x": 8,
@@ -301,7 +301,7 @@
       "diggable": false,
       "gem": null,
       "goal": false,
-      "description": "A passage thick with the smell of damp earth and cold stone."
+      "description": "Tunnel."
     },
     {
       "x": 9,
@@ -310,16 +310,16 @@
       "diggable": false,
       "gem": "emerald",
       "goal": false,
-      "description": "A glittering hollow in the rock. A flawless emerald rests in a natural cradle of stone."
+      "description": "A flawless emerald rests in a natural cradle of stone."
     },
     {
       "x": 1,
       "y": 8,
       "passable": true,
       "diggable": false,
-      "gem": null,
+      "gem": "diamond",
       "goal": false,
-      "description": "A sloping stretch of corridor. Water trickles along the far wall."
+      "description": "A glorious prismatic light catches your eye. A veing of diamond as wide as Banjo beckons you."
     },
     {
       "x": 5,
@@ -328,7 +328,7 @@
       "diggable": true,
       "gem": null,
       "goal": false,
-      "description": "A clay-heavy face. Your pick finds it workable."
+      "description": "Tunnel."
     },
     {
       "x": 5,
@@ -337,16 +337,16 @@
       "diggable": false,
       "gem": null,
       "goal": false,
-      "description": "A widened section of tunnel. Old timber supports prop up the ceiling."
+      "description": "Tunnel."
     },
     {
       "x": 5,
       "y": 10,
       "passable": true,
       "diggable": false,
-      "gem": null,
+      "gem": "refractor",
       "goal": true,
-      "description": "The Diamond Vault. The chamber is perfectly smooth, as if shaped by intention rather than tools. At its centre, an enormous diamond the size of a closed fist pulses with pale, cold light — the prize every digger dreams of."
+      "description": "The refractor room!"
     }
   ]
 }

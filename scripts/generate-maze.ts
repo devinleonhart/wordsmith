@@ -18,7 +18,8 @@
  *   R   Ruby gem room
  *   A   Amethyst gem room
  *   s   Sapphire gem room
- *   X   Goal room (the diamond vault)
+ *   d   Diamond gem room
+ *   X   Goal room
  *
  * Rules:
  *   - Exactly one S and one X are required.
@@ -49,13 +50,14 @@ if (!layoutPath) {
 // Character definitions
 // ---------------------------------------------------------------------------
 
-type CellChar = '.' | 'S' | 'D' | 'E' | 'R' | 'A' | 's' | 'X'
+type CellChar = '.' | 'S' | 'D' | 'E' | 'R' | 'A' | 's' | 'd' | 'X'
 
 const GEM_MAP: Record<string, string> = {
   E: 'emerald',
   R: 'ruby',
   A: 'amethyst',
   s: 'sapphire',
+  d: 'diamond',
 }
 
 // ---------------------------------------------------------------------------
@@ -100,6 +102,7 @@ const GEM_DESCS: Record<string, string> = {
   ruby:    'A deep crimson vein pools into a loose ruby on the floor, glowing like a banked coal.',
   amethyst:'A cluster of purple amethyst erupts from the far wall like frozen violet fire.',
   sapphire:'A deep blue sapphire gleams from a natural shelf, refracting your torchlight into cold sparks.',
+  diamond: 'A vein of diamond as wide as your fist catches the torchlight, scattering cold prismatic fire across the walls.',
 }
 
 const GOAL_DESC = 'The Diamond Vault. The chamber is perfectly smooth, as if shaped by intention rather than tools. At its centre, an enormous diamond the size of a closed fist pulses with pale, cold light — the prize every digger dreams of.'
@@ -123,7 +126,7 @@ for (let y = 0; y < height; y++) {
   }
 }
 
-const VALID_CHARS = new Set(['.', 'S', 'D', 'E', 'R', 'A', 's', 'X', '#'])
+const VALID_CHARS = new Set(['.', 'S', 'D', 'E', 'R', 'A', 's', 'd', 'X', '#'])
 
 let startCount = 0
 let goalCount  = 0
@@ -191,7 +194,7 @@ for (let y = 0; y < height; y++) {
         passable = false; diggable = true; goal = false
         description = pick(DIG_DESCS, x, y)
         break
-      case 'E': case 'R': case 'A': case 's':
+      case 'E': case 'R': case 'A': case 's': case 'd':
         passable = true; diggable = false; goal = false
         description = GEM_DESCS[gemName!]
         break
