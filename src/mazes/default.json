@@ -22,7 +22,7 @@
       "diggable": false,
       "gem": null,
       "goal": false,
-      "description": "Tunnel."
+      "description": "Cave"
     },
     {
       "x": 3,
@@ -31,7 +31,7 @@
       "diggable": false,
       "gem": null,
       "goal": false,
-      "description": "Tunnel."
+      "description": "Cave"
     },
     {
       "x": 5,
@@ -40,7 +40,7 @@
       "diggable": false,
       "gem": null,
       "goal": false,
-      "description": "Tunnel."
+      "description": "Cave"
     },
     {
       "x": 6,
@@ -49,7 +49,7 @@
       "diggable": false,
       "gem": null,
       "goal": false,
-      "description": "Tunnel."
+      "description": "Cave"
     },
     {
       "x": 7,
@@ -58,7 +58,7 @@
       "diggable": true,
       "gem": null,
       "goal": false,
-      "description": "Tunnel."
+      "description": "Tunnel"
     },
     {
       "x": 8,
@@ -67,7 +67,7 @@
       "diggable": false,
       "gem": null,
       "goal": false,
-      "description": "Tunnel."
+      "description": "Cave"
     },
     {
       "x": 9,
@@ -76,7 +76,7 @@
       "diggable": false,
       "gem": null,
       "goal": false,
-      "description": "Tunnel."
+      "description": "Cave"
     },
     {
       "x": 2,
@@ -85,7 +85,7 @@
       "diggable": false,
       "gem": null,
       "goal": false,
-      "description": "A passage propped up by rusted iron brackets."
+      "description": "Cave"
     },
     {
       "x": 5,
@@ -94,7 +94,7 @@
       "diggable": false,
       "gem": null,
       "goal": false,
-      "description": "Tunnel."
+      "description": "Cave"
     },
     {
       "x": 9,
@@ -112,7 +112,7 @@
       "diggable": true,
       "gem": null,
       "goal": false,
-      "description": "Tunnel."
+      "description": "Tunnel"
     },
     {
       "x": 5,
@@ -121,7 +121,7 @@
       "diggable": true,
       "gem": null,
       "goal": false,
-      "description": "Tunnel."
+      "description": "Tunnel"
     },
     {
       "x": 2,
@@ -130,7 +130,7 @@
       "diggable": false,
       "gem": null,
       "goal": false,
-      "description": "Tunnel."
+      "description": "Cave"
     },
     {
       "x": 3,
@@ -139,7 +139,7 @@
       "diggable": false,
       "gem": null,
       "goal": false,
-      "description": "Tunnel."
+      "description": "Cave"
     },
     {
       "x": 4,
@@ -157,7 +157,7 @@
       "diggable": false,
       "gem": null,
       "goal": false,
-      "description": "Tunnel."
+      "description": "Cave"
     },
     {
       "x": 6,
@@ -166,7 +166,7 @@
       "diggable": true,
       "gem": null,
       "goal": false,
-      "description": "Tunnel."
+      "description": "Tunnel"
     },
     {
       "x": 7,
@@ -175,7 +175,7 @@
       "diggable": true,
       "gem": null,
       "goal": false,
-      "description": "Tunnel."
+      "description": "Tunnel"
     },
     {
       "x": 8,
@@ -184,7 +184,7 @@
       "diggable": true,
       "gem": null,
       "goal": false,
-      "description": "Tunnel."
+      "description": "Tunnel"
     },
     {
       "x": 9,
@@ -193,7 +193,7 @@
       "diggable": true,
       "gem": null,
       "goal": false,
-      "description": "Tunnel."
+      "description": "Tunnel"
     },
     {
       "x": 10,
@@ -211,7 +211,7 @@
       "diggable": true,
       "gem": null,
       "goal": false,
-      "description": "Tunnel."
+      "description": "Tunnel"
     },
     {
       "x": 5,
@@ -220,7 +220,7 @@
       "diggable": false,
       "gem": null,
       "goal": false,
-      "description": "A narrow corridor. The ceiling is close overhead."
+      "description": "Cave"
     },
     {
       "x": 5,
@@ -229,7 +229,7 @@
       "diggable": false,
       "gem": null,
       "goal": false,
-      "description": "Tunnel."
+      "description": "Cave"
     },
     {
       "x": 1,
@@ -238,7 +238,7 @@
       "diggable": false,
       "gem": null,
       "goal": false,
-      "description": "Tunnel."
+      "description": "Cave"
     },
     {
       "x": 2,
@@ -247,7 +247,7 @@
       "diggable": false,
       "gem": null,
       "goal": false,
-      "description": "Tunnel."
+      "description": "Cave"
     },
     {
       "x": 3,
@@ -256,7 +256,7 @@
       "diggable": false,
       "gem": null,
       "goal": false,
-      "description": "Tunnel."
+      "description": "Cave"
     },
     {
       "x": 4,
@@ -265,7 +265,7 @@
       "diggable": true,
       "gem": null,
       "goal": false,
-      "description": "Tunnel."
+      "description": "Tunnel"
     },
     {
       "x": 5,
@@ -274,7 +274,7 @@
       "diggable": true,
       "gem": null,
       "goal": false,
-      "description": "Tunnel."
+      "description": "Tunnel"
     },
     {
       "x": 6,
@@ -283,7 +283,7 @@
       "diggable": true,
       "gem": null,
       "goal": false,
-      "description": "Tunnel."
+      "description": "Tunnel"
     },
     {
       "x": 7,
@@ -292,7 +292,7 @@
       "diggable": false,
       "gem": null,
       "goal": false,
-      "description": "Tunnel."
+      "description": "Cave"
     },
     {
       "x": 8,
@@ -301,7 +301,7 @@
       "diggable": false,
       "gem": null,
       "goal": false,
-      "description": "Tunnel."
+      "description": "Cave"
     },
     {
       "x": 9,
@@ -328,7 +328,7 @@
       "diggable": true,
       "gem": null,
       "goal": false,
-      "description": "Tunnel."
+      "description": "Tunnel"
     },
     {
       "x": 5,
@@ -337,7 +337,7 @@
       "diggable": false,
       "gem": null,
       "goal": false,
-      "description": "Tunnel."
+      "description": "Secret Base"
     },
     {
       "x": 5,
