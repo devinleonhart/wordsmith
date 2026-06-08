@@ -4,11 +4,9 @@ import { WordsmithError } from '../../classes/wordsmithError'
 import { getMaze, getSquare, getGoalKey, type MazeData } from '../../utils/mazeLoader'
 import {
   addVisited,
-  collectGem,
   getState,
   getVisited,
   initMaze,
-  isGemCollected,
   resetMaze,
   setState
 } from '../../database/mazeRepository'
@@ -109,11 +107,6 @@ async function handleGo (interaction: ChatInputCommandInteraction, guildId: stri
   const map = renderMap(maze, { x: nx, y: ny }, visited, goalKey)
 
   const extraLines: string[] = []
-  if (target.diggable) extraLines.push('*You swing your pick and break through the wall.*')
-  if (target.gem && !isGemCollected(guildId, nx, ny)) {
-    collectGem(guildId, nx, ny)
-    extraLines.push(`*You pocket the ${target.gem}.*`)
-  }
   if (target.goal) extraLines.push('🎉 **The diggers win!**')
 
   await interaction.reply({ content: buildReply(target.description, map, extraLines) })

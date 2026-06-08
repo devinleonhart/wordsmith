@@ -2,14 +2,12 @@ import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { MessageFlags } from 'discord.js'
 
 vi.mock('../../src/database/mazeRepository', () => ({
-  getState:       vi.fn(),
-  setState:       vi.fn(),
-  getVisited:     vi.fn(),
-  addVisited:     vi.fn(),
-  isGemCollected: vi.fn(),
-  collectGem:     vi.fn(),
-  initMaze:       vi.fn(),
-  resetMaze:      vi.fn()
+  getState:   vi.fn(),
+  setState:   vi.fn(),
+  getVisited: vi.fn(),
+  addVisited: vi.fn(),
+  initMaze:   vi.fn(),
+  resetMaze:  vi.fn()
 }))
 
 vi.mock('../../src/utils/mazeLoader', () => ({
@@ -74,7 +72,6 @@ describe('/maze command', () => {
     it('moves and replies with content when target is a passable floor', async () => {
       repo.getState.mockReturnValue({ x: 1, y: 1 })
       repo.getVisited.mockReturnValue(new Set(['1,1', '2,1']))
-      repo.isGemCollected.mockReturnValue(false)
       loader.getSquare.mockReturnValue({
         x: 2, y: 1, passable: true, diggable: false, gem: null, goal: false,
         description: 'A corridor.'
@@ -89,43 +86,9 @@ describe('/maze command', () => {
       expect(content).toContain('A corridor.')
     })
 
-    it('collects a gem on first entry and does not collect on subsequent visits', async () => {
-      repo.getState.mockReturnValue({ x: 1, y: 1 })
-      repo.getVisited.mockReturnValue(new Set(['1,1', '2,1']))
-      repo.isGemCollected.mockReturnValue(false)
-      loader.getSquare.mockReturnValue({
-        x: 2, y: 1, passable: true, diggable: false, gem: 'emerald', goal: false,
-        description: 'A gem room.'
-      })
-
-      const interaction = makeInteraction('go', { direction: 'east' })
-      await cmd.default.execute(interaction)
-
-      expect(repo.collectGem).toHaveBeenCalledWith('guild-abc', 2, 1)
-      const content = (interaction.reply as ReturnType<typeof vi.fn>).mock.calls[0][0].content
-      expect(content).toContain('emerald')
-
-      vi.clearAllMocks()
-      repo.getState.mockReturnValue({ x: 1, y: 1 })
-      repo.getVisited.mockReturnValue(new Set(['1,1', '2,1']))
-      repo.isGemCollected.mockReturnValue(true)
-      loader.getSquare.mockReturnValue({
-        x: 2, y: 1, passable: true, diggable: false, gem: 'emerald', goal: false,
-        description: 'A gem room.'
-      })
-      loader.getMaze.mockReturnValue({ width: 5, height: 5, start: { x: 1, y: 1 } })
-      loader.getGoalKey.mockReturnValue('3,3')
-
-      const interaction2 = makeInteraction('go', { direction: 'east' })
-      await cmd.default.execute(interaction2)
-
-      expect(repo.collectGem).not.toHaveBeenCalled()
-    })
-
     it('inits maze state when no state exists', async () => {
       repo.getState.mockReturnValue(null)
       repo.getVisited.mockReturnValue(new Set(['1,1', '1,2']))
-      repo.isGemCollected.mockReturnValue(false)
       loader.getSquare.mockReturnValue({
         x: 1, y: 2, passable: true, diggable: false, gem: null, goal: false,
         description: 'A shaft.'
@@ -137,13 +100,12 @@ describe('/maze command', () => {
       expect(repo.initMaze).toHaveBeenCalledWith('guild-abc', 1, 1)
     })
 
-    it('shows a digging message when moving into a diggable wall', async () => {
+    it('moves into a diggable wall and replies with its description', async () => {
       repo.getState.mockReturnValue({ x: 1, y: 1 })
       repo.getVisited.mockReturnValue(new Set(['1,1', '1,2']))
-      repo.isGemCollected.mockReturnValue(false)
       loader.getSquare.mockReturnValue({
         x: 1, y: 2, passable: false, diggable: true, gem: null, goal: false,
-        description: 'Loose earth.'
+        description: 'Tunnel'
       })
 
       const interaction = makeInteraction('go', { direction: 'south' })
@@ -151,7 +113,7 @@ describe('/maze command', () => {
 
       expect(repo.setState).toHaveBeenCalledWith('guild-abc', 1, 2)
       const content = (interaction.reply as ReturnType<typeof vi.fn>).mock.calls[0][0].content
-      expect(content).toContain('swing your pick')
+      expect(content).toContain('Tunnel')
     })
   })
 

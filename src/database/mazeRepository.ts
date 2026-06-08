@@ -31,19 +31,6 @@ export function addVisited (guildId: string, x: number, y: number): void {
     .run(guildId, x, y)
 }
 
-export function isGemCollected (guildId: string, x: number, y: number): boolean {
-  const row = getDb()
-    .prepare('SELECT 1 FROM maze_collected_gems WHERE guild_id = ? AND x = ? AND y = ?')
-    .get(guildId, x, y)
-  return row !== undefined
-}
-
-export function collectGem (guildId: string, x: number, y: number): void {
-  getDb()
-    .prepare('INSERT OR IGNORE INTO maze_collected_gems (guild_id, x, y) VALUES (?, ?, ?)')
-    .run(guildId, x, y)
-}
-
 export function initMaze (guildId: string, x: number, y: number): void {
   setState(guildId, x, y)
   addVisited(guildId, x, y)
@@ -52,6 +39,5 @@ export function initMaze (guildId: string, x: number, y: number): void {
 export function resetMaze (guildId: string): void {
   const db = getDb()
   db.prepare('DELETE FROM maze_visited WHERE guild_id = ?').run(guildId)
-  db.prepare('DELETE FROM maze_collected_gems WHERE guild_id = ?').run(guildId)
   db.prepare('DELETE FROM maze_state WHERE guild_id = ?').run(guildId)
 }

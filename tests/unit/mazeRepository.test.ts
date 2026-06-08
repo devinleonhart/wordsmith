@@ -2,11 +2,9 @@ import { describe, it, expect, beforeEach } from 'vitest'
 import { initDb } from '../../src/database/db'
 import {
   addVisited,
-  collectGem,
   getState,
   getVisited,
   initMaze,
-  isGemCollected,
   resetMaze,
   setState
 } from '../../src/database/mazeRepository'
@@ -65,26 +63,6 @@ describe('getVisited / addVisited', () => {
   })
 })
 
-describe('isGemCollected / collectGem', () => {
-  it('returns false before a gem is collected', () => {
-    expect(isGemCollected('guild-1', 3, 3)).toBe(false)
-  })
-
-  it('returns true after collectGem', () => {
-    collectGem('guild-1', 3, 3)
-    expect(isGemCollected('guild-1', 3, 3)).toBe(true)
-  })
-
-  it('does not affect another guild', () => {
-    collectGem('guild-1', 3, 3)
-    expect(isGemCollected('guild-2', 3, 3)).toBe(false)
-  })
-
-  it('is idempotent', () => {
-    collectGem('guild-1', 3, 3)
-    expect(() => collectGem('guild-1', 3, 3)).not.toThrow()
-  })
-})
 
 describe('initMaze', () => {
   it('sets state and marks the start as visited', () => {
@@ -95,16 +73,14 @@ describe('initMaze', () => {
 })
 
 describe('resetMaze', () => {
-  it('clears state, visited, and collected gems', () => {
+  it('clears state and visited', () => {
     initMaze('guild-1', 1, 1)
     addVisited('guild-1', 2, 1)
-    collectGem('guild-1', 3, 3)
 
     resetMaze('guild-1')
 
     expect(getState('guild-1')).toBeNull()
     expect(getVisited('guild-1').size).toBe(0)
-    expect(isGemCollected('guild-1', 3, 3)).toBe(false)
   })
 
   it('does not affect another guild', () => {
