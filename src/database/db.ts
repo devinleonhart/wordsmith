@@ -89,4 +89,15 @@ function migrate (database: Database.Database): void {
 
     database.pragma('user_version = 3')
   }
+
+  if (version < 4) {
+    // The maze feature has been removed; drop its tables.
+    database.exec(`
+      DROP TABLE IF EXISTS maze_collected_gems;
+      DROP TABLE IF EXISTS maze_visited;
+      DROP TABLE IF EXISTS maze_state;
+    `)
+
+    database.pragma('user_version = 4')
+  }
 }
