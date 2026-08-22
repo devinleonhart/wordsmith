@@ -1,0 +1,90 @@
+name: CI/CD Pipeline
+
+on:
+  pull_request:
+    branches: [master]
+  push:
+    branches: [master]
+
+# Least privilege by default; jobs opt into more only if they need it.
+permissions:
+  contents: read
+
+# One run per ref: a new push cancels the in-flight run for that branch/PR.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality-check:
+    name: Quality Checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      # Node/pnpm versions come from .tool-versions and package.json's
+      # packageManager field — single source of truth, no drift with local dev.
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: .tool-versions
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Audit production dependencies
+        run: pnpm audit --prod --audit-level high
+
+      # tsc --noEmit + lint + coverage-gated tests. Emit is validated by the
+      # Docker build, so there is no separate `pnpm build` step here.
+      - name: Run quality checks (with coverage gate)
+        run: pnpm quality:ci
+
+  deploy:
+    name: Build & Deploy
+    runs-on: ubuntu-latest
+    needs: quality-check
+    if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v4
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Derive image tags & labels
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: devleo/wordsmith
+          tags: |
+            type=raw,value=latest
+            type=sha,format=short
+
+      - name: Build & Push
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          push: true
+          provenance: false
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          # Persistent layer cache across runs — skips the slow better-sqlite3
+          # source compile when dependencies are unchanged.
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
