@@ -67,23 +67,13 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Derive image tags & labels
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: devleo/wordsmith
-          tags: |
-            type=raw,value=latest
-            type=sha,format=short
-
       - name: Build & Push
         uses: docker/build-push-action@v7
         with:
           context: .
           push: true
           provenance: false
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          tags: devleo/wordsmith:latest
           # Persistent layer cache across runs — skips the slow better-sqlite3
           # source compile when dependencies are unchanged.
           cache-from: type=gha
