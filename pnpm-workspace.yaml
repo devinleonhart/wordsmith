@@ -1,15 +1,23 @@
 allowBuilds:
   better-sqlite3: true
   esbuild: true
+overrides:
+  # Force patched transitive versions inside discord.js's tree (production).
+  # Each satisfies its parent's declared range, so these are safe:
+  #   @discordjs/rest wants undici ^6.27.0; @discordjs/ws wants ws ^8.17.0;
+  #   @sapphire/shapeshift wants lodash ^4.17.21.
+  undici: '^6.28.0'
+  ws: '^8.21.3'
+  lodash: '^4.18.1'
+  # Patched transitive versions in the dev/test toolchain (vitest -> vite tree).
+  # Kept within the installed major line so consumers stay compatible;
+  # picomatch is scoped to the vulnerable 2.x copy so the 4.x copy is untouched.
+  vite: '^8.2.2'
+  postcss: '^8.5.26'
+  nanoid: '^3.3.18'
+  'brace-expansion': '^5.0.9'
+  diff: '^4.0.4'
+  'picomatch@2': '2.3.2'
 minimumReleaseAgeExclude:
-  - '@typescript-eslint/eslint-plugin@8.60.0'
-  - '@typescript-eslint/parser@8.60.0'
-  - '@typescript-eslint/project-service@8.60.0'
-  - '@typescript-eslint/scope-manager@8.60.0'
-  - '@typescript-eslint/tsconfig-utils@8.60.0'
-  - '@typescript-eslint/type-utils@8.60.0'
-  - '@typescript-eslint/types@8.60.0'
-  - '@typescript-eslint/typescript-estree@8.60.0'
-  - '@typescript-eslint/utils@8.60.0'
-  - '@typescript-eslint/visitor-keys@8.60.0'
-  - typescript-eslint@8.60.0
+  # Allowed past the minimum-release-age supply-chain gate to reach "latest".
+  - eslint@10.9.0

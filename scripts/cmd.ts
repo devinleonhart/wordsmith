@@ -52,7 +52,7 @@ interface DiscoveredCommand {
   execute: (interaction: unknown) => Promise<void>
 }
 
-const COMMANDS_DIR = resolve(__dirname, '../src/commands')
+const COMMANDS_DIR = resolve(__dirname, '../src/features')
 
 const OPTION_TYPES: Record<number, string> = {
   3: 'string',
@@ -70,7 +70,8 @@ function loadCommands(): DiscoveredCommand[] {
       if (statSync(full).isDirectory()) {
         walk(full)
       } else if (extname(entry) === '.ts') {
-        const mod = require(full)
+        const required = require(full)
+        const mod = required?.default ?? required
         if (mod?.data?.name && typeof mod.execute === 'function') {
           const json = mod.data.toJSON()
           commands.push({

@@ -1,14 +1,33 @@
-FROM node:24.16.0-alpine
+# syntax=docker/dockerfile:1
 
-RUN npm install -g pnpm@11.3.0
-
-RUN mkdir -p /app/data
-
+# --- shared base: pnpm + build toolchain + manifests ---
+# python3/make/g++ are needed to compile better-sqlite3 from source: there is no
+# prebuilt binary for the Node 26 ABI on Alpine/musl yet. Only the install stages
+# inherit this; the runtime stage stays slim and gets just the compiled .node file.
+FROM node:26.7.0-alpine AS base
+RUN apk add --no-cache python3 make g++
+RUN npm install -g pnpm@11.22.0
 WORKDIR /app
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc ./
 
-COPY ./src/ ./src
-COPY ["./tsconfig.json", "./package.json", "./pnpm-lock.yaml", "./.npmrc", "./pnpm-workspace.yaml", "./"]
+# --- build: full install + compile to dist ---
+FROM base AS build
+RUN pnpm install --frozen-lockfile
+COPY tsconfig.json ./
+COPY ./src ./src
+RUN pnpm build
 
-RUN pnpm i && pnpm build
+# --- prod-deps: production-only node_modules (native module included) ---
+FROM base AS prod-deps
+RUN pnpm install --prod --frozen-lockfile
 
-CMD ["pnpm", "start"]
+# --- runtime: slim, non-root, no toolchain or source ---
+FROM node:26.7.0-alpine AS runtime
+ENV NODE_ENV=production
+WORKDIR /app
+RUN mkdir -p /app/data && chown -R node:node /app
+COPY --from=prod-deps --chown=node:node /app/node_modules ./node_modules
+COPY --from=build --chown=node:node /app/dist ./dist
+COPY --chown=node:node package.json ./
+USER node
+CMD ["node", "./dist/index.js"]

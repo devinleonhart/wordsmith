@@ -3,13 +3,13 @@ import { describe, it, expect, beforeEach, vi } from 'vitest'
 const mockGetPokemonByName = vi.fn()
 const mockCalculateTypeEffectiveness = vi.fn()
 
-vi.mock('../../src/utils/pokemon-client', () => ({
+vi.mock('../../src/features/pokedex/pokemon-client', () => ({
   pokemonClient: { getPokemonByName: mockGetPokemonByName },
   moveClient: {}
 }))
 
-vi.mock('../../src/utils/pokemon-types', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('../../src/utils/pokemon-types')>()
+vi.mock('../../src/features/pokedex/pokemon-types', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('../../src/features/pokedex/pokemon-types')>()
   return { ...actual, calculateTypeEffectiveness: mockCalculateTypeEffectiveness }
 })
 
@@ -21,7 +21,7 @@ describe('Effectiveness Command', () => {
 
   beforeEach(async () => {
     vi.clearAllMocks()
-    cmd = await import('../../src/commands/game/effectiveness')
+    cmd = await import('../../src/features/pokedex/commands/effectiveness')
     interaction = {
       options: { getString: vi.fn() },
       reply: vi.fn(),

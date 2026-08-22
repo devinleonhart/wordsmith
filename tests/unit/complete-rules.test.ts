@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, afterEach } from 'vitest'
-import { RollD20, roll, rollOpposed, rollRequest, rollOpposedRequest } from '../../src/rules'
-import { ValidationError } from '../../src/rules-util'
+import { RollD20, roll, rollOpposed, rollRequest, rollOpposedRequest } from '../../src/features/dice/rules'
+import { ValidationError } from '../../src/features/dice/rules-util'
 
 vi.mock('fuzzy-dice', () => {
   const mockRoll = vi.fn(() => ({

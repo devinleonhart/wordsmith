@@ -2,7 +2,7 @@ import { describe, it, expect, beforeEach, vi } from 'vitest'
 
 const mockGetPokemonByName = vi.fn()
 
-vi.mock('../../src/utils/pokemon-client', () => ({
+vi.mock('../../src/features/pokedex/pokemon-client', () => ({
   pokemonClient: { getPokemonByName: mockGetPokemonByName },
   moveClient: {}
 }))
@@ -15,7 +15,7 @@ describe('Pokemon Command', () => {
 
   beforeEach(async () => {
     vi.clearAllMocks()
-    cmd = await import('../../src/commands/game/pokemon')
+    cmd = await import('../../src/features/pokedex/commands/pokemon')
     interaction = {
       options: { getString: vi.fn() },
       reply: vi.fn(),

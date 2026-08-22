@@ -1,8 +1,8 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { MessageFlags } from 'discord.js'
-import { WordsmithError } from '../../src/classes/wordsmithError'
+import { WordsmithError } from '../../src/core/errors'
 
-vi.mock('../../src/database/characterRepository', () => ({
+vi.mock('../../src/features/roster/characterRepository', () => ({
   createCharacter: vi.fn(),
   getCharacters: vi.fn(),
   getActiveCharacter: vi.fn(),
@@ -47,8 +47,8 @@ describe('/character command', () => {
 
   beforeEach(async () => {
     vi.clearAllMocks()
-    cmd = await import('../../src/commands/game/character')
-    repo = await import('../../src/database/characterRepository')
+    cmd = await import('../../src/features/roster/commands/character')
+    repo = await import('../../src/features/roster/characterRepository')
   })
 
   it('is named character', () => {
@@ -478,6 +478,30 @@ describe('/character command', () => {
       await cmd.default.autocomplete(interaction)
 
       expect(interaction.respond).toHaveBeenCalledWith([])
+    })
+  })
+
+  describe('word/item delete dispatch', () => {
+    it('dispatches the word delete subcommand', async () => {
+      repo.getActiveCharacter.mockReturnValue({ id: 1, name: 'Aldric', star: false })
+      repo.deleteWord.mockReturnValue(true)
+
+      const interaction = makeInteraction('delete', { word: 'ancient' }, 'word')
+      await cmd.default.execute(interaction)
+
+      expect(repo.deleteWord).toHaveBeenCalledWith(1, 'ancient')
+      expect(interaction.reply).toHaveBeenCalled()
+    })
+
+    it('dispatches the item delete subcommand', async () => {
+      repo.getActiveCharacter.mockReturnValue({ id: 1, name: 'Aldric', star: false })
+      repo.deleteItem.mockReturnValue(true)
+
+      const interaction = makeInteraction('delete', { item: 'Sword' }, 'item')
+      await cmd.default.execute(interaction)
+
+      expect(repo.deleteItem).toHaveBeenCalledWith(1, 'Sword')
+      expect(interaction.reply).toHaveBeenCalled()
     })
   })
 })

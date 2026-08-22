@@ -1,0 +1,25 @@
+# VCS / CI
+.git
+.gitignore
+.github
+
+# Installed deps & build artifacts (reinstalled / rebuilt in the image)
+node_modules
+dist
+coverage
+
+# Runtime data & secrets (never bake these into the image)
+data
+.env
+.env.*
+!.env.example
+
+# Tests, docs, and local tooling not needed to build the image
+tests
+docs
+scripts
+*.md
+.claude
+.tool-versions
+.vscode
+.editorconfig

@@ -1,13 +1,19 @@
 {
   "name": "wordsmith-discord-bot",
   "version": "2.0.0",
+  "packageManager": "pnpm@11.22.0",
+  "engines": {
+    "node": ">=26"
+  },
   "scripts": {
     "build": "rm -rf ./dist && tsc",
     "cmd": "ts-node --files ./scripts/cmd.ts",
+    "register": "ts-node --files ./src/register.ts",
     "dev": "NODE_ENV=development nodemon",
     "lint": "eslint src/",
     "lint:fix": "eslint --fix src/",
     "quality": "tsc --noEmit && pnpm lint && pnpm test",
+    "quality:ci": "tsc --noEmit && pnpm lint && pnpm test:coverage",
     "start": "NODE_ENV=production node ./dist/index.js",
     "test": "vitest run --silent",
     "test:coverage": "vitest run --coverage",
@@ -15,26 +21,26 @@
     "test:watch": "vitest --watch"
   },
   "dependencies": {
-    "@discordjs/builders": "~1.14.1",
-    "better-sqlite3": "^12.10.0",
-    "discord.js": "~14.26.4",
-    "dotenv": "~17.4.2",
-    "fuzzy-dice": "~2.0.0",
-    "pokenode-ts": "~1.20.0"
+    "@discordjs/builders": "^1.14.1",
+    "better-sqlite3": "^13.0.3",
+    "discord.js": "^14.27.0",
+    "dotenv": "^17.4.2",
+    "fuzzy-dice": "^2.0.0",
+    "pokenode-ts": "^2.1.0"
   },
   "devDependencies": {
-    "@tsconfig/node24": "~24.0.4",
-    "@types/better-sqlite3": "^7.6.13",
-    "@types/node": "~24.12.4",
-    "@typescript-eslint/eslint-plugin": "~8.60.0",
-    "@typescript-eslint/parser": "~8.60.0",
-    "@vitest/coverage-v8": "~4.1.7",
-    "@vitest/ui": "~4.1.7",
-    "eslint": "~10.4.0",
-    "nodemon": "~3.1.14",
-    "ts-node": "~10.9.2",
-    "typescript": "~6.0.3",
-    "typescript-eslint": "~8.60.0",
-    "vitest": "~4.1.7"
+    "@tsconfig/node26": "^26.0.1",
+    "@types/better-sqlite3": "^9.6.0",
+    "@types/node": "^26.2.0",
+    "@typescript-eslint/eslint-plugin": "^8.67.0",
+    "@typescript-eslint/parser": "^8.67.0",
+    "@vitest/coverage-v8": "^4.1.11",
+    "@vitest/ui": "^4.1.11",
+    "eslint": "^10.9.0",
+    "nodemon": "^3.1.14",
+    "ts-node": "^10.9.2",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.67.0",
+    "vitest": "^4.1.11"
   }
 }

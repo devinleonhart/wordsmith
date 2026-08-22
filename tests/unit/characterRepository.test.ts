@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest'
-import { initDb } from '../../src/database/db'
+import { initDb } from '../../src/core/db'
 import {
   addItem,
   addWord,
@@ -13,7 +13,7 @@ import {
   getWords,
   setActiveCharacter,
   setStar
-} from '../../src/database/characterRepository'
+} from '../../src/features/roster/characterRepository'
 
 beforeEach(() => {
   initDb(':memory:')

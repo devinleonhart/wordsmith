@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest'
-import { initDb, getDb } from '../../src/database/db'
+import { initDb, getDb } from '../../src/core/db'
 
 describe('initDb', () => {
   beforeEach(() => {

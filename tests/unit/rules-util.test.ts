@@ -5,7 +5,7 @@ import {
   ValidationError,
   buildEmoteString,
   buildPoisonedEmoteString
-} from '../../src/rules-util'
+} from '../../src/features/dice/rules-util'
 
 describe('Rules Utilities', () => {
   describe('buildEmoteString', () => {

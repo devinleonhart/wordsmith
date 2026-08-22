@@ -1,10 +1,10 @@
 declare module 'fuzzy-dice' {
-  export interface rollResponse {
+  export interface RollResponse {
     num_successes: number
     num_criticals: number
   }
 
-  export interface opposedCheckResponse {
+  export interface OpposedCheckResponse {
     num_successes: number
     num_criticals: number
     num_opposed_successes: number
@@ -28,12 +28,12 @@ declare module 'fuzzy-dice' {
     )
   }
 
-  export function roll (dice: Dice, pdice: number): rollResponse
+  export function roll (dice: Dice, pdice: number): RollResponse
 
   export function opposed_check (
     dice_type: Dice,
     num_dice: number,
     opposed_dice_type: Dice,
     num_opposed_dice: number
-  ): opposedCheckResponse
+  ): OpposedCheckResponse
 }

@@ -3,7 +3,7 @@ import {
   calculateTypeEffectiveness,
   getEffectivenessDescription,
   getValidTypes
-} from '../../src/utils/pokemon-types'
+} from '../../src/features/pokedex/pokemon-types'
 
 // Build a minimal damage_relations object for use in mocks.
 function makeRelations(doubleTo: string[], halfTo: string[], noTo: string[]) {
@@ -22,7 +22,7 @@ function makeRelations(doubleTo: string[], halfTo: string[], noTo: string[]) {
 
 const { mockGetTypeByName } = vi.hoisted(() => ({ mockGetTypeByName: vi.fn() }))
 
-vi.mock('../../src/utils/pokemon-client', () => ({
+vi.mock('../../src/features/pokedex/pokemon-client', () => ({
   pokemonClient: { getTypeByName: mockGetTypeByName },
   moveClient: {}
 }))

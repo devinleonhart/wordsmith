@@ -19,7 +19,6 @@ export const resetMocks = () => {
 
 export const mockClient = {
   commands: new Map(),
-  selectMenus: new Map(),
   handleEvents: vi.fn(),
   handleCommands: vi.fn(),
   login: vi.fn()

@@ -1,6 +1,6 @@
 const tseslint = require('typescript-eslint');
 
-module.exports = [
+module.exports = tseslint.config(
   {
     ignores: ['dist/**', 'node_modules/**']
   },
@@ -10,13 +10,19 @@ module.exports = [
   {
     files: ['**/*.{js,ts}'],
     languageOptions: {
-      sourceType: 'commonjs'
+      sourceType: 'commonjs',
+      parserOptions: {
+        projectService: true,
+        tsconfigRootDir: __dirname
+      }
     },
     rules: {
       '@typescript-eslint/no-require-imports': 'off',
       '@typescript-eslint/no-var-requires': 'off',
-      '@typescript-eslint/no-explicit-any': 'off',
-      '@typescript-eslint/explicit-function-return-type': 'off'
+      '@typescript-eslint/explicit-function-return-type': 'off',
+      // Catch the async-bug class that bites Discord bots.
+      '@typescript-eslint/no-floating-promises': 'error',
+      '@typescript-eslint/no-misused-promises': 'error'
     }
   }
-];
+);

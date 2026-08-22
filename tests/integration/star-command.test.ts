@@ -1,8 +1,8 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { MessageFlags } from 'discord.js'
-import { WordsmithError } from '../../src/classes/wordsmithError'
+import { WordsmithError } from '../../src/core/errors'
 
-vi.mock('../../src/database/characterRepository', () => ({
+vi.mock('../../src/features/roster/characterRepository', () => ({
   getActiveCharacter: vi.fn(),
   setStar: vi.fn()
 }))
@@ -23,8 +23,8 @@ describe('/star command', () => {
 
   beforeEach(async () => {
     vi.clearAllMocks()
-    cmd = await import('../../src/commands/game/star')
-    repo = await import('../../src/database/characterRepository')
+    cmd = await import('../../src/features/roster/commands/star')
+    repo = await import('../../src/features/roster/characterRepository')
   })
 
   it('is named star', () => {

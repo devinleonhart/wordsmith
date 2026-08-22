@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { WordsmithError } from '../../src/classes/wordsmithError'
+import { WordsmithError } from '../../src/core/errors'
 
 describe('WordsmithError', () => {
   it('should create error with message', () => {
