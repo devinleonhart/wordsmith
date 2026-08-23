@@ -7,6 +7,7 @@ import {
 } from 'discord.js'
 import { type BotCommand, type BotEvent } from '../core/command'
 import { WordsmithError } from '../core/errors'
+import { handleComponent, isAttemptComponent } from '../features/challenge/attempt'
 
 const GENERIC_ERROR = 'Something went wrong while running that command. Please try again.'
 
@@ -24,6 +25,15 @@ const event: BotEvent = {
       const command = client.commands.get(interaction.commandName)
       if (!command) return
       await handleExecute(command, interaction, client)
+      return
+    }
+
+    if (interaction.isMessageComponent() && isAttemptComponent(interaction.customId)) {
+      try {
+        await handleComponent(interaction)
+      } catch (error) {
+        console.error('Error handling attempt component:', error)
+      }
     }
   }
 }

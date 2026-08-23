@@ -5,11 +5,13 @@ import interactionCreate from './events/interactionCreate'
 import ready from './events/ready'
 
 // Dice commands
-import d20 from './features/dice/commands/d20'
 import roll from './features/dice/commands/roll'
 import rollOpposed from './features/dice/commands/rollOpposed'
-import rollOpposedRequest from './features/dice/commands/rollOpposedRequest'
-import rollRequest from './features/dice/commands/rollRequest'
+import rollNotation from './features/dice/commands/rollNotation'
+
+// Challenge commands
+import gm from './features/challenge/commands/gm'
+import attempt from './features/challenge/commands/attempt'
 
 // Roster commands
 import character from './features/roster/commands/character'
@@ -23,7 +25,8 @@ import pokemon from './features/pokedex/commands/pokemon'
 import typecheck from './features/pokedex/commands/typecheck'
 
 export const commands: BotCommand[] = [
-  d20, roll, rollOpposed, rollOpposedRequest, rollRequest,
+  roll, rollOpposed, rollNotation,
+  gm, attempt,
   character, star, unstar,
   effectiveness, move, pokemon, typecheck
 ]
