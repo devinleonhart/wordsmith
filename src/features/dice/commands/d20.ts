@@ -1,22 +1,22 @@
 import { SlashCommandBuilder } from '@discordjs/builders'
 import { type ChatInputCommandInteraction } from 'discord.js'
 
-import { roll } from '../rules'
+import { RollD20 } from '../rules'
 
 export default {
   data: new SlashCommandBuilder()
-    .setName('r')
-    .setDescription('Make a roll in wordsmith.')
+    .setName('d20')
+    .setDescription('Make a d20 roll in wordsmith.')
     .addIntegerOption((option) =>
       option
-        .setName('player-dice')
-        .setDescription('The number of player dice being rolled.')
+        .setName('target-number')
+        .setDescription('The number you need to roll to pass the challenge.')
         .setRequired(true)
     ),
   async execute (interaction: ChatInputCommandInteraction) {
     const name = interaction.member?.user.username ?? ''
-    const pdice = interaction.options.getInteger('player-dice') ?? 0
+    const targetNumber = interaction.options.getInteger('target-number') ?? 0
 
-    await interaction.reply(roll(name, pdice))
+    await interaction.reply(RollD20(name, targetNumber))
   }
 }

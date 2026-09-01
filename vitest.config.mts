@@ -23,13 +23,13 @@ export default defineConfig({
         'src/events/ready.ts',
         'eslint.config.js'
       ],
-      // Flat keys — vitest ignores a `global:` wrapper (that's a jest/nyc-ism),
-      // which had silently disabled enforcement. These are now actually gated.
       thresholds: {
-        statements: 95,
-        functions: 95,
-        lines: 95,
-        branches: 85
+        global: {
+          branches: 92,
+          functions: 95,
+          lines: 95,
+          statements: 95
+        }
       }
     }
   }

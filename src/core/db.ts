@@ -104,31 +104,4 @@ function migrate (database: Database.Database): void {
 
     database.pragma('user_version = 4')
   }
-
-  if (version < 5) {
-    database.exec(`
-      CREATE TABLE IF NOT EXISTS guild_settings (
-        guild_id   TEXT PRIMARY KEY,
-        gm_user_id TEXT
-      );
-
-      CREATE TABLE IF NOT EXISTS roll_sessions (
-        id              TEXT    PRIMARY KEY,
-        guild_id        TEXT    NOT NULL,
-        channel_id      TEXT    NOT NULL,
-        message_id      TEXT,
-        player_id       TEXT    NOT NULL,
-        character_id    INTEGER,
-        idea            TEXT    NOT NULL DEFAULT '',
-        challenge_dice  INTEGER NOT NULL DEFAULT 0,
-        creativity_dice INTEGER NOT NULL DEFAULT 0,
-        tags_json       TEXT    NOT NULL DEFAULT '[]',
-        status          TEXT    NOT NULL DEFAULT 'proposing',
-        result_json     TEXT,
-        created_at      INTEGER NOT NULL
-      );
-    `)
-
-    database.pragma('user_version = 5')
-  }
 }

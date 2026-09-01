@@ -38,13 +38,6 @@ export function getCharacters (userId: string): Character[] {
   return rows.map(toCharacter)
 }
 
-export function getCharacterById (id: number): Character | null {
-  const row = getDb()
-    .prepare('SELECT * FROM characters WHERE id = ?')
-    .get(id) as CharacterRow | undefined
-  return row ? toCharacter(row) : null
-}
-
 export function getActiveCharacter (userId: string): Character | null {
   const row = getDb()
     .prepare(`
