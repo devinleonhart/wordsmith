@@ -26,7 +26,7 @@
     "discord.js": "^14.27.0",
     "dotenv": "^17.4.2",
     "fuzzy-dice": "^2.0.0",
-    "pokenode-ts": "^2.1.0"
+    "pokenode-ts": "^2.3.0"
   },
   "devDependencies": {
     "@tsconfig/node26": "^26.0.1",
