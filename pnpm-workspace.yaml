@@ -18,6 +18,10 @@ overrides:
   'brace-expansion': '^5.0.9'
   diff: '^4.0.4'
   'picomatch@2': '2.3.2'
+  # Hold TypeScript on 6.x: typescript-eslint has no TS 7 support yet
+  # (https://github.com/typescript-eslint/typescript-eslint/issues/10940),
+  # so TS 7 breaks `pnpm lint`/CI. Remove once typescript-eslint supports TS 7.
+  typescript: '^6.0.3'
 minimumReleaseAgeExclude:
   # Allowed past the minimum-release-age supply-chain gate to reach "latest".
-  - eslint@10.9.0
+  - eslint@10.9.0 || 10.12.0
