@@ -36,8 +36,8 @@ importers:
         specifier: ^2.0.0
         version: 2.0.0
       pokenode-ts:
-        specifier: ^3.0.0
-        version: 3.0.0
+        specifier: ^4.0.0
+        version: 4.0.0
     devDependencies:
       '@tsconfig/node26':
         specifier: ^26.0.1
@@ -917,8 +917,8 @@ packages:
     resolution: {integrity: sha512-qcJu88Q2IWqJsDD529JKMdwGm/dvInW4HvQnRwiH9JtihJvzGOscDtHE3x1pBKeUOTysQ8kVmLnJ2kJu7yhcGA==}
     engines: {node: '>=12'}
 
-  pokenode-ts@3.0.0:
-    resolution: {integrity: sha512-27NmKCQ531whSDkCkLQqqmp/FnxXP3qLFKa3+pu9cRdauOhxqKN9rlTRinzrTilXC/lYfOpbjplhKdbwLvLYTQ==}
+  pokenode-ts@4.0.0:
+    resolution: {integrity: sha512-0HGaVgE1KSWw+agQEbIZEJCCisoQYC1r1LxiZWVwcd0PpG+iwVlJ3Qg3jQdyJfzwbFQq6okVtamhc6Gn6yRWfg==}
     engines: {node: '>=22'}
 
   postcss@8.5.26:
@@ -1985,7 +1985,7 @@ snapshots:
 
   picomatch@4.0.7: {}
 
-  pokenode-ts@3.0.0: {}
+  pokenode-ts@4.0.0: {}
 
   postcss@8.5.26:
     dependencies:
