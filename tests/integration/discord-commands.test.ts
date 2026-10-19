@@ -48,12 +48,6 @@ describe('d20 command', () => {
     expect(rules.RollD20).toHaveBeenCalledWith('', 10)
   })
 
-  it('should default target number to 0 when option is missing', async () => {
-    const interaction = makeInteraction()
-    await cmd.default.execute(interaction)
-    const rules = await import('../../src/features/dice/rules')
-    expect(rules.RollD20).toHaveBeenCalledWith('TestUser', 0)
-  })
 })
 
 describe('r (roll) command', () => {
@@ -85,12 +79,6 @@ describe('r (roll) command', () => {
     expect(rules.roll).toHaveBeenCalledWith('', 2)
   })
 
-  it('should default dice to 0 when option is missing', async () => {
-    const interaction = makeInteraction()
-    await cmd.default.execute(interaction)
-    const rules = await import('../../src/features/dice/rules')
-    expect(rules.roll).toHaveBeenCalledWith('TestUser', 0)
-  })
 })
 
 describe('ro (rollOpposed) command', () => {
@@ -122,12 +110,6 @@ describe('ro (rollOpposed) command', () => {
     expect(rules.rollOpposed).toHaveBeenCalledWith('', 2, 2)
   })
 
-  it('should default both dice to 0 when options are missing', async () => {
-    const interaction = makeInteraction()
-    await cmd.default.execute(interaction)
-    const rules = await import('../../src/features/dice/rules')
-    expect(rules.rollOpposed).toHaveBeenCalledWith('TestUser', 0, 0)
-  })
 })
 
 describe('rr (rollRequest) command', () => {
@@ -152,12 +134,6 @@ describe('rr (rollRequest) command', () => {
     expect(interaction.reply).toHaveBeenCalledWith('mocked-rollRequest-result')
   })
 
-  it('should default character name and dice to empty/0 when options are missing', async () => {
-    const interaction = makeInteraction()
-    await cmd.default.execute(interaction)
-    const rules = await import('../../src/features/dice/rules')
-    expect(rules.rollRequest).toHaveBeenCalledWith('', 0)
-  })
 })
 
 describe('ror (rollOpposedRequest) command', () => {
@@ -182,10 +158,4 @@ describe('ror (rollOpposedRequest) command', () => {
     expect(interaction.reply).toHaveBeenCalledWith('mocked-rollOpposedRequest-result')
   })
 
-  it('should default all values when options are missing', async () => {
-    const interaction = makeInteraction()
-    await cmd.default.execute(interaction)
-    const rules = await import('../../src/features/dice/rules')
-    expect(rules.rollOpposedRequest).toHaveBeenCalledWith('', 0, 0)
-  })
 })

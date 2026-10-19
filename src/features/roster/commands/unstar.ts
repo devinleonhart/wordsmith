@@ -1,4 +1,5 @@
 import { type ChatInputCommandInteraction, MessageFlags, SlashCommandBuilder } from 'discord.js'
+import { type BotCommand } from '../../../core/command'
 import { WordsmithError } from '../../../core/errors'
 import { getActiveCharacter, setStar } from '../characterRepository'
 
@@ -36,4 +37,4 @@ export default {
       content: `**Star Spent**\n**${char.name}**'s star has been spent.`
     })
   }
-}
+} satisfies BotCommand

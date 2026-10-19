@@ -1,4 +1,5 @@
 import { type ChatInputCommandInteraction, SlashCommandBuilder } from 'discord.js'
+import { type BotCommand } from '../../../core/command'
 import { calculateTypeEffectiveness, getEffectivenessDescription, getValidTypes } from '../pokemon-types'
 
 const commandName = 'typecheck'
@@ -44,14 +45,10 @@ export default {
         )
     ),
   async execute (interaction: ChatInputCommandInteraction) {
-    const attackType = interaction.options.getString('attack_type')
-    const defenderType1 = interaction.options.getString('defender_type1')
+    const attackType = interaction.options.getString('attack_type', true)
+    const defenderType1 = interaction.options.getString('defender_type1', true)
     const defenderType2 = interaction.options.getString('defender_type2')
 
-    if (!attackType || !defenderType1) {
-      await interaction.reply('Please provide at least an attack type and one defender type.')
-      return
-    }
 
     const defenderTypes = defenderType2 ? [defenderType1, defenderType2] : [defenderType1]
 
@@ -72,4 +69,4 @@ export default {
       await interaction.reply('An error occurred while calculating type effectiveness.')
     }
   }
-}
+} satisfies BotCommand

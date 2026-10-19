@@ -32,29 +32,7 @@ describe('Typecheck Command', () => {
     expect(cmd.default.data.description).toBe('Check type effectiveness of an attack against a Pokémon.')
   })
 
-  it('should reply with an error when attack type is missing', async () => {
-    interaction.options.getString
-      .mockReturnValueOnce(null)
-      .mockReturnValueOnce('water')
-      .mockReturnValueOnce(null)
-    await cmd.default.execute(interaction)
-    expect(interaction.reply).toHaveBeenCalledWith(
-      'Please provide at least an attack type and one defender type.'
-    )
-    expect(mockCalculateTypeEffectiveness).not.toHaveBeenCalled()
-  })
 
-  it('should reply with an error when defender type is missing', async () => {
-    interaction.options.getString
-      .mockReturnValueOnce('electric')
-      .mockReturnValueOnce(null)
-      .mockReturnValueOnce(null)
-    await cmd.default.execute(interaction)
-    expect(interaction.reply).toHaveBeenCalledWith(
-      'Please provide at least an attack type and one defender type.'
-    )
-    expect(mockCalculateTypeEffectiveness).not.toHaveBeenCalled()
-  })
 
   it('should calculate single-type effectiveness', async () => {
     interaction.options.getString

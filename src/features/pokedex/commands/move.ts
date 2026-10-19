@@ -1,4 +1,5 @@
 import { type ChatInputCommandInteraction, SlashCommandBuilder } from 'discord.js'
+import { type BotCommand } from '../../../core/command'
 import { moveClient } from '../pokemon-client'
 
 function capitalize(s: string): string {
@@ -22,12 +23,8 @@ export default {
         .setRequired(true)
     ),
   async execute (interaction: ChatInputCommandInteraction) {
-    const rawName = interaction.options.getString('name')
+    const rawName = interaction.options.getString('name', true)
 
-    if (!rawName) {
-      await interaction.reply('Please provide a move name.')
-      return
-    }
 
     // Normalize: lowercase, collapse spaces to hyphens so "ice beam" → "ice-beam"
     const moveName = rawName.trim().toLowerCase().replace(/\s+/g, '-')
@@ -64,4 +61,4 @@ export default {
       await interaction.editReply(`Could not find a move named "${rawName}". Please check the spelling and try again.`)
     }
   }
-}
+} satisfies BotCommand

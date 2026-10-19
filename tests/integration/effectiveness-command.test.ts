@@ -35,26 +35,7 @@ describe('Effectiveness Command', () => {
     expect(cmd.default.data.description).toMatch(/effective/i)
   })
 
-  it('should reply with an error when attack type is missing', async () => {
-    interaction.options.getString
-      .mockReturnValueOnce(null)
-      .mockReturnValueOnce('charizard')
-    await cmd.default.execute(interaction)
-    expect(interaction.reply).toHaveBeenCalledWith(
-      'Please provide both an attack type and a Pokémon name.'
-    )
-    expect(mockGetPokemonByName).not.toHaveBeenCalled()
-  })
 
-  it('should reply with an error when Pokémon name is missing', async () => {
-    interaction.options.getString
-      .mockReturnValueOnce('water')
-      .mockReturnValueOnce(null)
-    await cmd.default.execute(interaction)
-    expect(interaction.reply).toHaveBeenCalledWith(
-      'Please provide both an attack type and a Pokémon name.'
-    )
-  })
 
   it('should calculate effectiveness against a single-type Pokémon', async () => {
     interaction.options.getString

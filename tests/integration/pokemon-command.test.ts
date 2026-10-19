@@ -29,12 +29,6 @@ describe('Pokemon Command', () => {
     expect(cmd.default.data.description).toBe('Get the types of a Pokémon by name.')
   })
 
-  it('should reply with an error when no name is provided', async () => {
-    interaction.options.getString.mockReturnValue(null)
-    await cmd.default.execute(interaction)
-    expect(interaction.reply).toHaveBeenCalledWith('Please provide a Pokémon name.')
-    expect(mockGetPokemonByName).not.toHaveBeenCalled()
-  })
 
   it('should format a single-type Pokémon correctly', async () => {
     interaction.options.getString.mockReturnValue('charmander')

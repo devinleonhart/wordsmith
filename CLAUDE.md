@@ -21,6 +21,7 @@ Discord bot (discord.js 14, TypeScript, CommonJS) with three feature areas: Word
 
 ## Conventions
 
+- Each command file is `export default { data, execute } satisfies BotCommand`. Read required options with the required getter (`getString('x', true)`) and leave out fallbacks and "missing option" checks: Discord never sends a command with a required option missing. Put numeric limits on the builder (`setMinValue` / `setMaxValue`) so Discord enforces them. `src/features/dice/rules.ts` still validates too, because `pnpm cmd` and the tests call it directly.
 - Commands that call PokéAPI call `deferReply()` before their `try` block, then use `editReply()`. If `deferReply()` is inside the `try`, a failed defer makes the `catch` throw a second time.
 - There are two tsconfigs, both strict and both based on `@tsconfig/node26`:
   - `tsconfig.json` typechecks `src`, `tests` and `scripts` with `moduleResolution: bundler`, because that's how Vitest and tsx load them. Editors use this one.

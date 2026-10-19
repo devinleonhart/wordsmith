@@ -1,4 +1,5 @@
 import { type ChatInputCommandInteraction, SlashCommandBuilder } from 'discord.js'
+import { type BotCommand } from '../../../core/command'
 import { pokemonClient } from '../pokemon-client'
 import { calculateTypeEffectiveness, getEffectivenessDescription, getValidTypes } from '../pokemon-types'
 
@@ -27,13 +28,9 @@ export default {
         .setRequired(true)
     ),
   async execute (interaction: ChatInputCommandInteraction) {
-    const attackType = interaction.options.getString('attack_type')
-    const pokemonName = interaction.options.getString('pokemon')
+    const attackType = interaction.options.getString('attack_type', true)
+    const pokemonName = interaction.options.getString('pokemon', true)
 
-    if (!attackType || !pokemonName) {
-      await interaction.reply('Please provide both an attack type and a Pokémon name.')
-      return
-    }
 
     await interaction.deferReply()
 
@@ -66,4 +63,4 @@ export default {
       }
     }
   }
-}
+} satisfies BotCommand

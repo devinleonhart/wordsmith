@@ -4,6 +4,7 @@ import {
   MessageFlags,
   SlashCommandBuilder
 } from 'discord.js'
+import { type BotCommand } from '../../../core/command'
 import { WordsmithError } from '../../../core/errors'
 import {
   addItem,
@@ -188,7 +189,7 @@ export default {
         .map(c => ({ name: c.name, value: c.name }))
     )
   }
-}
+} satisfies BotCommand
 
 async function handleCreate (interaction: ChatInputCommandInteraction, userId: string): Promise<void> {
   const name = interaction.options.getString('name', true)

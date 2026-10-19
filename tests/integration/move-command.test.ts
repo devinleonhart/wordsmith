@@ -29,12 +29,6 @@ describe('Move Command', () => {
     expect(cmd.default.data.description).toMatch(/move/i)
   })
 
-  it('should reply with an error when no name is provided', async () => {
-    interaction.options.getString.mockReturnValue(null)
-    await cmd.default.execute(interaction)
-    expect(interaction.reply).toHaveBeenCalledWith('Please provide a move name.')
-    expect(mockGetMoveByName).not.toHaveBeenCalled()
-  })
 
   it('should format a standard physical move with an effect', async () => {
     interaction.options.getString.mockReturnValue('earthquake')

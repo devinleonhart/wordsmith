@@ -1,4 +1,5 @@
 import { type ChatInputCommandInteraction, SlashCommandBuilder } from 'discord.js'
+import { type BotCommand } from '../../../core/command'
 import { pokemonClient } from '../pokemon-client'
 
 const commandName = 'pokemon'
@@ -14,12 +15,8 @@ export default {
         .setRequired(true)
     ),
   async execute (interaction: ChatInputCommandInteraction) {
-    const pokemonName = interaction.options.getString('name')
+    const pokemonName = interaction.options.getString('name', true)
 
-    if (!pokemonName) {
-      await interaction.reply('Please provide a Pokémon name.')
-      return
-    }
 
     await interaction.deferReply()
 
@@ -34,4 +31,4 @@ export default {
       await interaction.editReply(`Could not find a Pokémon named "${pokemonName}". Please check the spelling and try again.`)
     }
   }
-}
+} satisfies BotCommand
