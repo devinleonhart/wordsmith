@@ -24,12 +24,10 @@ export default defineConfig({
         'eslint.config.js'
       ],
       thresholds: {
-        global: {
-          branches: 92,
-          functions: 95,
-          lines: 95,
-          statements: 95
-        }
+        branches: 92,
+        functions: 95,
+        lines: 95,
+        statements: 95
       }
     }
   }
