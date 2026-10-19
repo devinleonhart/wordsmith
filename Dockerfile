@@ -13,7 +13,7 @@ COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc ./
 # --- build: full install + compile to dist ---
 FROM base AS build
 RUN pnpm install --frozen-lockfile
-COPY tsconfig.json ./
+COPY tsconfig.json tsconfig.build.json ./
 COPY ./src ./src
 RUN pnpm build
 

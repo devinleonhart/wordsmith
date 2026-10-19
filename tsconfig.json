@@ -1,11 +1,14 @@
 {
+  "extends": "@tsconfig/node26/tsconfig.json",
   "compilerOptions": {
     "typeRoots": ["src/@types", "node_modules/@types"],
-    "rootDir": "src",
-    "outDir": "dist",
-    "strict": true
+    "strict": true,
+    "noEmit": true,
+    // Tests run under Vitest (Vite) and scripts under tsx, which resolve
+    // modules like a bundler. tsconfig.build.json checks and compiles src/
+    // with Node's own rules (nodenext) for production.
+    "module": "preserve",
+    "moduleResolution": "bundler"
   },
-  "include": ["./src"],
-  "exclude": ["node_modules", "dist"],
-  "extends": "@tsconfig/node26/tsconfig.json"
+  "include": ["src", "tests", "scripts", "vitest.config.mts"]
 }

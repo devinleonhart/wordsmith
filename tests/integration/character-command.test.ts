@@ -25,7 +25,7 @@ const makeInteraction = (
   options: {
     getSubcommand: vi.fn(() => subcommand),
     getSubcommandGroup: vi.fn(() => group),
-    getString: vi.fn((name: string, _required?: boolean) => options[name] ?? null)
+    getString: vi.fn((name: string) => options[name] ?? null)
   },
   reply: vi.fn()
 })

@@ -215,6 +215,7 @@ describe('rollOpposed', () => {
       num_opposed_successes: 1,
       num_dice: 2,
       num_opposed_dice: 2,
+      // @ts-expect-error: an outcome fuzzy-dice never returns, to test the fallback
       outcome: 'some-unknown-outcome',
       magnitude: 0
     })

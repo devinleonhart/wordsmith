@@ -8,6 +8,8 @@ declare module 'fuzzy-dice' {
     num_successes: number
     num_criticals: number
     num_opposed_successes: number
+    num_dice: number
+    num_opposed_dice: number
     outcome: 'failure' | 'partial success' | 'success' | 'critical success'
     magnitude: number
   }

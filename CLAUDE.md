@@ -4,7 +4,7 @@ Discord bot (discord.js 14, TypeScript, CommonJS) with three feature areas: Word
 
 ## Commands
 
-- `pnpm quality:ci`: what CI runs (typecheck, lint, tests with the coverage gate). Run it before merging.
+- `pnpm quality:ci`: what CI runs (`pnpm typecheck`, lint over the whole repo, tests with the coverage gate). Run it before merging.
 - `pnpm test` runs once (not watch mode). Use `pnpm test:watch` for watch mode.
 - `pnpm dev`: `tsx watch` on `src/index.ts`, restarting on changes. Needs `.env` (see Local dev). tsx doesn't typecheck, so run `pnpm quality:ci` to catch type errors.
 - `pnpm cmd <command> --<option> <value>` runs a command in the terminal without Discord. `pnpm cmd --list` shows options. Works for the dice and Pokédex commands. Roster commands (`character`, `star`, `unstar`) fail: the harness has no subcommand support and never opens the database.
@@ -22,7 +22,11 @@ Discord bot (discord.js 14, TypeScript, CommonJS) with three feature areas: Word
 ## Conventions
 
 - Commands that call PokéAPI call `deferReply()` before their `try` block, then use `editReply()`. If `deferReply()` is inside the `try`, a failed defer makes the `catch` throw a second time.
-- `tsconfig.json` has `strict: true` and takes `target`, `module` and `lib` from `@tsconfig/node26`. Don't override them locally. The output is still CommonJS, because `package.json` has no `"type": "module"`.
+- There are two tsconfigs, both strict and both based on `@tsconfig/node26`:
+  - `tsconfig.json` typechecks `src`, `tests` and `scripts` with `moduleResolution: bundler`, because that's how Vitest and tsx load them. Editors use this one.
+  - `tsconfig.build.json` checks and compiles only `src` with `nodenext`, which is how Node runs `dist/`. Its output is CommonJS, because `package.json` has no `"type": "module"`.
+  - `pnpm typecheck` runs both checks.
+- The fuzzy-dice types are hand-written in `src/@types/fuzzy-dice.d.ts`. Check them against the library's real return values. fuzzy-dice also logs a line to the console for every die it rolls.
 - Coverage thresholds are top-level keys under `coverage.thresholds` in `vitest.config.mts`. Vitest ignores a nested `global:` key.
 - Node and pnpm versions are pinned in `.tool-versions`, `package.json` (`packageManager`), `Dockerfile` and `Dockerfile.dev`. CI fails if they disagree. Dependabot bumps the Docker Node image but not `.tool-versions`, so its base-image PRs need a one-line `.tool-versions` bump before they pass.
 - `pnpm-workspace.yaml` holds TypeScript on 6.x until typescript-eslint supports TS 7, and pins patched versions of some transitive dependencies. Read its comments before removing an override.

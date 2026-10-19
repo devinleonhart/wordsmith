@@ -77,7 +77,7 @@ function loadCommands(): DiscoveredCommand[] {
           commands.push({
             name: json.name,
             description: json.description,
-            options: (json.options ?? []).map((o: any) => ({
+            options: (json.options ?? []).map((o: { name: string; description: string; required?: boolean; type: number }) => ({
               name: o.name,
               description: o.description,
               required: o.required ?? false,
@@ -169,7 +169,7 @@ const header = `/${commandName}${optionStr ? `  ${optionStr}` : ''}  (user: ${us
 console.log(`\n${header}`)
 console.log('─'.repeat(Math.max(48, header.length + 2)))
 
-;(async () => {
+void (async () => {
   try {
     await cmd.execute(interaction)
     if (responses.length === 0) {

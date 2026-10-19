@@ -2,7 +2,7 @@ const tseslint = require('typescript-eslint');
 
 module.exports = tseslint.config(
   {
-    ignores: ['dist/**', 'node_modules/**']
+    ignores: ['dist/**', 'node_modules/**', 'coverage/**']
   },
 
   ...tseslint.configs.recommended,
@@ -12,7 +12,8 @@ module.exports = tseslint.config(
     languageOptions: {
       sourceType: 'commonjs',
       parserOptions: {
-        projectService: true,
+        // eslint.config.js isn't in any tsconfig; lint it with a default project.
+        projectService: { allowDefaultProject: ['eslint.config.js'] },
         tsconfigRootDir: __dirname
       }
     },
