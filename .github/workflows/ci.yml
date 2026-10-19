@@ -25,6 +25,30 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v7
 
+      # The Dockerfiles pin Node and pnpm separately, and Dependabot bumps the
+      # base image without touching .tool-versions. Fail on drift so CI tests
+      # the same versions production runs.
+      - name: Check Node/pnpm versions match Dockerfiles
+        run: |
+          node_version=$(awk '$1 == "nodejs" { print $2 }' .tool-versions)
+          pnpm_version=$(jq -r '.packageManager | sub("^pnpm@"; "")' package.json)
+          status=0
+          for f in Dockerfile Dockerfile.dev; do
+            for v in $(sed -nE 's/^FROM node:([0-9.]+)-alpine.*/\1/p' "$f"); do
+              if [ "$v" != "$node_version" ]; then
+                echo "::error file=$f::Node $v does not match .tool-versions ($node_version)"
+                status=1
+              fi
+            done
+            for v in $(sed -nE 's/.*pnpm@([0-9.]+).*/\1/p' "$f"); do
+              if [ "$v" != "$pnpm_version" ]; then
+                echo "::error file=$f::pnpm $v does not match packageManager ($pnpm_version)"
+                status=1
+              fi
+            done
+          done
+          exit $status
+
       # Node/pnpm versions come from .tool-versions and package.json's
       # packageManager field — single source of truth, no drift with local dev.
       - name: Setup pnpm
