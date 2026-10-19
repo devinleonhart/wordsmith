@@ -16,7 +16,7 @@ Discord bot (discord.js 14, TypeScript, CommonJS) with three feature areas: Word
 - `src/registry.ts`: the explicit list of commands and events. A new command must be added here or it won't register.
 - `src/bootstrap.ts`: config check, DB init, event wiring, command sync, login, shutdown.
 - `src/events/interactionCreate.ts`: dispatches commands. Uncaught errors become an ephemeral reply. Throw `WordsmithError` (`src/core/errors.ts`) for messages meant for users. Other errors get a generic message and are logged.
-- `src/core/db.ts`: Node's built-in `node:sqlite` (`DatabaseSync`), with migrations keyed on `PRAGMA user_version`. There's no `.pragma()` helper: use `exec('PRAGMA …')` to set a pragma and `prepare('PRAGMA …').get()` to read one. Row types for query results must be `type` aliases, not interfaces, so the row records can be cast to them. Add migrations as new `if (version < N)` blocks.
+- `src/core/db.ts`: Node's built-in `node:sqlite` (`DatabaseSync`), with migrations keyed on `PRAGMA user_version`. The production database is at `user_version` 5, one higher than the code's last migration (4). Migration 5 came from a challenge system that was added in `f47439c` and reverted in `495aac0`. It left two unused tables, `guild_settings` and `roll_sessions`. **The next migration must check `version < 6`.** A `version < 5` block would never run in production. There's no `.pragma()` helper: use `exec('PRAGMA …')` to set a pragma and `prepare('PRAGMA …').get()` to read one. Row types for query results must be `type` aliases, not interfaces, so the row records can be cast to them. Add migrations as new `if (version < N)` blocks.
 - `tests/unit`, `tests/integration`: Vitest. Command tests mock the interaction object and the PokéAPI client, so nothing hits Discord or the network.
 
 ## Conventions
@@ -53,5 +53,6 @@ Discord bot (discord.js 14, TypeScript, CommonJS) with three feature areas: Word
   ```
 - Verify: `docker ps --filter name=wordsmith` shows the container `Up`. `docker logs --tail 25 wordsmith` shows `Successfully reloaded 12 application (/) commands.` and `Ready! Logged in as Wordsmith#3254!`.
 - Roll back without editing the compose file: on `lucky`, in `/srv/lucky`, run `docker pull devleo/wordsmith:sha-<commit>`, then `docker tag devleo/wordsmith:sha-<commit> devleo/wordsmith:latest`, then `docker compose up -d wordsmith-bot`. The next `docker compose pull` returns to the real `latest`. Only commits from 2026-10-19 onward have SHA tags.
+- Before a deploy that changes the database layer, back the database up on `lucky` with SQLite's online backup, inside the running container. Keep the copy in the volume next to `wordsmith.db`. The backup from before the node:sqlite switch is `/app/data/wordsmith-backup-2026-10-19-pre-node-sqlite.db`.
 - On `lucky`, the compose project is `developer`. The service is `wordsmith-bot`, the container is `wordsmith`, the network is `developer_wordsmith_network`, and the SQLite volume is `developer_wordsmith_data`, mounted at `/app/data`.
 - A change that only touches tests, CI or docs still builds a new image, but there's nothing new to deploy.
