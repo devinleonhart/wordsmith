@@ -1,5 +1,5 @@
 import { REST, Routes } from 'discord.js'
-import settings from './core/settings'
+import settings, { assertConfig } from './core/settings'
 import { commands } from './registry'
 
 /**
@@ -21,7 +21,6 @@ export async function registerCommands (): Promise<void> {
 
 // Allow running as a standalone script: `pnpm register`.
 if (require.main === module) {
-  const { assertConfig } = require('./core/settings') as typeof import('./core/settings')
   assertConfig()
   registerCommands().catch((error: unknown) => {
     console.error('Failed to register commands:', error)

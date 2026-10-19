@@ -26,6 +26,7 @@ Discord bot (discord.js 14, TypeScript, CommonJS) with three feature areas: Word
   - `tsconfig.json` typechecks `src`, `tests` and `scripts` with `moduleResolution: bundler`, because that's how Vitest and tsx load them. Editors use this one.
   - `tsconfig.build.json` checks and compiles only `src` with `nodenext`, which is how Node runs `dist/`. Its output is CommonJS, because `package.json` has no `"type": "module"`.
   - `pnpm typecheck` runs both checks.
+- ESLint uses typescript-eslint's `recommendedTypeChecked` across the whole repo. `tests/` turns off the `no-unsafe-*` and `require-await` rules, because its mocks are loose `any` on purpose. Keep `src` and `scripts` free of `any`.
 - The fuzzy-dice types are hand-written in `src/@types/fuzzy-dice.d.ts`. Check them against the library's real return values. fuzzy-dice also logs a line to the console for every die it rolls.
 - Coverage thresholds are top-level keys under `coverage.thresholds` in `vitest.config.mts`. Vitest ignores a nested `global:` key.
 - Node and pnpm versions are pinned in `.tool-versions`, `package.json` (`packageManager`), `Dockerfile` and `Dockerfile.dev`. CI fails if they disagree. Dependabot bumps the Docker Node image but not `.tool-versions`, so its base-image PRs need a one-line `.tool-versions` bump before they pass.

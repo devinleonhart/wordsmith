@@ -1,14 +1,14 @@
+const { defineConfig } = require('eslint/config');
 const tseslint = require('typescript-eslint');
 
-module.exports = tseslint.config(
+module.exports = defineConfig(
   {
     ignores: ['dist/**', 'node_modules/**', 'coverage/**']
   },
 
-  ...tseslint.configs.recommended,
+  tseslint.configs.recommendedTypeChecked,
 
   {
-    files: ['**/*.{js,ts}'],
     languageOptions: {
       sourceType: 'commonjs',
       parserOptions: {
@@ -18,12 +18,30 @@ module.exports = tseslint.config(
       }
     },
     rules: {
-      '@typescript-eslint/no-require-imports': 'off',
-      '@typescript-eslint/no-var-requires': 'off',
       '@typescript-eslint/explicit-function-return-type': 'off',
       // Catch the async-bug class that bites Discord bots.
       '@typescript-eslint/no-floating-promises': 'error',
       '@typescript-eslint/no-misused-promises': 'error'
     }
+  },
+
+  {
+    // Tests drive commands with loosely typed `any` mocks and async stubs on
+    // purpose, so the any-propagation and await checks are noise there.
+    files: ['tests/**/*.ts'],
+    rules: {
+      '@typescript-eslint/no-unsafe-argument': 'off',
+      '@typescript-eslint/no-unsafe-assignment': 'off',
+      '@typescript-eslint/no-unsafe-call': 'off',
+      '@typescript-eslint/no-unsafe-member-access': 'off',
+      '@typescript-eslint/no-unsafe-return': 'off',
+      '@typescript-eslint/require-await': 'off'
+    }
+  },
+
+  {
+    // This file is CommonJS by necessity.
+    files: ['eslint.config.js'],
+    rules: { '@typescript-eslint/no-require-imports': 'off' }
   }
 );

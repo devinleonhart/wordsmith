@@ -17,8 +17,8 @@
  *   pnpm cmd effectiveness --attack_type water --pokemon charizard
  */
 
-import { readdirSync, statSync } from 'node:fs'
-import { resolve, extname } from 'node:path'
+import { type ChatInputCommandInteraction, type Client } from 'discord.js'
+import { commands as registeredCommands } from '../src/registry'
 
 // ---------------------------------------------------------------------------
 // Arg parsing
@@ -52,8 +52,6 @@ interface DiscoveredCommand {
   execute: (interaction: unknown) => Promise<void>
 }
 
-const COMMANDS_DIR = resolve(__dirname, '../src/features')
-
 const OPTION_TYPES: Record<number, string> = {
   3: 'string',
   4: 'integer',
@@ -61,36 +59,30 @@ const OPTION_TYPES: Record<number, string> = {
   10: 'number',
 }
 
+interface CommandJSON {
+  name: string
+  description: string
+  options?: Array<{ name: string; description: string; required?: boolean; type: number }>
+}
+
+// Same list the bot registers (src/registry.ts), so the harness can't drift from it.
 function loadCommands(): DiscoveredCommand[] {
-  const commands: DiscoveredCommand[] = []
-
-  function walk(dir: string): void {
-    for (const entry of readdirSync(dir)) {
-      const full = resolve(dir, entry)
-      if (statSync(full).isDirectory()) {
-        walk(full)
-      } else if (extname(entry) === '.ts') {
-        const required = require(full)
-        const mod = required?.default ?? required
-        if (mod?.data?.name && typeof mod.execute === 'function') {
-          const json = mod.data.toJSON()
-          commands.push({
-            name: json.name,
-            description: json.description,
-            options: (json.options ?? []).map((o: { name: string; description: string; required?: boolean; type: number }) => ({
-              name: o.name,
-              description: o.description,
-              required: o.required ?? false,
-              type: o.type,
-            })),
-            execute: mod.execute.bind(mod),
-          })
-        }
-      }
+  const commands = registeredCommands.map(command => {
+    const json = command.data.toJSON() as CommandJSON
+    return {
+      name: json.name,
+      description: json.description,
+      options: (json.options ?? []).map(o => ({
+        name: o.name,
+        description: o.description,
+        required: o.required ?? false,
+        type: o.type,
+      })),
+      // No gateway client locally; no command uses the client argument.
+      execute: (interaction: unknown) =>
+        command.execute(interaction as ChatInputCommandInteraction, undefined as unknown as Client),
     }
-  }
-
-  walk(COMMANDS_DIR)
+  })
   return commands.sort((a, b) => a.name.localeCompare(b.name))
 }
 
@@ -149,14 +141,17 @@ const interaction = {
       return name in flags ? parseInt(flags[name], 10) : null
     },
   },
-  async reply(content: string) {
+  reply(content: string) {
     responses.push(content)
+    return Promise.resolve()
   },
-  async deferReply() {
+  deferReply() {
     // no-op — locally there is no loading state to show
+    return Promise.resolve()
   },
-  async editReply(content: string) {
+  editReply(content: string) {
     responses.push(content)
+    return Promise.resolve()
   },
 }
 

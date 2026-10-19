@@ -156,19 +156,19 @@ export const rollOpposed = (
 
   // Populate the reaction and outcome.
   switch (rollResult.outcome) {
-    case Outcomes.success:
+    case 'success':
       data.outcome = Outcomes.success
       data.reaction = DiscordEmotes.smileCat
       break
-    case Outcomes.partialSuccess:
+    case 'partial success':
       data.outcome = Outcomes.partialSuccess
       data.reaction = DiscordEmotes.poutingCat
       break
-    case Outcomes.criticalSuccess:
+    case 'critical success':
       data.outcome = Outcomes.criticalSuccess
       data.reaction = DiscordEmotes.smirkingCatWithBeer
       break
-    case Outcomes.failure:
+    case 'failure':
       data.outcome = Outcomes.failure
       data.reaction = DiscordEmotes.screamCat
       break
