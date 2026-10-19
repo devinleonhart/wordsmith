@@ -22,6 +22,7 @@ Discord bot (discord.js 14, TypeScript, CommonJS) with three feature areas: Word
 ## Conventions
 
 - Commands that call PokéAPI call `deferReply()` before their `try` block, then use `editReply()`. If `deferReply()` is inside the `try`, a failed defer makes the `catch` throw a second time.
+- `tsconfig.json` has `strict: true` and takes `target`, `module` and `lib` from `@tsconfig/node26`. Don't override them locally. The output is still CommonJS, because `package.json` has no `"type": "module"`.
 - Coverage thresholds are top-level keys under `coverage.thresholds` in `vitest.config.mts`. Vitest ignores a nested `global:` key.
 - Node and pnpm versions are pinned in `.tool-versions`, `package.json` (`packageManager`), `Dockerfile` and `Dockerfile.dev`. CI fails if they disagree. Dependabot bumps the Docker Node image but not `.tool-versions`, so its base-image PRs need a one-line `.tool-versions` bump before they pass.
 - `pnpm-workspace.yaml` holds TypeScript on 6.x until typescript-eslint supports TS 7, and pins patched versions of some transitive dependencies. Read its comments before removing an override.

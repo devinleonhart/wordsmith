@@ -3,9 +3,7 @@
     "typeRoots": ["src/@types", "node_modules/@types"],
     "rootDir": "src",
     "outDir": "dist",
-    "target": "ES2022",
-    "module": "Node16",
-    "moduleResolution": "node16"
+    "strict": true
   },
   "include": ["./src"],
   "exclude": ["node_modules", "dist"],
