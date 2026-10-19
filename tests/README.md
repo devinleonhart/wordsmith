@@ -1,79 +1,68 @@
 # Testing Guide
 
-This project uses **Vitest** for testing with TypeScript support.
+Tests use [Vitest](https://vitest.dev/). Nothing talks to Discord or PokéAPI: command tests build a mock interaction and mock the PokéAPI client.
 
-## Test Structure
+## Layout
 
 ```
 tests/
-├── unit/           # Unit tests for individual functions/modules
-├── integration/    # Integration tests for Discord bot functionality
-└── utils/          # Test utilities and helpers
+├── unit/          # pure logic: dice rules, type chart, database, settings, error handling
+└── integration/   # one file per slash command, run against a mock interaction
 ```
 
-## Running Tests
+## Running tests
 
 ```bash
-# Run tests once
-pnpm test:run
-
-# Run tests in watch mode
-pnpm test
-
-# Run with coverage
-pnpm test:coverage
-
-# Open test UI in browser
-pnpm test:ui
-
-# Run tests and watch for changes
-pnpm test:watch
+pnpm test              # run once
+pnpm test:watch        # re-run on changes
+pnpm test:coverage     # run once with a coverage report in coverage/
+pnpm test:ui           # browser UI
+pnpm quality:ci        # typecheck + lint + tests with the coverage gate, as CI runs it
 ```
 
-## Writing Tests
+The coverage gate lives in `vitest.config.mts` under `coverage.thresholds`. The keys go directly under `thresholds`: Vitest silently ignores a nested `global:` block.
 
-### Unit Tests
+## Writing a command test
 
-Focus on testing individual functions with different inputs:
+Mock the interaction inline with only the methods the command calls, and mock external clients with `vi.mock` before importing the command:
 
 ```typescript
-import { describe, it, expect } from 'vitest'
-import { RollD20 } from '../../src/rules'
+import { describe, it, expect, beforeEach, vi } from 'vitest'
 
-describe('RollD20', () => {
-  it('should return validation error for invalid inputs', () => {
-    expect(RollD20('Player', 0)).toBe('Error message')
+const mockGetPokemonByName = vi.fn()
+
+vi.mock('../../src/features/pokedex/pokemon-client', () => ({
+  pokemonClient: { getPokemonByName: mockGetPokemonByName },
+  moveClient: {}
+}))
+
+describe('Pokemon Command', () => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let cmd: any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let interaction: any
+
+  beforeEach(async () => {
+    vi.clearAllMocks()
+    cmd = await import('../../src/features/pokedex/commands/pokemon')
+    interaction = {
+      options: { getString: vi.fn() },
+      reply: vi.fn(),
+      deferReply: vi.fn(),
+      editReply: vi.fn()
+    }
+  })
+
+  it('replies with the Pokémon types', async () => {
+    interaction.options.getString.mockReturnValue('charizard')
+    mockGetPokemonByName.mockResolvedValue({
+      name: 'charizard',
+      types: [{ type: { name: 'fire' } }, { type: { name: 'flying' } }]
+    })
+    await cmd.default.execute(interaction)
+    expect(interaction.editReply).toHaveBeenCalledWith('**Charizard** is a fire, flying type Pokémon.')
   })
 })
 ```
 
-### Integration Tests
-
-Test Discord bot commands and interactions:
-
-```typescript
-import { mockDiscordInteraction, resetMocks } from '../utils/test-helpers'
-
-describe('Discord Commands', () => {
-  beforeEach(() => {
-    resetMocks()
-  })
-})
-```
-
-## Test Coverage
-
-Generate coverage reports with:
-```bash
-pnpm test:coverage
-```
-
-Coverage reports are generated in `coverage/` directory.
-
-## Best Practices
-
-1. **Test behavior, not implementation**
-2. **Use descriptive test names**
-3. **Test edge cases and error conditions**
-4. **Keep tests isolated and independent**
-5. **Use mocks for external dependencies**
+Database tests call `initDb(':memory:')` from `src/core/db.ts` so each test gets a fresh SQLite database.
