@@ -11,12 +11,12 @@ describe('db lifecycle', () => {
     vi.resetModules()
     const { initDb, getDb, closeDb } = await import('../../src/core/db')
     initDb(':memory:')
-    expect(getDb().open).toBe(true)
+    expect(getDb().isOpen).toBe(true)
 
     closeDb()
-    expect(getDb().open).toBe(false)
+    expect(getDb().isOpen).toBe(false)
 
-    // Second call hits the `db?.open === false` branch — must be a no-op.
+    // Second call hits the `db?.isOpen === false` branch — must be a no-op.
     expect(() => { closeDb() }).not.toThrow()
   })
 })

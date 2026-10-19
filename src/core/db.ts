@@ -1,25 +1,25 @@
-import Database from 'better-sqlite3'
+import { DatabaseSync } from 'node:sqlite'
 
-let db: Database.Database
+let db: DatabaseSync | undefined
 
 export function initDb (path: string = process.env.DATABASE_PATH ?? './data/wordsmith.db'): void {
-  db = new Database(path)
-  db.pragma('journal_mode = WAL')
-  db.pragma('foreign_keys = ON')
+  db = new DatabaseSync(path)
+  db.exec('PRAGMA journal_mode = WAL')
+  db.exec('PRAGMA foreign_keys = ON')
   migrate(db)
 }
 
-export function getDb (): Database.Database {
+export function getDb (): DatabaseSync {
   if (!db) throw new Error('Database not initialized. Call initDb() first.')
   return db
 }
 
 export function closeDb (): void {
-  if (db?.open) db.close()
+  if (db?.isOpen) db.close()
 }
 
-function migrate (database: Database.Database): void {
-  const version = database.pragma('user_version', { simple: true }) as number
+function migrate (database: DatabaseSync): void {
+  const { user_version: version } = database.prepare('PRAGMA user_version').get() as { user_version: number }
 
   if (version < 1) {
     database.exec(`
@@ -38,7 +38,7 @@ function migrate (database: Database.Database): void {
     `)
 
     // Rename has_star → star on databases created before versioning was introduced
-    const cols = database.pragma('table_info(characters)') as Array<{ name: string }>
+    const cols = database.prepare('PRAGMA table_info(characters)').all() as Array<{ name: string }>
     if (cols.some(c => c.name === 'has_star')) {
       database.exec('ALTER TABLE characters RENAME COLUMN has_star TO star')
     }
@@ -52,7 +52,7 @@ function migrate (database: Database.Database): void {
       );
     `)
 
-    database.pragma('user_version = 1')
+    database.exec('PRAGMA user_version = 1')
   }
 
   if (version < 2) {
@@ -65,7 +65,7 @@ function migrate (database: Database.Database): void {
       );
     `)
 
-    database.pragma('user_version = 2')
+    database.exec('PRAGMA user_version = 2')
   }
 
   if (version < 3) {
@@ -91,7 +91,7 @@ function migrate (database: Database.Database): void {
       );
     `)
 
-    database.pragma('user_version = 3')
+    database.exec('PRAGMA user_version = 3')
   }
 
   if (version < 4) {
@@ -102,6 +102,6 @@ function migrate (database: Database.Database): void {
       DROP TABLE IF EXISTS maze_state;
     `)
 
-    database.pragma('user_version = 4')
+    database.exec('PRAGMA user_version = 4')
   }
 }

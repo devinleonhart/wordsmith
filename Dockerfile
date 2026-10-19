@@ -1,11 +1,8 @@
 # syntax=docker/dockerfile:1
 
-# --- shared base: pnpm + build toolchain + manifests ---
-# python3/make/g++ are needed to compile better-sqlite3 from source: there is no
-# prebuilt binary for the Node 26 ABI on Alpine/musl yet. Only the install stages
-# inherit this; the runtime stage stays slim and gets just the compiled .node file.
+# --- shared base: pnpm + manifests ---
+# No native modules (SQLite is Node's built-in node:sqlite), so no build toolchain.
 FROM node:26.11.1-alpine AS base
-RUN apk add --no-cache python3 make g++
 RUN npm install -g pnpm@11.22.0
 WORKDIR /app
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc ./
@@ -17,7 +14,7 @@ COPY tsconfig.json tsconfig.build.json ./
 COPY ./src ./src
 RUN pnpm build
 
-# --- prod-deps: production-only node_modules (native module included) ---
+# --- prod-deps: production-only node_modules ---
 FROM base AS prod-deps
 RUN pnpm install --prod --frozen-lockfile
 

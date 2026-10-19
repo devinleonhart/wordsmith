@@ -16,7 +16,7 @@ Discord bot (discord.js 14, TypeScript, CommonJS) with three feature areas: Word
 - `src/registry.ts`: the explicit list of commands and events. A new command must be added here or it won't register.
 - `src/bootstrap.ts`: config check, DB init, event wiring, command sync, login, shutdown.
 - `src/events/interactionCreate.ts`: dispatches commands. Uncaught errors become an ephemeral reply. Throw `WordsmithError` (`src/core/errors.ts`) for messages meant for users. Other errors get a generic message and are logged.
-- `src/core/db.ts`: better-sqlite3 with migrations keyed on `PRAGMA user_version`. Add migrations as new `if (version < N)` blocks.
+- `src/core/db.ts`: Node's built-in `node:sqlite` (`DatabaseSync`), with migrations keyed on `PRAGMA user_version`. There's no `.pragma()` helper: use `exec('PRAGMA …')` to set a pragma and `prepare('PRAGMA …').get()` to read one. Row types for query results must be `type` aliases, not interfaces, so the row records can be cast to them. Add migrations as new `if (version < N)` blocks.
 - `tests/unit`, `tests/integration`: Vitest. Command tests mock the interaction object and the PokéAPI client, so nothing hits Discord or the network.
 
 ## Conventions

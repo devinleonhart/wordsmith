@@ -1,8 +1,5 @@
 FROM node:26.11.1-alpine
 
-# python3/make/g++ compile better-sqlite3: there is no prebuilt binary for the
-# Node 26 ABI on Alpine/musl yet (see Dockerfile).
-RUN apk add --no-cache python3 make g++
 RUN npm install -g pnpm@11.22.0
 
 WORKDIR /app

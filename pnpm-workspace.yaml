@@ -1,5 +1,4 @@
 allowBuilds:
-  better-sqlite3: true
   esbuild: true
 overrides:
   # Force patched transitive versions inside discord.js's tree (production).

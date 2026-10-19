@@ -35,7 +35,7 @@ describe('initDb', () => {
   })
 
   it('characters table uses star column (not has_star)', () => {
-    const cols = getDb().pragma('table_info(characters)') as Array<{ name: string }>
+    const cols = getDb().prepare('PRAGMA table_info(characters)').all() as Array<{ name: string }>
     const names = cols.map(c => c.name)
     expect(names).toContain('star')
     expect(names).not.toContain('has_star')

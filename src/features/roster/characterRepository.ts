@@ -7,7 +7,8 @@ export interface Character {
   star: boolean
 }
 
-interface CharacterRow {
+// A type alias (not an interface) so node:sqlite's row records can be cast to it.
+type CharacterRow = {
   id: number
   user_id: string
   name: string
@@ -28,7 +29,7 @@ export function createCharacter (userId: string, name: string, star: boolean): C
   const result = db
     .prepare('INSERT INTO characters (user_id, name, star) VALUES (?, ?, ?)')
     .run(userId, name, star ? 1 : 0)
-  return { id: result.lastInsertRowid as number, userId, name, star }
+  return { id: Number(result.lastInsertRowid), userId, name, star }
 }
 
 export function getCharacters (userId: string): Character[] {

@@ -105,7 +105,7 @@ jobs:
           tags: |
             devleo/wordsmith:latest
             devleo/wordsmith:sha-${{ steps.tag.outputs.sha }}
-          # Persistent layer cache across runs — skips the slow better-sqlite3
-          # source compile when dependencies are unchanged.
+          # Persistent layer cache across runs; skips reinstalling dependencies
+          # when the lockfile is unchanged.
           cache-from: type=gha
           cache-to: type=gha,mode=max
