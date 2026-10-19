@@ -91,13 +91,20 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      # Short commit SHA for an immutable rollback tag alongside :latest.
+      - name: Compute image tag
+        id: tag
+        run: echo "sha=${GITHUB_SHA::7}" >> "$GITHUB_OUTPUT"
+
       - name: Build & Push
         uses: docker/build-push-action@v7
         with:
           context: .
           push: true
           provenance: false
-          tags: devleo/wordsmith:latest
+          tags: |
+            devleo/wordsmith:latest
+            devleo/wordsmith:sha-${{ steps.tag.outputs.sha }}
           # Persistent layer cache across runs — skips the slow better-sqlite3
           # source compile when dependencies are unchanged.
           cache-from: type=gha

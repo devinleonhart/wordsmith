@@ -34,7 +34,7 @@ Discord bot (discord.js 14, TypeScript, CommonJS) with three feature areas: Word
 
 ## CI and deploy
 
-- `.github/workflows/ci.yml`: every push and PR to `master` runs the version check, `pnpm audit --prod`, and `pnpm quality:ci`. On a push to `master` it also builds the image and pushes `devleo/wordsmith:latest` (the only tag). CI does not deploy.
+- `.github/workflows/ci.yml`: every push and PR to `master` runs the version check, `pnpm audit --prod`, and `pnpm quality:ci`. On a push to `master` it also builds the image and pushes it as `devleo/wordsmith:latest` and `devleo/wordsmith:sha-<7-char commit>`. CI does not deploy.
 - The workflow cancels older runs when a newer push lands, so only the newest commit's image should reach DockerHub. When merging several commits, check that the newest run is the one that pushed.
 - Work goes straight to `master`. No PRs except Dependabot's.
 - Deploy is manual, on the `lucky` server:
@@ -45,5 +45,6 @@ Discord bot (discord.js 14, TypeScript, CommonJS) with three feature areas: Word
   docker compose up -d wordsmith-bot
   ```
 - Verify: `docker ps --filter name=wordsmith` shows the container `Up`. `docker logs --tail 25 wordsmith` shows `Successfully reloaded 12 application (/) commands.` and `Ready! Logged in as Wordsmith#3254!`.
+- Roll back without editing the compose file: on `lucky`, in `/srv/lucky`, run `docker pull devleo/wordsmith:sha-<commit>`, then `docker tag devleo/wordsmith:sha-<commit> devleo/wordsmith:latest`, then `docker compose up -d wordsmith-bot`. The next `docker compose pull` returns to the real `latest`. Only commits from 2026-10-19 onward have SHA tags.
 - On `lucky`, the compose project is `developer`. The service is `wordsmith-bot`, the container is `wordsmith`, the network is `developer_wordsmith_network`, and the SQLite volume is `developer_wordsmith_data`, mounted at `/app/data`.
 - A change that only touches tests, CI or docs still builds a new image, but there's nothing new to deploy.
