@@ -1,8 +1,8 @@
-import { SlashCommandBuilder } from '@discordjs/builders'
 import {
   type AutocompleteInteraction,
   type ChatInputCommandInteraction,
-  MessageFlags
+  MessageFlags,
+  SlashCommandBuilder
 } from 'discord.js'
 import { WordsmithError } from '../../../core/errors'
 import {

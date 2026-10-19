@@ -1,5 +1,4 @@
-import { SlashCommandBuilder } from '@discordjs/builders'
-import { type ChatInputCommandInteraction } from 'discord.js'
+import { type ChatInputCommandInteraction, SlashCommandBuilder } from 'discord.js'
 import { calculateTypeEffectiveness, getEffectivenessDescription, getValidTypes } from '../pokemon-types'
 
 const commandName = 'typecheck'

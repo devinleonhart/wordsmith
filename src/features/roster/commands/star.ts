@@ -1,5 +1,4 @@
-import { SlashCommandBuilder } from '@discordjs/builders'
-import { type ChatInputCommandInteraction, MessageFlags } from 'discord.js'
+import { type ChatInputCommandInteraction, MessageFlags, SlashCommandBuilder } from 'discord.js'
 import { WordsmithError } from '../../../core/errors'
 import { getActiveCharacter, setStar } from '../characterRepository'
 
