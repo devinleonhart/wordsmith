@@ -33,9 +33,9 @@ export default {
     // Normalize: lowercase, collapse spaces to hyphens so "ice beam" → "ice-beam"
     const moveName = rawName.trim().toLowerCase().replace(/\s+/g, '-')
 
-    try {
-      await interaction.deferReply()
+    await interaction.deferReply()
 
+    try {
       const move = await moveClient.getMoveByName(moveName)
 
       const displayName = formatMoveName(move.name)

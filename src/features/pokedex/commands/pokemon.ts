@@ -22,9 +22,9 @@ export default {
       return
     }
 
-    try {
-      await interaction.deferReply()
+    await interaction.deferReply()
 
+    try {
       const pokemon = await pokemonClient.getPokemonByName(pokemonName.toLowerCase())
       const types = pokemon.types
         .map((typeInfo) => typeInfo.type.name)

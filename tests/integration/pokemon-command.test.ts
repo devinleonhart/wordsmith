@@ -86,4 +86,13 @@ describe('Pokemon Command', () => {
       'Could not find a Pokémon named "fakemon". Please check the spelling and try again.'
     )
   })
+
+  it('should let a failed deferReply propagate instead of calling editReply', async () => {
+    interaction.options.getString.mockReturnValue('charizard')
+    const ackError = new Error('Interaction has already been acknowledged.')
+    interaction.deferReply.mockRejectedValue(ackError)
+    await expect(cmd.default.execute(interaction)).rejects.toBe(ackError)
+    expect(mockGetPokemonByName).not.toHaveBeenCalled()
+    expect(interaction.editReply).not.toHaveBeenCalled()
+  })
 })

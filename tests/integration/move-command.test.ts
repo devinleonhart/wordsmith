@@ -194,4 +194,13 @@ describe('Move Command', () => {
       'Could not find a move named "Fake Move". Please check the spelling and try again.'
     )
   })
+
+  it('should let a failed deferReply propagate instead of calling editReply', async () => {
+    interaction.options.getString.mockReturnValue('ice beam')
+    const ackError = new Error('Interaction has already been acknowledged.')
+    interaction.deferReply.mockRejectedValue(ackError)
+    await expect(cmd.default.execute(interaction)).rejects.toBe(ackError)
+    expect(mockGetMoveByName).not.toHaveBeenCalled()
+    expect(interaction.editReply).not.toHaveBeenCalled()
+  })
 })
