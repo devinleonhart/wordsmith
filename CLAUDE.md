@@ -6,7 +6,7 @@ Discord bot (discord.js 14, TypeScript, CommonJS) with three feature areas: Word
 
 - `pnpm quality:ci`: what CI runs (typecheck, lint, tests with the coverage gate). Run it before merging.
 - `pnpm test` runs once (not watch mode). Use `pnpm test:watch` for watch mode.
-- `pnpm dev`: nodemon + ts-node on `src/index.ts`. Needs `.env` (see Local dev).
+- `pnpm dev`: `tsx watch` on `src/index.ts`, restarting on changes. Needs `.env` (see Local dev). tsx doesn't typecheck, so run `pnpm quality:ci` to catch type errors.
 - `pnpm cmd <command> --<option> <value>` runs a command in the terminal without Discord. `pnpm cmd --list` shows options. Works for the dice and Pokédex commands. Roster commands (`character`, `star`, `unstar`) fail: the harness has no subcommand support and never opens the database.
 - `pnpm register` re-syncs slash commands to the guild. Boot also does this, so it's only needed if the boot-time sync failed.
 

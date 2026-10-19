@@ -7,9 +7,9 @@
   },
   "scripts": {
     "build": "rm -rf ./dist && tsc",
-    "cmd": "ts-node --files ./scripts/cmd.ts",
-    "register": "ts-node --files ./src/register.ts",
-    "dev": "NODE_ENV=development nodemon",
+    "cmd": "tsx ./scripts/cmd.ts",
+    "register": "tsx ./src/register.ts",
+    "dev": "NODE_ENV=development tsx watch ./src/index.ts",
     "lint": "eslint src/",
     "lint:fix": "eslint --fix src/",
     "quality": "tsc --noEmit && pnpm lint && pnpm test",
@@ -34,8 +34,7 @@
     "@vitest/coverage-v8": "^5.0.4",
     "@vitest/ui": "^5.0.4",
     "eslint": "^10.12.0",
-    "nodemon": "^3.1.14",
-    "ts-node": "^10.9.2",
+    "tsx": "^4.23.15",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.71.2",
     "vitest": "^5.0.4"
