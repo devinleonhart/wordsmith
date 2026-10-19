@@ -30,7 +30,7 @@ Discord bot (discord.js 14, TypeScript, CommonJS) with three feature areas: Word
 
 - Create `.env` from `.env.example` and make a `data/` directory. Startup fails if `data/` is missing. Both are gitignored.
 - With no `WORDSMITH_CLIENT_ID` or `WORDSMITH_GUILD_ID` set, the bot uses the production app and guild IDs. The only token is the production one (in `/srv/lucky/.env` on `lucky`). Running `pnpm dev` with it while production is up starts a second copy of the bot. Both race to answer each command, and the loser logs "Interaction has already been acknowledged."
-- `docker compose up` (`Dockerfile.dev`) probably fails: it lacks the `python3 make g++` that better-sqlite3 needs to compile on Alpine. Unverified.
+- `docker compose up` (`Dockerfile.dev`) runs the same dev server in a container, using `.env` and the same token caveat. To test it without logging in, pass `-e WORDSMITH_SECRET_KEY=not-a-real-token` to `docker compose run`: startup gets through the DB and stops at `TokenInvalid`.
 
 ## CI and deploy
 
