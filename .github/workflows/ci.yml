@@ -25,9 +25,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v7
 
-      # The Dockerfiles pin Node and pnpm separately, and Dependabot bumps the
-      # base image without touching .tool-versions. Fail on drift so CI tests
-      # the same versions production runs.
+      # Node and pnpm are pinned in .tool-versions/package.json and again in
+      # both Dockerfiles, and are bumped by hand. Fail on drift so CI tests the
+      # same versions production runs.
       - name: Check Node/pnpm versions match Dockerfiles
         run: |
           node_version=$(awk '$1 == "nodejs" { print $2 }' .tool-versions)

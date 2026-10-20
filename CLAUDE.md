@@ -30,7 +30,7 @@ Discord bot (discord.js 14, TypeScript, CommonJS) with three feature areas: Word
 - ESLint uses typescript-eslint's `recommendedTypeChecked` across the whole repo. `tests/` turns off the `no-unsafe-*` and `require-await` rules, because its mocks are loose `any` on purpose. Keep `src` and `scripts` free of `any`.
 - The fuzzy-dice types are hand-written in `src/@types/fuzzy-dice.d.ts`. Check them against the library's real return values. fuzzy-dice also logs a line to the console for every die it rolls.
 - Coverage thresholds are top-level keys under `coverage.thresholds` in `vitest.config.mts`. Vitest ignores a nested `global:` key.
-- Node and pnpm versions are pinned in `.tool-versions`, `package.json` (`packageManager`), `Dockerfile` and `Dockerfile.dev`. CI fails if they disagree. Dependabot bumps the Docker Node image but not `.tool-versions`, so its base-image PRs need a one-line `.tool-versions` bump before they pass.
+- Node and pnpm versions are pinned in `.tool-versions`, `package.json` (`packageManager`), `Dockerfile` and `Dockerfile.dev`. CI fails if they disagree. Dependabot doesn't track the Docker base images, so Node upgrades are manual: change `.tool-versions` and the `FROM node:` line in both Dockerfiles together. Dependabot still covers npm packages and GitHub Actions.
 - `pnpm-workspace.yaml` holds TypeScript on 6.x until typescript-eslint supports TS 7, and pins patched versions of some transitive dependencies. Read its comments before removing an override.
 
 ## Local dev

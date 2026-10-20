@@ -1,4 +1,7 @@
 version: 2
+# No "docker" ecosystem: the Node version is pinned in .tool-versions and both
+# Dockerfiles, and Dependabot can only bump the Dockerfiles. Bump Node by hand
+# in all three places (CI's version check fails if they disagree).
 updates:
   # Application dependencies (pnpm lockfile is handled by the npm ecosystem)
   - package-ecosystem: "npm"
@@ -16,12 +19,6 @@ updates:
 
   # GitHub Actions used in the CI/CD workflow
   - package-ecosystem: "github-actions"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-
-  # Base images in the Dockerfiles
-  - package-ecosystem: "docker"
     directory: "/"
     schedule:
       interval: "weekly"
