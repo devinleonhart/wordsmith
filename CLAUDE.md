@@ -4,7 +4,7 @@ Discord bot (discord.js 14, TypeScript, CommonJS) with three feature areas: Word
 
 ## Commands
 
-- `pnpm quality:ci`: what CI runs (`pnpm typecheck`, lint over the whole repo, tests with the coverage gate). Run it before merging.
+- `pnpm quality:ci`: what CI runs (`pnpm typecheck`, lint over the whole repo, `pnpm format:check`, tests with the coverage gate). Run it before merging.
 - `pnpm test` runs once (not watch mode). Use `pnpm test:watch` for watch mode.
 - `pnpm dev`: `tsx watch` on `src/index.ts`, restarting on changes. Needs `.env` (see Local dev). tsx doesn't typecheck, so run `pnpm quality:ci` to catch type errors.
 - `pnpm cmd <command> --<option> <value>` runs a command in the terminal without Discord. `pnpm cmd --list` shows options. Works for the dice and Pokédex commands. Roster commands (`character`, `star`, `unstar`) fail: the harness has no subcommand support and never opens the database.
@@ -27,7 +27,7 @@ Discord bot (discord.js 14, TypeScript, CommonJS) with three feature areas: Word
   - `tsconfig.json` typechecks `src`, `tests` and `scripts` with `moduleResolution: bundler`, because that's how Vitest and tsx load them. Editors use this one.
   - `tsconfig.build.json` checks and compiles only `src` with `nodenext`, which is how Node runs `dist/`. Its output is CommonJS, because `package.json` has no `"type": "module"`.
   - `pnpm typecheck` runs both checks.
-- ESLint (`eslint.config.mjs`) uses typescript-eslint's `recommendedTypeChecked` across the whole repo, plus ESLint Stylistic for formatting. There's no Prettier: run `pnpm lint:fix` to format. The style is no semicolons, single quotes (double quotes when the string contains an apostrophe), no trailing commas, a space before function parentheses, and no parentheses around a lone arrow-function parameter. `tests/` turns off the `no-unsafe-*` and `require-await` rules, because its mocks are loose `any` on purpose. Keep `src` and `scripts` free of `any`.
+- ESLint (`eslint.config.mjs`) uses typescript-eslint's `recommendedTypeChecked` across the whole repo, with `eslint-config-prettier` last so it never fights the formatter. Formatting is Prettier's job (`.prettierrc.json`): run `pnpm format` to format, and `pnpm format:check` is part of `quality`/`quality:ci`. The style is no semicolons, single quotes, no trailing commas, and a 100-column print width. `tests/` turns off the `no-unsafe-*` and `require-await` rules, because its mocks are loose `any` on purpose. Keep `src` and `scripts` free of `any`.
 - The fuzzy-dice types are hand-written in `src/@types/fuzzy-dice.d.ts`. Check them against the library's real return values. fuzzy-dice also logs a line to the console for every die it rolls.
 - Coverage thresholds are top-level keys under `coverage.thresholds` in `vitest.config.mts`. Vitest ignores a nested `global:` key.
 - Node and pnpm versions are pinned in `.tool-versions`, `package.json` (`packageManager`), `Dockerfile` and `Dockerfile.dev`. CI fails if they disagree. Dependabot doesn't track the Docker base images, so Node upgrades are manual: change `.tool-versions` and the `FROM node:` line in both Dockerfiles together. Dependabot still covers npm packages and GitHub Actions.

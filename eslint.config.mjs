@@ -1,5 +1,5 @@
 import { defineConfig } from 'eslint/config'
-import stylistic from '@stylistic/eslint-plugin'
+import eslintConfigPrettier from 'eslint-config-prettier/flat'
 import tseslint from 'typescript-eslint'
 
 export default defineConfig(
@@ -8,16 +8,6 @@ export default defineConfig(
   },
 
   tseslint.configs.recommendedTypeChecked,
-
-  // Formatting, enforced by `eslint --fix` (no separate formatter). Options
-  // match the existing style: no semicolons, single quotes, no trailing commas.
-  stylistic.configs.customize({
-    indent: 2,
-    quotes: 'single',
-    semi: false,
-    commaDangle: 'never',
-    braceStyle: '1tbs'
-  }),
 
   {
     languageOptions: {
@@ -31,15 +21,7 @@ export default defineConfig(
       '@typescript-eslint/explicit-function-return-type': 'off',
       // Catch the async-bug class that bites Discord bots.
       '@typescript-eslint/no-floating-promises': 'error',
-      '@typescript-eslint/no-misused-promises': 'error',
-      // House style differs from Stylistic's defaults here.
-      '@stylistic/space-before-function-paren': ['error', 'always'],
-      '@stylistic/arrow-parens': ['error', 'as-needed'],
-      // "It's" reads better than 'It\'s'.
-      '@stylistic/quotes': ['error', 'single', { avoidEscape: true }],
-      '@stylistic/operator-linebreak': ['error', 'after'],
-      // One-line helpers and `() => { shutdown('SIGINT') }` handlers are fine.
-      '@stylistic/max-statements-per-line': 'off'
+      '@typescript-eslint/no-misused-promises': 'error'
     }
   },
 
@@ -55,5 +37,8 @@ export default defineConfig(
       '@typescript-eslint/no-unsafe-return': 'off',
       '@typescript-eslint/require-await': 'off'
     }
-  }
+  },
+
+  // Formatting is Prettier's job (`pnpm format`); turn off any rules that clash with it.
+  eslintConfigPrettier
 )

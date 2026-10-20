@@ -17,7 +17,7 @@ pnpm test              # run once
 pnpm test:watch        # re-run on changes
 pnpm test:coverage     # run once with a coverage report in coverage/
 pnpm test:ui           # browser UI
-pnpm quality:ci        # typecheck + lint + tests with the coverage gate, as CI runs it
+pnpm quality:ci        # typecheck + lint + format check + tests with the coverage gate, as CI runs it
 ```
 
 The coverage gate lives in `vitest.config.mts` under `coverage.thresholds`. The keys go directly under `thresholds`: Vitest silently ignores a nested `global:` block.
@@ -60,7 +60,9 @@ describe('Pokemon Command', () => {
       types: [{ type: { name: 'fire' } }, { type: { name: 'flying' } }]
     })
     await cmd.default.execute(interaction)
-    expect(interaction.editReply).toHaveBeenCalledWith('**Charizard** is a fire, flying type Pokémon.')
+    expect(interaction.editReply).toHaveBeenCalledWith(
+      '**Charizard** is a fire, flying type Pokémon.'
+    )
   })
 })
 ```

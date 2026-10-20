@@ -5,6 +5,7 @@ A Discord bot for the Wordsmith tabletop game. It rolls Wordsmith dice, keeps a 
 ## Commands
 
 **Dice**
+
 - `/d20`: make a d20 roll against a target number.
 - `/r`: make a roll.
 - `/ro`: make an opposed roll.
@@ -12,11 +13,13 @@ A Discord bot for the Wordsmith tabletop game. It rolls Wordsmith dice, keeps a 
 - `/ror`: request that a character make an opposed roll.
 
 **Roster**
+
 - `/character`: create, list, switch, delete and view your characters, and manage their words and items.
 - `/star`: grant a star to a user's active character.
 - `/unstar`: spend a star from a user's active character.
 
 **Pokédex**
+
 - `/pokemon`: get a Pokémon's types.
 - `/move`: look up a move.
 - `/effectiveness`: how effective an attack type is against a Pokémon.
@@ -37,8 +40,9 @@ Slash commands are registered to the guild on startup.
 ```bash
 pnpm install
 pnpm dev           # run with tsx, restarting on changes
-pnpm quality       # typecheck, lint, tests
-pnpm lint:fix      # fix lint and formatting
+pnpm quality       # typecheck, lint, format check, tests
+pnpm format        # format with Prettier
+pnpm lint:fix      # fix lint problems
 pnpm quality:ci    # same, with the coverage gate CI uses
 ```
 
