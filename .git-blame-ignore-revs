@@ -1,0 +1,5 @@
+# Formatting-only commits, skipped by `git blame` (GitHub reads this file
+# automatically; locally run: git config blame.ignoreRevsFile .git-blame-ignore-revs).
+
+# Apply ESLint Stylistic formatting
+f6ec3a0030afc569bcd640bd25a3e3ab21063f97
