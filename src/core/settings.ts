@@ -1,7 +1,12 @@
-import { config } from 'dotenv'
-
+// In development, read .env from the working directory. Like dotenv, Node
+// leaves variables that are already set alone. A missing file is fine: the
+// dev container gets its variables from Compose's env_file instead.
 if (process.env.NODE_ENV === 'development') {
-  config()
+  try {
+    process.loadEnvFile()
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code !== 'ENOENT') throw error
+  }
 }
 
 interface Settings {

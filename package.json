@@ -23,7 +23,6 @@
   },
   "dependencies": {
     "discord.js": "^14.27.0",
-    "dotenv": "^18.0.8",
     "fuzzy-dice": "^2.0.0",
     "pokenode-ts": "^4.0.0"
   },

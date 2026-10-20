@@ -47,6 +47,40 @@ describe('Settings', () => {
     expect(settings.default.secretKey).toBe('dev-secret')
   })
 
+  it('should load .env in development mode', async () => {
+    const load = vi.spyOn(process, 'loadEnvFile').mockImplementation(() => {})
+    process.env.NODE_ENV = 'development'
+    await import('../../src/core/settings')
+    expect(load).toHaveBeenCalledOnce()
+    load.mockRestore()
+  })
+
+  it('should not load .env outside development mode', async () => {
+    const load = vi.spyOn(process, 'loadEnvFile').mockImplementation(() => {})
+    process.env.NODE_ENV = 'production'
+    await import('../../src/core/settings')
+    expect(load).not.toHaveBeenCalled()
+    load.mockRestore()
+  })
+
+  it('should start without a .env file in development mode', async () => {
+    const load = vi.spyOn(process, 'loadEnvFile').mockImplementation(() => {
+      throw Object.assign(new Error('no such file'), { code: 'ENOENT' })
+    })
+    process.env.NODE_ENV = 'development'
+    await expect(import('../../src/core/settings')).resolves.toBeDefined()
+    load.mockRestore()
+  })
+
+  it('should rethrow other errors from reading .env', async () => {
+    const load = vi.spyOn(process, 'loadEnvFile').mockImplementation(() => {
+      throw new Error('malformed')
+    })
+    process.env.NODE_ENV = 'development'
+    await expect(import('../../src/core/settings')).rejects.toThrow('malformed')
+    load.mockRestore()
+  })
+
   it('should expose all required properties as strings', async () => {
     const settings = await import('../../src/core/settings')
     expect(typeof settings.default.secretKey).toBe('string')
