@@ -71,20 +71,33 @@ describe('/character command', () => {
   describe('create subcommand', () => {
     it('creates the character and replies with content', async () => {
       repo.getActiveCharacter.mockReturnValue(null)
-      repo.createCharacter.mockReturnValue({ id: 1, userId: 'user-123', name: 'Aldric', star: false })
+      repo.createCharacter.mockReturnValue({
+        id: 1,
+        userId: 'user-123',
+        name: 'Aldric',
+        star: false
+      })
 
       const interaction = makeInteraction('create', { name: 'Aldric' })
       await cmd.default.execute(interaction)
 
       expect(repo.createCharacter).toHaveBeenCalledWith('user-123', 'Aldric', false)
       expect(interaction.reply).toHaveBeenCalledWith(
-        expect.objectContaining({ content: expect.stringContaining('Aldric'), flags: MessageFlags.Ephemeral })
+        expect.objectContaining({
+          content: expect.stringContaining('Aldric'),
+          flags: MessageFlags.Ephemeral
+        })
       )
     })
 
     it('sets new character as active when user has no active character', async () => {
       repo.getActiveCharacter.mockReturnValue(null)
-      repo.createCharacter.mockReturnValue({ id: 1, userId: 'user-123', name: 'Aldric', star: false })
+      repo.createCharacter.mockReturnValue({
+        id: 1,
+        userId: 'user-123',
+        name: 'Aldric',
+        star: false
+      })
 
       await cmd.default.execute(makeInteraction('create', { name: 'Aldric' }))
 
@@ -93,7 +106,12 @@ describe('/character command', () => {
 
     it('does not change active when user already has one', async () => {
       repo.getActiveCharacter.mockReturnValue({ id: 99, name: 'Existing', star: false })
-      repo.createCharacter.mockReturnValue({ id: 1, userId: 'user-123', name: 'Aldric', star: false })
+      repo.createCharacter.mockReturnValue({
+        id: 1,
+        userId: 'user-123',
+        name: 'Aldric',
+        star: false
+      })
 
       await cmd.default.execute(makeInteraction('create', { name: 'Aldric' }))
 
@@ -102,7 +120,9 @@ describe('/character command', () => {
 
     it('throws WordsmithError on duplicate name', async () => {
       repo.getActiveCharacter.mockReturnValue(null)
-      repo.createCharacter.mockImplementation(() => { throw new Error('UNIQUE constraint failed') })
+      repo.createCharacter.mockImplementation(() => {
+        throw new Error('UNIQUE constraint failed')
+      })
 
       await expect(
         cmd.default.execute(makeInteraction('create', { name: 'Aldric' }))
@@ -155,7 +175,10 @@ describe('/character command', () => {
 
       expect(repo.setActiveCharacter).toHaveBeenCalledWith('user-123', 1)
       expect(interaction.reply).toHaveBeenCalledWith(
-        expect.objectContaining({ content: expect.stringContaining('Aldric'), flags: MessageFlags.Ephemeral })
+        expect.objectContaining({
+          content: expect.stringContaining('Aldric'),
+          flags: MessageFlags.Ephemeral
+        })
       )
     })
 
@@ -182,7 +205,10 @@ describe('/character command', () => {
       expect(repo.deleteCharacter).toHaveBeenCalledWith('user-123', 'Aldric')
       expect(repo.setActiveCharacter).not.toHaveBeenCalled()
       expect(interaction.reply).toHaveBeenCalledWith(
-        expect.objectContaining({ content: expect.stringContaining('Aldric'), flags: MessageFlags.Ephemeral })
+        expect.objectContaining({
+          content: expect.stringContaining('Aldric'),
+          flags: MessageFlags.Ephemeral
+        })
       )
     })
 
@@ -243,7 +269,10 @@ describe('/character command', () => {
       await cmd.default.execute(interaction)
 
       expect(interaction.reply).toHaveBeenCalledWith(
-        expect.objectContaining({ content: expect.stringContaining('Aldric'), flags: MessageFlags.Ephemeral })
+        expect.objectContaining({
+          content: expect.stringContaining('Aldric'),
+          flags: MessageFlags.Ephemeral
+        })
       )
     })
 
@@ -274,7 +303,10 @@ describe('/character command', () => {
 
       expect(repo.addWord).toHaveBeenCalledWith(1, 'Jump')
       expect(interaction.reply).toHaveBeenCalledWith(
-        expect.objectContaining({ content: expect.stringContaining('Jump'), flags: MessageFlags.Ephemeral })
+        expect.objectContaining({
+          content: expect.stringContaining('Jump'),
+          flags: MessageFlags.Ephemeral
+        })
       )
     })
 
@@ -288,7 +320,9 @@ describe('/character command', () => {
 
     it('throws WordsmithError on duplicate word', async () => {
       repo.getActiveCharacter.mockReturnValue({ id: 1, name: 'Aldric', star: false })
-      repo.addWord.mockImplementation(() => { throw new Error('UNIQUE constraint failed') })
+      repo.addWord.mockImplementation(() => {
+        throw new Error('UNIQUE constraint failed')
+      })
 
       await expect(
         cmd.default.execute(makeInteraction('add', { word: 'Jump' }, 'word'))
@@ -309,7 +343,10 @@ describe('/character command', () => {
 
       expect(repo.deleteWord).toHaveBeenCalledWith(1, 'Jump')
       expect(interaction.reply).toHaveBeenCalledWith(
-        expect.objectContaining({ content: expect.stringContaining('Jump'), flags: MessageFlags.Ephemeral })
+        expect.objectContaining({
+          content: expect.stringContaining('Jump'),
+          flags: MessageFlags.Ephemeral
+        })
       )
     })
 
@@ -343,7 +380,10 @@ describe('/character command', () => {
 
       expect(repo.addItem).toHaveBeenCalledWith(1, 'Sword')
       expect(interaction.reply).toHaveBeenCalledWith(
-        expect.objectContaining({ content: expect.stringContaining('Sword'), flags: MessageFlags.Ephemeral })
+        expect.objectContaining({
+          content: expect.stringContaining('Sword'),
+          flags: MessageFlags.Ephemeral
+        })
       )
     })
 
@@ -357,7 +397,9 @@ describe('/character command', () => {
 
     it('throws WordsmithError on duplicate item', async () => {
       repo.getActiveCharacter.mockReturnValue({ id: 1, name: 'Aldric', star: false })
-      repo.addItem.mockImplementation(() => { throw new Error('UNIQUE constraint failed') })
+      repo.addItem.mockImplementation(() => {
+        throw new Error('UNIQUE constraint failed')
+      })
 
       await expect(
         cmd.default.execute(makeInteraction('add', { item: 'Sword' }, 'item'))
@@ -378,7 +420,10 @@ describe('/character command', () => {
 
       expect(repo.deleteItem).toHaveBeenCalledWith(1, 'Sword')
       expect(interaction.reply).toHaveBeenCalledWith(
-        expect.objectContaining({ content: expect.stringContaining('Sword'), flags: MessageFlags.Ephemeral })
+        expect.objectContaining({
+          content: expect.stringContaining('Sword'),
+          flags: MessageFlags.Ephemeral
+        })
       )
     })
 
@@ -413,9 +458,7 @@ describe('/character command', () => {
       const interaction = makeAutocompleteInteraction('al')
       await cmd.default.autocomplete(interaction)
 
-      expect(interaction.respond).toHaveBeenCalledWith([
-        { name: 'Aldric', value: 'Aldric' }
-      ])
+      expect(interaction.respond).toHaveBeenCalledWith([{ name: 'Aldric', value: 'Aldric' }])
     })
 
     it('returns matching words for the word delete subcommand', async () => {
@@ -425,9 +468,7 @@ describe('/character command', () => {
       const interaction = makeAutocompleteInteraction('sh', 'word')
       await cmd.default.autocomplete(interaction)
 
-      expect(interaction.respond).toHaveBeenCalledWith([
-        { name: 'Shoot', value: 'Shoot' }
-      ])
+      expect(interaction.respond).toHaveBeenCalledWith([{ name: 'Shoot', value: 'Shoot' }])
     })
 
     it('returns empty array for word autocomplete when no active character', async () => {
@@ -446,9 +487,7 @@ describe('/character command', () => {
       const interaction = makeAutocompleteInteraction('sw', 'item')
       await cmd.default.autocomplete(interaction)
 
-      expect(interaction.respond).toHaveBeenCalledWith([
-        { name: 'Sword', value: 'Sword' }
-      ])
+      expect(interaction.respond).toHaveBeenCalledWith([{ name: 'Sword', value: 'Sword' }])
     })
 
     it('returns empty array for item autocomplete when no active character', async () => {
@@ -466,9 +505,7 @@ describe('/character command', () => {
       const interaction = makeAutocompleteInteraction('AL')
       await cmd.default.autocomplete(interaction)
 
-      expect(interaction.respond).toHaveBeenCalledWith([
-        { name: 'Aldric', value: 'Aldric' }
-      ])
+      expect(interaction.respond).toHaveBeenCalledWith([{ name: 'Aldric', value: 'Aldric' }])
     })
 
     it('returns empty array when nothing matches', async () => {

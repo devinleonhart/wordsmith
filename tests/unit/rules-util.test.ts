@@ -10,7 +10,9 @@ import {
 describe('Rules Utilities', () => {
   describe('buildEmoteString', () => {
     it('should build correct emote string for a given count', () => {
-      expect(buildEmoteString(DiscordEmotes.redDiamond, 3)).toBe(':diamonds: :diamonds: :diamonds: ')
+      expect(buildEmoteString(DiscordEmotes.redDiamond, 3)).toBe(
+        ':diamonds: :diamonds: :diamonds: '
+      )
     })
 
     it('should return empty string for count zero', () => {
@@ -34,14 +36,16 @@ describe('Rules Utilities', () => {
 
     it('should use normal emote when random value is at or above poisoned chance', () => {
       vi.spyOn(Math, 'random').mockReturnValue(0.5)
-      expect(buildPoisonedEmoteString(DiscordEmotes.redDiamond, DiscordEmotes.skull, 1, 0.5))
-        .toBe(':diamonds: ')
+      expect(buildPoisonedEmoteString(DiscordEmotes.redDiamond, DiscordEmotes.skull, 1, 0.5)).toBe(
+        ':diamonds: '
+      )
     })
 
     it('should use poisoned emote when random value is below poisoned chance', () => {
       vi.spyOn(Math, 'random').mockReturnValue(0.49)
-      expect(buildPoisonedEmoteString(DiscordEmotes.redDiamond, DiscordEmotes.skull, 1, 0.5))
-        .toBe(':skull_crossbones: ')
+      expect(buildPoisonedEmoteString(DiscordEmotes.redDiamond, DiscordEmotes.skull, 1, 0.5)).toBe(
+        ':skull_crossbones: '
+      )
     })
 
     it('should never use poisoned emote at chance 0', () => {
@@ -64,7 +68,9 @@ describe('Rules Utilities', () => {
     })
 
     it('should return empty string for count zero', () => {
-      expect(buildPoisonedEmoteString(DiscordEmotes.redDiamond, DiscordEmotes.skull, 0, 0.5)).toBe('')
+      expect(buildPoisonedEmoteString(DiscordEmotes.redDiamond, DiscordEmotes.skull, 0, 0.5)).toBe(
+        ''
+      )
     })
   })
 
@@ -88,9 +94,15 @@ describe('Rules Utilities', () => {
     })
 
     it('should have correct ValidationError messages', () => {
-      expect(ValidationError.notInDiceRange).toBe('The target number must be one of the values of a d20.')
-      expect(ValidationError.notEnoughPlayerDice).toBe('The number of player dice cannot be less than 1.')
-      expect(ValidationError.notEnoughChallengeDice).toBe('The number of challenge dice cannot be less than 1.')
+      expect(ValidationError.notInDiceRange).toBe(
+        'The target number must be one of the values of a d20.'
+      )
+      expect(ValidationError.notEnoughPlayerDice).toBe(
+        'The number of player dice cannot be less than 1.'
+      )
+      expect(ValidationError.notEnoughChallengeDice).toBe(
+        'The number of challenge dice cannot be less than 1.'
+      )
     })
   })
 })

@@ -4,7 +4,7 @@ import { closeDb, initDb } from './core/db'
 import { commands, events } from './registry'
 import { registerCommands } from './register'
 
-export async function bootstrap (): Promise<Client> {
+export async function bootstrap(): Promise<Client> {
   assertConfig()
   initDb()
 
@@ -19,8 +19,9 @@ export async function bootstrap (): Promise<Client> {
 
   for (const event of events) {
     const listener = (...args: unknown[]): void => {
-      void Promise.resolve(event.execute(...args, client))
-        .catch(error => { console.error(`Error in event ${event.name}:`, error) })
+      void Promise.resolve(event.execute(...args, client)).catch((error) => {
+        console.error(`Error in event ${event.name}:`, error)
+      })
     }
     if (event.once) client.once(event.name, listener)
     else client.on(event.name, listener)
@@ -40,16 +41,23 @@ export async function bootstrap (): Promise<Client> {
   return client
 }
 
-function registerShutdown (client: Client): void {
+function registerShutdown(client: Client): void {
   const shutdown = (signal: string): void => {
     console.log(`Received ${signal}, shutting down…`)
-    void client.destroy()
-      .catch(error => { console.error('Error destroying client:', error) })
+    void client
+      .destroy()
+      .catch((error) => {
+        console.error('Error destroying client:', error)
+      })
       .finally(() => {
         closeDb()
         process.exit(0)
       })
   }
-  process.once('SIGTERM', () => { shutdown('SIGTERM') })
-  process.once('SIGINT', () => { shutdown('SIGINT') })
+  process.once('SIGTERM', () => {
+    shutdown('SIGTERM')
+  })
+  process.once('SIGINT', () => {
+    shutdown('SIGINT')
+  })
 }

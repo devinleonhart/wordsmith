@@ -3,7 +3,9 @@ import { RollD20 } from '../../src/features/dice/rules'
 import { setRng, resetRng, Outcomes } from '../../src/features/dice/rules-util'
 
 describe('injectable dice RNG', () => {
-  afterEach(() => { resetRng() })
+  afterEach(() => {
+    resetRng()
+  })
 
   it('forces a disaster when the RNG rolls the lowest value', () => {
     setRng(() => 0) // floor(0 * 20) + 1 === 1

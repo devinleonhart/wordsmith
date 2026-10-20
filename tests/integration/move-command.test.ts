@@ -135,7 +135,9 @@ describe('Move Command', () => {
       pp: 5,
       priority: 0,
       effect_chance: 10,
-      effect_entries: [{ language: { name: 'en' }, short_effect: 'Has a $effect_chance% chance to burn.' }]
+      effect_entries: [
+        { language: { name: 'en' }, short_effect: 'Has a $effect_chance% chance to burn.' }
+      ]
     })
     await cmd.default.execute(interaction)
     expect(interaction.editReply).toHaveBeenCalledWith(

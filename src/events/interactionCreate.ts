@@ -12,7 +12,7 @@ const GENERIC_ERROR = 'Something went wrong while running that command. Please t
 
 const event: BotEvent = {
   name: Events.InteractionCreate,
-  async execute (...args) {
+  async execute(...args) {
     const [interaction, client] = args as [Interaction, Client]
     if (interaction.isAutocomplete()) {
       const command = client.commands.get(interaction.commandName)
@@ -30,7 +30,7 @@ const event: BotEvent = {
 
 export default event
 
-async function handleExecute (
+async function handleExecute(
   command: BotCommand,
   interaction: ChatInputCommandInteraction,
   client: Client
@@ -49,7 +49,7 @@ async function handleExecute (
 // Surface the error without assuming the command hasn't already replied or
 // deferred — reply() throws InteractionAlreadyReplied in those cases, so pick
 // followUp instead. Never let the error response itself crash the handler.
-async function respondWithError (
+async function respondWithError(
   interaction: ChatInputCommandInteraction,
   content: string
 ): Promise<void> {

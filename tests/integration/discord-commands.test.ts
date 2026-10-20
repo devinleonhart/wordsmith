@@ -147,7 +147,11 @@ describe('ror (rollOpposedRequest) command', () => {
   })
 
   it('should call rollOpposedRequest with all three arguments then reply', async () => {
-    const interaction = makeInteraction({ 'character-name': 'Aragorn', 'player-dice': 4, 'challenge-dice': 2 })
+    const interaction = makeInteraction({
+      'character-name': 'Aragorn',
+      'player-dice': 4,
+      'challenge-dice': 2
+    })
     await cmd.default.execute(interaction)
     const rules = await import('../../src/features/dice/rules')
     expect(rules.rollOpposedRequest).toHaveBeenCalledWith('Aragorn', 4, 2)

@@ -2,11 +2,11 @@ import { type ChatInputCommandInteraction, SlashCommandBuilder } from 'discord.j
 import { type BotCommand } from '../../../core/command'
 import { moveClient } from '../pokemon-client'
 
-function capitalize (s: string): string {
+function capitalize(s: string): string {
   return s.charAt(0).toUpperCase() + s.slice(1)
 }
 
-function formatMoveName (name: string): string {
+function formatMoveName(name: string): string {
   return name.split('-').map(capitalize).join(' ')
 }
 
@@ -16,13 +16,13 @@ export default {
   data: new SlashCommandBuilder()
     .setName(commandName)
     .setDescription('Look up a Pokémon move.')
-    .addStringOption(option =>
+    .addStringOption((option) =>
       option
         .setName('name')
         .setDescription('The move name (e.g. "earthquake" or "ice-beam").')
         .setRequired(true)
     ),
-  async execute (interaction: ChatInputCommandInteraction) {
+  async execute(interaction: ChatInputCommandInteraction) {
     const rawName = interaction.options.getString('name', true)
 
     // Normalize: lowercase, collapse spaces to hyphens so "ice beam" → "ice-beam"
@@ -43,11 +43,12 @@ export default {
       const powerStr = move.power ? `Power: ${move.power}` : null
       const accuracyStr = move.accuracy !== null ? `Accuracy: ${move.accuracy}%` : 'Always hits'
       const ppStr = move.pp !== null ? `PP: ${move.pp}` : null
-      const priorityStr = move.priority !== 0 ? `Priority: ${move.priority > 0 ? '+' : ''}${move.priority}` : null
+      const priorityStr =
+        move.priority !== 0 ? `Priority: ${move.priority > 0 ? '+' : ''}${move.priority}` : null
 
       const statsLine = [powerStr, accuracyStr, ppStr, priorityStr].filter(Boolean).join('  ·  ')
 
-      const effectEntry = move.effect_entries.find(e => e.language.name === 'en')
+      const effectEntry = move.effect_entries.find((e) => e.language.name === 'en')
       let effect = effectEntry?.short_effect ?? ''
       if (effect && move.effect_chance !== null) {
         effect = effect.replace(/\$effect_chance/g, String(move.effect_chance))
@@ -57,7 +58,9 @@ export default {
 
       await interaction.editReply(lines.join('\n'))
     } catch {
-      await interaction.editReply(`Could not find a move named "${rawName}". Please check the spelling and try again.`)
+      await interaction.editReply(
+        `Could not find a move named "${rawName}". Please check the spelling and try again.`
+      )
     }
   }
 } satisfies BotCommand

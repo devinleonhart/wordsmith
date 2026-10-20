@@ -7,15 +7,15 @@ import { commands } from './registry'
  * runtime (bootstrap) so it can be run on its own — `pnpm register` — whenever
  * command definitions change, instead of being an implicit boot side effect.
  */
-export async function registerCommands (): Promise<void> {
-  const body = commands.map(command => command.data.toJSON())
+export async function registerCommands(): Promise<void> {
+  const body = commands.map((command) => command.data.toJSON())
   const rest = new REST().setToken(settings.secretKey)
 
   console.log(`Started refreshing ${body.length} application (/) commands.`)
-  const data = await rest.put(
+  const data = (await rest.put(
     Routes.applicationGuildCommands(settings.clientID, settings.guildID),
     { body }
-  ) as unknown[]
+  )) as unknown[]
   console.log(`Successfully reloaded ${data.length} application (/) commands.`)
 }
 

@@ -54,7 +54,7 @@ describe('getCharacters', () => {
     createCharacter('user1', 'Mira', true)
     const chars = getCharacters('user1')
     expect(chars).toHaveLength(2)
-    expect(chars.map(c => c.name)).toEqual(['Aldric', 'Mira'])
+    expect(chars.map((c) => c.name)).toEqual(['Aldric', 'Mira'])
   })
 
   it('does not return other users characters', () => {
@@ -67,7 +67,7 @@ describe('getCharacters', () => {
   it('returns characters in insertion order', () => {
     createCharacter('user1', 'Zara', false)
     createCharacter('user1', 'Aldric', false)
-    const names = getCharacters('user1').map(c => c.name)
+    const names = getCharacters('user1').map((c) => c.name)
     expect(names).toEqual(['Zara', 'Aldric'])
   })
 })
@@ -173,7 +173,10 @@ describe('addWord', () => {
   it('allows the same word on different characters', () => {
     const a = createCharacter('user1', 'Aldric', false)
     const b = createCharacter('user1', 'Mira', false)
-    expect(() => { addWord(a.id, 'Jump'); addWord(b.id, 'Jump') }).not.toThrow()
+    expect(() => {
+      addWord(a.id, 'Jump')
+      addWord(b.id, 'Jump')
+    }).not.toThrow()
   })
 })
 
@@ -259,7 +262,10 @@ describe('addItem', () => {
   it('allows the same item on different characters', () => {
     const a = createCharacter('user1', 'Aldric', false)
     const b = createCharacter('user1', 'Mira', false)
-    expect(() => { addItem(a.id, 'Sword'); addItem(b.id, 'Sword') }).not.toThrow()
+    expect(() => {
+      addItem(a.id, 'Sword')
+      addItem(b.id, 'Sword')
+    }).not.toThrow()
   })
 })
 

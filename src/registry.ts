@@ -23,9 +23,18 @@ import pokemon from './features/pokedex/commands/pokemon'
 import typecheck from './features/pokedex/commands/typecheck'
 
 export const commands: BotCommand[] = [
-  d20, roll, rollOpposed, rollOpposedRequest, rollRequest,
-  character, star, unstar,
-  effectiveness, move, pokemon, typecheck
+  d20,
+  roll,
+  rollOpposed,
+  rollOpposedRequest,
+  rollRequest,
+  character,
+  star,
+  unstar,
+  effectiveness,
+  move,
+  pokemon,
+  typecheck
 ]
 
 export const events: BotEvent[] = [interactionCreate, ready]

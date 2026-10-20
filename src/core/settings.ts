@@ -26,7 +26,7 @@ const settings: Settings = {
 // back to non-empty defaults); the clientID/guildID checks guard callers that
 // pass an explicit config object. Not run at import time so settings stays
 // importable in tests.
-export function assertConfig (s: Settings = settings): void {
+export function assertConfig(s: Settings = settings): void {
   const missing: string[] = []
   if (!s.secretKey) missing.push('WORDSMITH_SECRET_KEY')
   if (!s.clientID) missing.push('WORDSMITH_CLIENT_ID')
@@ -34,7 +34,7 @@ export function assertConfig (s: Settings = settings): void {
   if (missing.length > 0) {
     throw new Error(
       `Missing required configuration: ${missing.join(', ')}. ` +
-      'Set these environment variables (see .env.example).'
+        'Set these environment variables (see .env.example).'
     )
   }
 }

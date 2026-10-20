@@ -7,7 +7,7 @@ vi.mock('../../src/features/roster/characterRepository', () => ({
   setStar: vi.fn()
 }))
 
-const makeInteraction = (targetUser: { id: string, displayName: string }) => ({
+const makeInteraction = (targetUser: { id: string; displayName: string }) => ({
   user: { id: 'user-123' },
   options: {
     getUser: vi.fn(() => targetUser)

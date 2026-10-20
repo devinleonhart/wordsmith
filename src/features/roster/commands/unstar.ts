@@ -7,14 +7,14 @@ export default {
   data: new SlashCommandBuilder()
     .setName('unstar')
     .setDescription("Spend a star from a user's active character.")
-    .addUserOption(opt =>
+    .addUserOption((opt) =>
       opt
         .setName('user')
         .setDescription("The user whose active character's star is spent.")
         .setRequired(true)
     ),
 
-  async execute (interaction: ChatInputCommandInteraction) {
+  async execute(interaction: ChatInputCommandInteraction) {
     const target = interaction.options.getUser('user', true)
     const char = getActiveCharacter(target.id)
 

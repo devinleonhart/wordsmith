@@ -1,7 +1,11 @@
 import { type ChatInputCommandInteraction, SlashCommandBuilder } from 'discord.js'
 import { type BotCommand } from '../../../core/command'
 import { pokemonClient } from '../pokemon-client'
-import { calculateTypeEffectiveness, getEffectivenessDescription, getValidTypes } from '../pokemon-types'
+import {
+  calculateTypeEffectiveness,
+  getEffectivenessDescription,
+  getValidTypes
+} from '../pokemon-types'
 
 const commandName = 'effectiveness'
 
@@ -9,25 +13,25 @@ export default {
   data: new SlashCommandBuilder()
     .setName(commandName)
     .setDescription('Check how effective an attack type is against a specific Pokémon.')
-    .addStringOption(option =>
+    .addStringOption((option) =>
       option
         .setName('attack_type')
         .setDescription('The type of the attacking move.')
         .setRequired(true)
         .addChoices(
-          ...getValidTypes().map(type => ({
+          ...getValidTypes().map((type) => ({
             name: type.charAt(0).toUpperCase() + type.slice(1),
             value: type
           }))
         )
     )
-    .addStringOption(option =>
+    .addStringOption((option) =>
       option
         .setName('pokemon')
         .setDescription('The name of the Pokémon to check against.')
         .setRequired(true)
     ),
-  async execute (interaction: ChatInputCommandInteraction) {
+  async execute(interaction: ChatInputCommandInteraction) {
     const attackType = interaction.options.getString('attack_type', true)
     const pokemonName = interaction.options.getString('pokemon', true)
 
@@ -37,8 +41,7 @@ export default {
       const pokemon = await pokemonClient.getPokemonByName(pokemonName.toLowerCase())
 
       // Extract the Pokémon's types
-      const pokemonTypes = pokemon.types
-        .map(typeInfo => typeInfo.type.name)
+      const pokemonTypes = pokemon.types.map((typeInfo) => typeInfo.type.name)
 
       // Calculate effectiveness
       const multiplier = await calculateTypeEffectiveness(attackType, pokemonTypes)
@@ -48,7 +51,7 @@ export default {
       const pokemonDisplayName = pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)
       const attackTypeDisplay = attackType.charAt(0).toUpperCase() + attackType.slice(1)
       const typesDisplay = pokemonTypes
-        .map(type => type.charAt(0).toUpperCase() + type.slice(1))
+        .map((type) => type.charAt(0).toUpperCase() + type.slice(1))
         .join('/')
 
       await interaction.editReply(
@@ -56,9 +59,13 @@ export default {
       )
     } catch (error) {
       if (error instanceof Error && error.message.includes('404')) {
-        await interaction.editReply(`Could not find a Pokémon named "${pokemonName}". Please check the spelling and try again.`)
+        await interaction.editReply(
+          `Could not find a Pokémon named "${pokemonName}". Please check the spelling and try again.`
+        )
       } else {
-        await interaction.editReply('An error occurred while looking up the Pokémon or calculating effectiveness.')
+        await interaction.editReply(
+          'An error occurred while looking up the Pokémon or calculating effectiveness.'
+        )
       }
     }
   }

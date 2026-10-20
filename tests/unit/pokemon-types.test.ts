@@ -6,8 +6,8 @@ import {
 } from '../../src/features/pokedex/pokemon-types'
 
 // Build a minimal damage_relations object for use in mocks.
-function makeRelations (doubleTo: string[], halfTo: string[], noTo: string[]) {
-  const res = (names: string[]) => names.map(name => ({ name, url: '' }))
+function makeRelations(doubleTo: string[], halfTo: string[], noTo: string[]) {
+  const res = (names: string[]) => names.map((name) => ({ name, url: '' }))
   return {
     damage_relations: {
       double_damage_to: res(doubleTo),
@@ -159,9 +159,24 @@ describe('getValidTypes', () => {
   it('should include all standard types', () => {
     const types = getValidTypes()
     const expected = [
-      'bug', 'dark', 'dragon', 'electric', 'fairy', 'fighting',
-      'fire', 'flying', 'ghost', 'grass', 'ground', 'ice',
-      'normal', 'poison', 'psychic', 'rock', 'steel', 'water'
+      'bug',
+      'dark',
+      'dragon',
+      'electric',
+      'fairy',
+      'fighting',
+      'fire',
+      'flying',
+      'ghost',
+      'grass',
+      'ground',
+      'ice',
+      'normal',
+      'poison',
+      'psychic',
+      'rock',
+      'steel',
+      'water'
     ]
     for (const t of expected) expect(types).toContain(t)
   })

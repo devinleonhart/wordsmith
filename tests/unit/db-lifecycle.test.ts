@@ -17,6 +17,8 @@ describe('db lifecycle', () => {
     expect(getDb().isOpen).toBe(false)
 
     // Second call hits the `db?.isOpen === false` branch — must be a no-op.
-    expect(() => { closeDb() }).not.toThrow()
+    expect(() => {
+      closeDb()
+    }).not.toThrow()
   })
 })

@@ -7,7 +7,7 @@ vi.mock('../../src/features/pokedex/pokemon-client', () => ({
   moveClient: {}
 }))
 
-vi.mock('../../src/features/pokedex/pokemon-types', async importOriginal => {
+vi.mock('../../src/features/pokedex/pokemon-types', async (importOriginal) => {
   const actual = await importOriginal<typeof import('../../src/features/pokedex/pokemon-types')>()
   return { ...actual, calculateTypeEffectiveness: mockCalculateTypeEffectiveness }
 })
@@ -29,7 +29,9 @@ describe('Typecheck Command', () => {
 
   it('should have correct command name and description', () => {
     expect(cmd.default.data.name).toBe('typecheck')
-    expect(cmd.default.data.description).toBe('Check type effectiveness of an attack against a Pokémon.')
+    expect(cmd.default.data.description).toBe(
+      'Check type effectiveness of an attack against a Pokémon.'
+    )
   })
 
   it('should calculate single-type effectiveness', async () => {
@@ -63,9 +65,7 @@ describe('Typecheck Command', () => {
       .mockReturnValueOnce(null)
     mockCalculateTypeEffectiveness.mockResolvedValue(0)
     await cmd.default.execute(interaction)
-    expect(interaction.reply).toHaveBeenCalledWith(
-      '**Electric** vs **Ground**\nIt has no effect!'
-    )
+    expect(interaction.reply).toHaveBeenCalledWith('**Electric** vs **Ground**\nIt has no effect!')
   })
 
   it('should report quad effectiveness', async () => {

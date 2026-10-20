@@ -1,9 +1,15 @@
 // Injectable RNG so dice outcomes can be made deterministic in tests.
 // Defaults to null so random() dispatches to the live Math.random (spy-able).
 let rng: (() => number) | null = null
-export function setRng (fn: () => number): void { rng = fn }
-export function resetRng (): void { rng = null }
-export function random (): number { return (rng ?? Math.random)() }
+export function setRng(fn: () => number): void {
+  rng = fn
+}
+export function resetRng(): void {
+  rng = null
+}
+export function random(): number {
+  return (rng ?? Math.random)()
+}
 
 export enum DiscordEmotes {
   redDiamond = ':diamonds:',
@@ -41,10 +47,7 @@ export enum ValidationError {
  * @param {number} numberOfEmotes - The number of emotes that should be returned in the string.
  * @return {string} The emotes as a single string.
  */
-export function buildEmoteString (
-  emote: string,
-  numberOfEmotes: number
-): string {
+export function buildEmoteString(emote: string, numberOfEmotes: number): string {
   let emotes = ''
   for (let i = 0; i < numberOfEmotes; i++) {
     emotes += `${emote} `
@@ -62,7 +65,7 @@ export function buildEmoteString (
  * @param {number} poisonedChance - The chance of a poisoned emote being returned. 0-1
  * @return {string} The emotes as a single string.
  */
-export function buildPoisonedEmoteString (
+export function buildPoisonedEmoteString(
   emote: string,
   poisonedEmote: string,
   numberOfEmotes: number,

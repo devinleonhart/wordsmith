@@ -2,24 +2,26 @@ import { DatabaseSync } from 'node:sqlite'
 
 let db: DatabaseSync | undefined
 
-export function initDb (path: string = process.env.DATABASE_PATH ?? './data/wordsmith.db'): void {
+export function initDb(path: string = process.env.DATABASE_PATH ?? './data/wordsmith.db'): void {
   db = new DatabaseSync(path)
   db.exec('PRAGMA journal_mode = WAL')
   db.exec('PRAGMA foreign_keys = ON')
   migrate(db)
 }
 
-export function getDb (): DatabaseSync {
+export function getDb(): DatabaseSync {
   if (!db) throw new Error('Database not initialized. Call initDb() first.')
   return db
 }
 
-export function closeDb (): void {
+export function closeDb(): void {
   if (db?.isOpen) db.close()
 }
 
-function migrate (database: DatabaseSync): void {
-  const { user_version: version } = database.prepare('PRAGMA user_version').get() as { user_version: number }
+function migrate(database: DatabaseSync): void {
+  const { user_version: version } = database.prepare('PRAGMA user_version').get() as {
+    user_version: number
+  }
 
   if (version < 1) {
     database.exec(`
@@ -39,7 +41,7 @@ function migrate (database: DatabaseSync): void {
 
     // Rename has_star → star on databases created before versioning was introduced
     const cols = database.prepare('PRAGMA table_info(characters)').all() as Array<{ name: string }>
-    if (cols.some(c => c.name === 'has_star')) {
+    if (cols.some((c) => c.name === 'has_star')) {
       database.exec('ALTER TABLE characters RENAME COLUMN has_star TO star')
     }
 

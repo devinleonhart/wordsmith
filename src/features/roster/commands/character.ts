@@ -24,11 +24,11 @@ export default {
   data: new SlashCommandBuilder()
     .setName('character')
     .setDescription('Manage your characters.')
-    .addSubcommand(sub =>
+    .addSubcommand((sub) =>
       sub
         .setName('create')
         .setDescription('Create a new character.')
-        .addStringOption(opt =>
+        .addStringOption((opt) =>
           opt
             .setName('name')
             .setDescription("Your character's name.")
@@ -37,14 +37,12 @@ export default {
             .setMaxLength(64)
         )
     )
-    .addSubcommand(sub =>
-      sub.setName('list').setDescription('List all your characters.')
-    )
-    .addSubcommand(sub =>
+    .addSubcommand((sub) => sub.setName('list').setDescription('List all your characters.'))
+    .addSubcommand((sub) =>
       sub
         .setName('switch')
         .setDescription('Switch your active character.')
-        .addStringOption(opt =>
+        .addStringOption((opt) =>
           opt
             .setName('name')
             .setDescription('The character to switch to.')
@@ -52,11 +50,11 @@ export default {
             .setAutocomplete(true)
         )
     )
-    .addSubcommand(sub =>
+    .addSubcommand((sub) =>
       sub
         .setName('delete')
         .setDescription('Delete a character.')
-        .addStringOption(opt =>
+        .addStringOption((opt) =>
           opt
             .setName('name')
             .setDescription('The character to delete.')
@@ -64,18 +62,16 @@ export default {
             .setAutocomplete(true)
         )
     )
-    .addSubcommand(sub =>
-      sub.setName('info').setDescription('Show your active character.')
-    )
-    .addSubcommandGroup(group =>
+    .addSubcommand((sub) => sub.setName('info').setDescription('Show your active character.'))
+    .addSubcommandGroup((group) =>
       group
         .setName('word')
         .setDescription('Manage words for your active character.')
-        .addSubcommand(sub =>
+        .addSubcommand((sub) =>
           sub
             .setName('add')
             .setDescription('Add a word to your active character.')
-            .addStringOption(opt =>
+            .addStringOption((opt) =>
               opt
                 .setName('word')
                 .setDescription('The word to add.')
@@ -83,11 +79,11 @@ export default {
                 .setMaxLength(64)
             )
         )
-        .addSubcommand(sub =>
+        .addSubcommand((sub) =>
           sub
             .setName('delete')
             .setDescription('Remove a word from your active character.')
-            .addStringOption(opt =>
+            .addStringOption((opt) =>
               opt
                 .setName('word')
                 .setDescription('The word to remove.')
@@ -96,15 +92,15 @@ export default {
             )
         )
     )
-    .addSubcommandGroup(group =>
+    .addSubcommandGroup((group) =>
       group
         .setName('item')
         .setDescription('Manage items for your active character.')
-        .addSubcommand(sub =>
+        .addSubcommand((sub) =>
           sub
             .setName('add')
             .setDescription('Add an item to your active character.')
-            .addStringOption(opt =>
+            .addStringOption((opt) =>
               opt
                 .setName('item')
                 .setDescription('The item to add.')
@@ -112,11 +108,11 @@ export default {
                 .setMaxLength(64)
             )
         )
-        .addSubcommand(sub =>
+        .addSubcommand((sub) =>
           sub
             .setName('delete')
             .setDescription('Remove an item from your active character.')
-            .addStringOption(opt =>
+            .addStringOption((opt) =>
               opt
                 .setName('item')
                 .setDescription('The item to remove.')
@@ -126,7 +122,7 @@ export default {
         )
     ),
 
-  async execute (interaction: ChatInputCommandInteraction) {
+  async execute(interaction: ChatInputCommandInteraction) {
     const group = interaction.options.getSubcommandGroup()
     const sub = interaction.options.getSubcommand()
     const userId = interaction.user.id
@@ -142,41 +138,52 @@ export default {
     }
 
     switch (sub) {
-      case 'create': return handleCreate(interaction, userId)
-      case 'list': return handleList(interaction, userId)
-      case 'switch': return handleSwitch(interaction, userId)
-      case 'delete': return handleDelete(interaction, userId)
-      case 'info': return handleInfo(interaction, userId)
+      case 'create':
+        return handleCreate(interaction, userId)
+      case 'list':
+        return handleList(interaction, userId)
+      case 'switch':
+        return handleSwitch(interaction, userId)
+      case 'delete':
+        return handleDelete(interaction, userId)
+      case 'info':
+        return handleInfo(interaction, userId)
     }
   },
 
-  async autocomplete (interaction: AutocompleteInteraction) {
+  async autocomplete(interaction: AutocompleteInteraction) {
     const group = interaction.options.getSubcommandGroup()
     const userId = interaction.user.id
     const focused = interaction.options.getFocused().toLowerCase()
 
     if (group === 'word') {
       const active = getActiveCharacter(userId)
-      if (!active) { await interaction.respond([]); return }
+      if (!active) {
+        await interaction.respond([])
+        return
+      }
       const words = getWords(active.id)
       await interaction.respond(
         words
-          .filter(w => w.toLowerCase().startsWith(focused))
+          .filter((w) => w.toLowerCase().startsWith(focused))
           .slice(0, 25)
-          .map(w => ({ name: w, value: w }))
+          .map((w) => ({ name: w, value: w }))
       )
       return
     }
 
     if (group === 'item') {
       const active = getActiveCharacter(userId)
-      if (!active) { await interaction.respond([]); return }
+      if (!active) {
+        await interaction.respond([])
+        return
+      }
       const items = getItems(active.id)
       await interaction.respond(
         items
-          .filter(i => i.toLowerCase().startsWith(focused))
+          .filter((i) => i.toLowerCase().startsWith(focused))
           .slice(0, 25)
-          .map(i => ({ name: i, value: i }))
+          .map((i) => ({ name: i, value: i }))
       )
       return
     }
@@ -184,14 +191,17 @@ export default {
     const chars = getCharacters(userId)
     await interaction.respond(
       chars
-        .filter(c => c.name.toLowerCase().startsWith(focused))
+        .filter((c) => c.name.toLowerCase().startsWith(focused))
         .slice(0, 25)
-        .map(c => ({ name: c.name, value: c.name }))
+        .map((c) => ({ name: c.name, value: c.name }))
     )
   }
 } satisfies BotCommand
 
-async function handleCreate (interaction: ChatInputCommandInteraction, userId: string): Promise<void> {
+async function handleCreate(
+  interaction: ChatInputCommandInteraction,
+  userId: string
+): Promise<void> {
   const name = interaction.options.getString('name', true)
   const existingActive = getActiveCharacter(userId)
 
@@ -208,7 +218,7 @@ async function handleCreate (interaction: ChatInputCommandInteraction, userId: s
   })
 }
 
-async function handleList (interaction: ChatInputCommandInteraction, userId: string): Promise<void> {
+async function handleList(interaction: ChatInputCommandInteraction, userId: string): Promise<void> {
   const chars = getCharacters(userId)
 
   if (chars.length === 0) {
@@ -221,7 +231,7 @@ async function handleList (interaction: ChatInputCommandInteraction, userId: str
 
   const active = getActiveCharacter(userId)
   const lines = chars
-    .map(c => `${active?.id === c.id ? '▶ ' : '   '}**${c.name}**${c.star ? ' ★' : ''}`)
+    .map((c) => `${active?.id === c.id ? '▶ ' : '   '}**${c.name}**${c.star ? ' ★' : ''}`)
     .join('\n')
 
   await interaction.reply({
@@ -230,9 +240,12 @@ async function handleList (interaction: ChatInputCommandInteraction, userId: str
   })
 }
 
-async function handleSwitch (interaction: ChatInputCommandInteraction, userId: string): Promise<void> {
+async function handleSwitch(
+  interaction: ChatInputCommandInteraction,
+  userId: string
+): Promise<void> {
   const name = interaction.options.getString('name', true)
-  const char = getCharacters(userId).find(c => c.name === name)
+  const char = getCharacters(userId).find((c) => c.name === name)
 
   if (!char) throw new WordsmithError(`You don't have a character named **${name}**.`)
 
@@ -244,7 +257,10 @@ async function handleSwitch (interaction: ChatInputCommandInteraction, userId: s
   })
 }
 
-async function handleDelete (interaction: ChatInputCommandInteraction, userId: string): Promise<void> {
+async function handleDelete(
+  interaction: ChatInputCommandInteraction,
+  userId: string
+): Promise<void> {
   const name = interaction.options.getString('name', true)
   const active = getActiveCharacter(userId)
 
@@ -268,7 +284,7 @@ async function handleDelete (interaction: ChatInputCommandInteraction, userId: s
   })
 }
 
-async function handleInfo (interaction: ChatInputCommandInteraction, userId: string): Promise<void> {
+async function handleInfo(interaction: ChatInputCommandInteraction, userId: string): Promise<void> {
   const char = getActiveCharacter(userId)
 
   if (!char) {
@@ -282,18 +298,20 @@ async function handleInfo (interaction: ChatInputCommandInteraction, userId: str
   const words = getWords(char.id)
   const items = getItems(char.id)
 
-  const lines: string[] = [
-    `**${char.name}**${char.star ? ' ★' : ''}`
-  ]
+  const lines: string[] = [`**${char.name}**${char.star ? ' ★' : ''}`]
   if (words.length > 0) lines.push(`**Words:** ${words.join(', ')}`)
   if (items.length > 0) lines.push(`**Items:** ${items.join(', ')}`)
 
   await interaction.reply({ content: lines.join('\n'), flags: MessageFlags.Ephemeral })
 }
 
-async function handleWordAdd (interaction: ChatInputCommandInteraction, userId: string): Promise<void> {
+async function handleWordAdd(
+  interaction: ChatInputCommandInteraction,
+  userId: string
+): Promise<void> {
   const active = getActiveCharacter(userId)
-  if (!active) throw new WordsmithError('You have no active character. Use `/character switch` first.')
+  if (!active)
+    throw new WordsmithError('You have no active character. Use `/character switch` first.')
 
   const word = interaction.options.getString('word', true)
 
@@ -309,9 +327,13 @@ async function handleWordAdd (interaction: ChatInputCommandInteraction, userId: 
   })
 }
 
-async function handleWordDelete (interaction: ChatInputCommandInteraction, userId: string): Promise<void> {
+async function handleWordDelete(
+  interaction: ChatInputCommandInteraction,
+  userId: string
+): Promise<void> {
   const active = getActiveCharacter(userId)
-  if (!active) throw new WordsmithError('You have no active character. Use `/character switch` first.')
+  if (!active)
+    throw new WordsmithError('You have no active character. Use `/character switch` first.')
 
   const word = interaction.options.getString('word', true)
 
@@ -325,9 +347,13 @@ async function handleWordDelete (interaction: ChatInputCommandInteraction, userI
   })
 }
 
-async function handleItemAdd (interaction: ChatInputCommandInteraction, userId: string): Promise<void> {
+async function handleItemAdd(
+  interaction: ChatInputCommandInteraction,
+  userId: string
+): Promise<void> {
   const active = getActiveCharacter(userId)
-  if (!active) throw new WordsmithError('You have no active character. Use `/character switch` first.')
+  if (!active)
+    throw new WordsmithError('You have no active character. Use `/character switch` first.')
 
   const item = interaction.options.getString('item', true)
 
@@ -343,9 +369,13 @@ async function handleItemAdd (interaction: ChatInputCommandInteraction, userId: 
   })
 }
 
-async function handleItemDelete (interaction: ChatInputCommandInteraction, userId: string): Promise<void> {
+async function handleItemDelete(
+  interaction: ChatInputCommandInteraction,
+  userId: string
+): Promise<void> {
   const active = getActiveCharacter(userId)
-  if (!active) throw new WordsmithError('You have no active character. Use `/character switch` first.')
+  if (!active)
+    throw new WordsmithError('You have no active character. Use `/character switch` first.')
 
   const item = interaction.options.getString('item', true)
 

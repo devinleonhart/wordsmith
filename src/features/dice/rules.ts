@@ -1,11 +1,5 @@
 import * as FuzzyDice from 'fuzzy-dice'
-import {
-  DiscordEmotes,
-  Outcomes,
-  ValidationError,
-  buildEmoteString,
-  random
-} from './rules-util'
+import { DiscordEmotes, Outcomes, ValidationError, buildEmoteString, random } from './rules-util'
 
 interface RollD20Data {
   targetNumber: number
@@ -96,18 +90,11 @@ export const roll = (playerName: string, dice: number): string => {
   }
 
   const rollResult = FuzzyDice.roll(wsDiceType, dice)
-  const rolledBlanks =
-    dice - rollResult.num_successes - rollResult.num_criticals
+  const rolledBlanks = dice - rollResult.num_successes - rollResult.num_criticals
 
   let playerResult = ''
-  playerResult += buildEmoteString(
-    DiscordEmotes.star,
-    rollResult.num_criticals
-  )
-  playerResult += buildEmoteString(
-    DiscordEmotes.orangeDiamond,
-    rollResult.num_successes
-  )
+  playerResult += buildEmoteString(DiscordEmotes.star, rollResult.num_criticals)
+  playerResult += buildEmoteString(DiscordEmotes.orangeDiamond, rollResult.num_successes)
   playerResult += buildEmoteString(DiscordEmotes.blueDiamond, rolledBlanks)
 
   return `
@@ -136,19 +123,13 @@ export const rollOpposed = (
     return ValidationError.notEnoughChallengeDice
   }
 
-  const rollResult = FuzzyDice.opposed_check(
-    wsDiceType,
-    playerDice,
-    wsDiceType,
-    challengeDice
-  )
+  const rollResult = FuzzyDice.opposed_check(wsDiceType, playerDice, wsDiceType, challengeDice)
 
   const data: RollOpposedData = {
     challengeBlanks: challengeDice - rollResult.num_opposed_successes,
     challengeResult: '',
     outcome: '',
-    playerBlanks:
-      playerDice - rollResult.num_successes - rollResult.num_criticals,
+    playerBlanks: playerDice - rollResult.num_successes - rollResult.num_criticals,
     playerName,
     playerResult: '',
     reaction: ''
@@ -179,26 +160,14 @@ export const rollOpposed = (
   }
 
   // Populate the player result and challenge result.
-  data.playerResult += buildEmoteString(
-    DiscordEmotes.star,
-    rollResult.num_criticals
-  )
-  data.playerResult += buildEmoteString(
-    DiscordEmotes.orangeDiamond,
-    rollResult.num_successes
-  )
-  data.playerResult += buildEmoteString(
-    DiscordEmotes.blueDiamond,
-    data.playerBlanks
-  )
+  data.playerResult += buildEmoteString(DiscordEmotes.star, rollResult.num_criticals)
+  data.playerResult += buildEmoteString(DiscordEmotes.orangeDiamond, rollResult.num_successes)
+  data.playerResult += buildEmoteString(DiscordEmotes.blueDiamond, data.playerBlanks)
   data.challengeResult += buildEmoteString(
     DiscordEmotes.orangeDiamond,
     rollResult.num_opposed_successes
   )
-  data.challengeResult += buildEmoteString(
-    DiscordEmotes.blueDiamond,
-    data.challengeBlanks
-  )
+  data.challengeResult += buildEmoteString(DiscordEmotes.blueDiamond, data.challengeBlanks)
 
   return `
 ---

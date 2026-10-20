@@ -46,7 +46,9 @@ describe('Pokemon Command', () => {
       types: [{ type: { name: 'grass' } }, { type: { name: 'poison' } }]
     })
     await cmd.default.execute(interaction)
-    expect(interaction.editReply).toHaveBeenCalledWith('**Bulbasaur** is a grass, poison type Pokémon.')
+    expect(interaction.editReply).toHaveBeenCalledWith(
+      '**Bulbasaur** is a grass, poison type Pokémon.'
+    )
   })
 
   it('should capitalise the Pokémon name in the response', async () => {
@@ -56,9 +58,7 @@ describe('Pokemon Command', () => {
       types: [{ type: { name: 'electric' } }]
     })
     await cmd.default.execute(interaction)
-    expect(interaction.editReply).toHaveBeenCalledWith(
-      expect.stringContaining('**Pikachu**')
-    )
+    expect(interaction.editReply).toHaveBeenCalledWith(expect.stringContaining('**Pikachu**'))
   })
 
   it('should pass the lowercased name to the API', async () => {

@@ -8,7 +8,7 @@ vi.mock('../../src/features/pokedex/pokemon-client', () => ({
   moveClient: {}
 }))
 
-vi.mock('../../src/features/pokedex/pokemon-types', async importOriginal => {
+vi.mock('../../src/features/pokedex/pokemon-types', async (importOriginal) => {
   const actual = await importOriginal<typeof import('../../src/features/pokedex/pokemon-types')>()
   return { ...actual, calculateTypeEffectiveness: mockCalculateTypeEffectiveness }
 })
@@ -36,9 +36,7 @@ describe('Effectiveness Command', () => {
   })
 
   it('should calculate effectiveness against a single-type Pokémon', async () => {
-    interaction.options.getString
-      .mockReturnValueOnce('electric')
-      .mockReturnValueOnce('pikachu')
+    interaction.options.getString.mockReturnValueOnce('electric').mockReturnValueOnce('pikachu')
     mockGetPokemonByName.mockResolvedValue({
       name: 'pikachu',
       types: [{ type: { name: 'electric' } }]
@@ -51,9 +49,7 @@ describe('Effectiveness Command', () => {
   })
 
   it('should calculate effectiveness against a dual-type Pokémon', async () => {
-    interaction.options.getString
-      .mockReturnValueOnce('water')
-      .mockReturnValueOnce('charizard')
+    interaction.options.getString.mockReturnValueOnce('water').mockReturnValueOnce('charizard')
     mockGetPokemonByName.mockResolvedValue({
       name: 'charizard',
       types: [{ type: { name: 'fire' } }, { type: { name: 'flying' } }]
@@ -66,9 +62,7 @@ describe('Effectiveness Command', () => {
   })
 
   it('should pass the Pokémon types to calculateTypeEffectiveness', async () => {
-    interaction.options.getString
-      .mockReturnValueOnce('fire')
-      .mockReturnValueOnce('squirtle')
+    interaction.options.getString.mockReturnValueOnce('fire').mockReturnValueOnce('squirtle')
     mockGetPokemonByName.mockResolvedValue({
       name: 'squirtle',
       types: [{ type: { name: 'water' } }]
@@ -79,9 +73,7 @@ describe('Effectiveness Command', () => {
   })
 
   it('should pass the lowercased Pokémon name to the API', async () => {
-    interaction.options.getString
-      .mockReturnValueOnce('fire')
-      .mockReturnValueOnce('SQUIRTLE')
+    interaction.options.getString.mockReturnValueOnce('fire').mockReturnValueOnce('SQUIRTLE')
     mockGetPokemonByName.mockResolvedValue({
       name: 'squirtle',
       types: [{ type: { name: 'water' } }]
@@ -92,9 +84,7 @@ describe('Effectiveness Command', () => {
   })
 
   it('should report not-found error for a 404 response', async () => {
-    interaction.options.getString
-      .mockReturnValueOnce('fire')
-      .mockReturnValueOnce('fakemon')
+    interaction.options.getString.mockReturnValueOnce('fire').mockReturnValueOnce('fakemon')
     mockGetPokemonByName.mockRejectedValue(new Error('404 Not Found'))
     await cmd.default.execute(interaction)
     expect(interaction.editReply).toHaveBeenCalledWith(
@@ -103,9 +93,7 @@ describe('Effectiveness Command', () => {
   })
 
   it('should report a generic error for non-404 failures', async () => {
-    interaction.options.getString
-      .mockReturnValueOnce('fire')
-      .mockReturnValueOnce('bulbasaur')
+    interaction.options.getString.mockReturnValueOnce('fire').mockReturnValueOnce('bulbasaur')
     mockGetPokemonByName.mockRejectedValue(new Error('Network timeout'))
     await cmd.default.execute(interaction)
     expect(interaction.editReply).toHaveBeenCalledWith(
@@ -114,9 +102,7 @@ describe('Effectiveness Command', () => {
   })
 
   it('should let a failed deferReply propagate instead of calling editReply', async () => {
-    interaction.options.getString
-      .mockReturnValueOnce('water')
-      .mockReturnValueOnce('charizard')
+    interaction.options.getString.mockReturnValueOnce('water').mockReturnValueOnce('charizard')
     const ackError = new Error('Interaction has already been acknowledged.')
     interaction.deferReply.mockRejectedValue(ackError)
     await expect(cmd.default.execute(interaction)).rejects.toBe(ackError)

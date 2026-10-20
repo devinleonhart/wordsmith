@@ -21,7 +21,7 @@ declare module 'fuzzy-dice' {
     crit_threshold: number
     generator?: () => number
 
-    constructor (
+    constructor(
       num_sides: number,
       num_blank_sides: number,
       num_crit_sides: number,
@@ -30,9 +30,9 @@ declare module 'fuzzy-dice' {
     )
   }
 
-  export function roll (dice: Dice, pdice: number): RollResponse
+  export function roll(dice: Dice, pdice: number): RollResponse
 
-  export function opposed_check (
+  export function opposed_check(
     dice_type: Dice,
     num_dice: number,
     opposed_dice_type: Dice,

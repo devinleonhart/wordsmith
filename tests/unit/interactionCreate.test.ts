@@ -27,7 +27,11 @@ describe('interactionCreate handler', () => {
   })
 
   it('surfaces a WordsmithError message as an ephemeral reply', async () => {
-    const command = { execute: vi.fn(async () => { throw new WordsmithError('nope') }) }
+    const command = {
+      execute: vi.fn(async () => {
+        throw new WordsmithError('nope')
+      })
+    }
     const interaction = makeInteraction()
     await handler.execute(interaction, makeClient(command))
 
@@ -39,7 +43,11 @@ describe('interactionCreate handler', () => {
 
   it('replies with a generic message and logs on an unexpected error', async () => {
     const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
-    const command = { execute: vi.fn(async () => { throw new Error('boom') }) }
+    const command = {
+      execute: vi.fn(async () => {
+        throw new Error('boom')
+      })
+    }
     const interaction = makeInteraction()
     await handler.execute(interaction, makeClient(command))
 
@@ -52,7 +60,11 @@ describe('interactionCreate handler', () => {
   })
 
   it('uses followUp when the interaction was already deferred', async () => {
-    const command = { execute: vi.fn(async () => { throw new WordsmithError('later') }) }
+    const command = {
+      execute: vi.fn(async () => {
+        throw new WordsmithError('later')
+      })
+    }
     const interaction = makeInteraction({ deferred: true })
     await handler.execute(interaction, makeClient(command))
 
@@ -65,9 +77,15 @@ describe('interactionCreate handler', () => {
 
   it('does not throw if sending the error response itself fails', async () => {
     const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
-    const command = { execute: vi.fn(async () => { throw new WordsmithError('x') }) }
+    const command = {
+      execute: vi.fn(async () => {
+        throw new WordsmithError('x')
+      })
+    }
     const interaction = makeInteraction({
-      reply: vi.fn(async () => { throw new Error('reply failed') })
+      reply: vi.fn(async () => {
+        throw new Error('reply failed')
+      })
     })
     await expect(handler.execute(interaction, makeClient(command))).resolves.toBeUndefined()
     expect(errorSpy).toHaveBeenCalled()

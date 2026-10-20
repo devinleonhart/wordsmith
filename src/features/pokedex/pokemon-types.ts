@@ -3,20 +3,35 @@ import { pokemonClient } from './pokemon-client'
 
 // The 18 current types — used synchronously for slash command option lists.
 const VALID_TYPES = [
-  'bug', 'dark', 'dragon', 'electric', 'fairy', 'fighting',
-  'fire', 'flying', 'ghost', 'grass', 'ground', 'ice',
-  'normal', 'poison', 'psychic', 'rock', 'steel', 'water'
+  'bug',
+  'dark',
+  'dragon',
+  'electric',
+  'fairy',
+  'fighting',
+  'fire',
+  'flying',
+  'ghost',
+  'grass',
+  'ground',
+  'ice',
+  'normal',
+  'poison',
+  'psychic',
+  'rock',
+  'steel',
+  'water'
 ]
 
 // Module-level cache so each type is fetched from the API at most once per process.
 const typeRelationsCache = new Map<string, TypeRelations>()
 
-export async function calculateTypeEffectiveness (
+export async function calculateTypeEffectiveness(
   attackType: string,
   defenderTypes: string[]
 ): Promise<number> {
   const normalizedAttack = attackType.toLowerCase()
-  const normalizedDefenders = defenderTypes.map(t => t.toLowerCase())
+  const normalizedDefenders = defenderTypes.map((t) => t.toLowerCase())
 
   let relations = typeRelationsCache.get(normalizedAttack)
   if (!relations) {
@@ -27,11 +42,11 @@ export async function calculateTypeEffectiveness (
 
   let multiplier = 1
   for (const defenderType of normalizedDefenders) {
-    if (relations.no_damage_to.some(t => t.name === defenderType)) {
+    if (relations.no_damage_to.some((t) => t.name === defenderType)) {
       multiplier *= 0
-    } else if (relations.half_damage_to.some(t => t.name === defenderType)) {
+    } else if (relations.half_damage_to.some((t) => t.name === defenderType)) {
       multiplier *= 0.5
-    } else if (relations.double_damage_to.some(t => t.name === defenderType)) {
+    } else if (relations.double_damage_to.some((t) => t.name === defenderType)) {
       multiplier *= 2
     }
     // else: neutral — multiplier unchanged
@@ -40,7 +55,7 @@ export async function calculateTypeEffectiveness (
   return multiplier
 }
 
-export function getEffectivenessDescription (multiplier: number): string {
+export function getEffectivenessDescription(multiplier: number): string {
   if (multiplier === 0) return 'It has no effect!'
   if (multiplier === 0.25) return "It's not very effective... (0.25×)"
   if (multiplier === 0.5) return "It's not very effective... (0.5×)"
@@ -50,6 +65,6 @@ export function getEffectivenessDescription (multiplier: number): string {
   return `It deals ${multiplier}× damage.`
 }
 
-export function getValidTypes (): string[] {
+export function getValidTypes(): string[] {
   return [...VALID_TYPES]
 }

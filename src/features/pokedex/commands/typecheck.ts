@@ -1,6 +1,10 @@
 import { type ChatInputCommandInteraction, SlashCommandBuilder } from 'discord.js'
 import { type BotCommand } from '../../../core/command'
-import { calculateTypeEffectiveness, getEffectivenessDescription, getValidTypes } from '../pokemon-types'
+import {
+  calculateTypeEffectiveness,
+  getEffectivenessDescription,
+  getValidTypes
+} from '../pokemon-types'
 
 const commandName = 'typecheck'
 
@@ -8,43 +12,43 @@ export default {
   data: new SlashCommandBuilder()
     .setName(commandName)
     .setDescription('Check type effectiveness of an attack against a Pokémon.')
-    .addStringOption(option =>
+    .addStringOption((option) =>
       option
         .setName('attack_type')
         .setDescription('The type of the attacking move.')
         .setRequired(true)
         .addChoices(
-          ...getValidTypes().map(type => ({
+          ...getValidTypes().map((type) => ({
             name: type.charAt(0).toUpperCase() + type.slice(1),
             value: type
           }))
         )
     )
-    .addStringOption(option =>
+    .addStringOption((option) =>
       option
         .setName('defender_type1')
         .setDescription('The primary type of the defending Pokémon.')
         .setRequired(true)
         .addChoices(
-          ...getValidTypes().map(type => ({
+          ...getValidTypes().map((type) => ({
             name: type.charAt(0).toUpperCase() + type.slice(1),
             value: type
           }))
         )
     )
-    .addStringOption(option =>
+    .addStringOption((option) =>
       option
         .setName('defender_type2')
         .setDescription('The secondary type of the defending Pokémon (optional).')
         .setRequired(false)
         .addChoices(
-          ...getValidTypes().map(type => ({
+          ...getValidTypes().map((type) => ({
             name: type.charAt(0).toUpperCase() + type.slice(1),
             value: type
           }))
         )
     ),
-  async execute (interaction: ChatInputCommandInteraction) {
+  async execute(interaction: ChatInputCommandInteraction) {
     const attackType = interaction.options.getString('attack_type', true)
     const defenderType1 = interaction.options.getString('defender_type1', true)
     const defenderType2 = interaction.options.getString('defender_type2')
@@ -56,7 +60,7 @@ export default {
       const description = getEffectivenessDescription(multiplier)
 
       const defenderTypeString = defenderTypes
-        .map(type => type.charAt(0).toUpperCase() + type.slice(1))
+        .map((type) => type.charAt(0).toUpperCase() + type.slice(1))
         .join('/')
 
       const attackTypeString = attackType.charAt(0).toUpperCase() + attackType.slice(1)

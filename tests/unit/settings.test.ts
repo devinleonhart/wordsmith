@@ -91,20 +91,23 @@ describe('Settings', () => {
   describe('assertConfig', () => {
     it('should throw when the secret key is missing', async () => {
       const { assertConfig } = await import('../../src/core/settings')
-      expect(() => { assertConfig({ clientID: 'c', guildID: 'g', secretKey: '' }) })
-        .toThrow(/WORDSMITH_SECRET_KEY/)
+      expect(() => {
+        assertConfig({ clientID: 'c', guildID: 'g', secretKey: '' })
+      }).toThrow(/WORDSMITH_SECRET_KEY/)
     })
 
     it('should list every missing required value', async () => {
       const { assertConfig } = await import('../../src/core/settings')
-      expect(() => { assertConfig({ clientID: '', guildID: '', secretKey: '' }) })
-        .toThrow(/WORDSMITH_SECRET_KEY.*WORDSMITH_CLIENT_ID.*WORDSMITH_GUILD_ID/)
+      expect(() => {
+        assertConfig({ clientID: '', guildID: '', secretKey: '' })
+      }).toThrow(/WORDSMITH_SECRET_KEY.*WORDSMITH_CLIENT_ID.*WORDSMITH_GUILD_ID/)
     })
 
     it('should not throw when all required values are present', async () => {
       const { assertConfig } = await import('../../src/core/settings')
-      expect(() => { assertConfig({ clientID: 'c', guildID: 'g', secretKey: 's' }) })
-        .not.toThrow()
+      expect(() => {
+        assertConfig({ clientID: 'c', guildID: 'g', secretKey: 's' })
+      }).not.toThrow()
     })
   })
 })
