@@ -67,16 +67,21 @@ jobs:
         run: pnpm audit --prod --audit-level high
 
       # tsc --noEmit + lint + coverage-gated tests. Emit is validated by the
-      # Docker build, so there is no separate `pnpm build` step here.
+      # Docker build in the image job, so there is no `pnpm build` step here.
       - name: Run quality checks (with coverage gate)
         run: pnpm quality:ci
 
-  deploy:
-    name: Build & Deploy
+  # Builds the production image on every run so a broken Dockerfile fails the
+  # PR, not the master push. Only pushes to master log in and publish the
+  # image (PRs, Dependabot's included, get no DockerHub secrets). Deploying
+  # to the server is a separate manual step.
+  image:
+    name: Build & Push
     runs-on: ubuntu-latest
     needs: quality-check
-    if: github.ref == 'refs/heads/master' && github.event_name == 'push'
     timeout-minutes: 15
+    env:
+      PUBLISH: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
 
     steps:
       - name: Checkout code
@@ -86,6 +91,7 @@ jobs:
         uses: docker/setup-buildx-action@v4
 
       - name: Login to DockerHub
+        if: env.PUBLISH == 'true'
         uses: docker/login-action@v4
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
@@ -96,11 +102,11 @@ jobs:
         id: tag
         run: echo "sha=${GITHUB_SHA::7}" >> "$GITHUB_OUTPUT"
 
-      - name: Build & Push
+      - name: Build image (and push on master)
         uses: docker/build-push-action@v7
         with:
           context: .
-          push: true
+          push: ${{ env.PUBLISH == 'true' }}
           provenance: false
           tags: |
             devleo/wordsmith:latest

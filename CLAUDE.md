@@ -41,7 +41,7 @@ Discord bot (discord.js 14, TypeScript, CommonJS) with three feature areas: Word
 
 ## CI and deploy
 
-- `.github/workflows/ci.yml`: every push and PR to `master` runs the version check, `pnpm audit --prod`, and `pnpm quality:ci`. On a push to `master` it also builds the image and pushes it as `devleo/wordsmith:latest` and `devleo/wordsmith:sha-<7-char commit>`. CI does not deploy.
+- `.github/workflows/ci.yml`: every push and PR to `master` runs the version check, `pnpm audit --prod`, and `pnpm quality:ci` (the Quality Checks job), then builds the production image (the Build & Push job). PRs only build it, so a broken Dockerfile fails there. A push to `master` also logs in to DockerHub and pushes the image as `devleo/wordsmith:latest` and `devleo/wordsmith:sha-<7-char commit>`. CI does not deploy.
 - The workflow cancels older runs when a newer push lands, so only the newest commit's image should reach DockerHub. When merging several commits, check that the newest run is the one that pushed.
 - Work goes straight to `master`. No PRs except Dependabot's.
 - Deploy is manual, on the `lucky` server:
