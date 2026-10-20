@@ -48,7 +48,7 @@ for (let i = commandName ? 1 : 0; i < argv.length; i++) {
 interface DiscoveredCommand {
   name: string
   description: string
-  options: Array<{ name: string; description: string; required: boolean; type: number }>
+  options: Array<{ name: string, description: string, required: boolean, type: number }>
   execute: (interaction: unknown) => Promise<void>
 }
 
@@ -56,17 +56,17 @@ const OPTION_TYPES: Record<number, string> = {
   3: 'string',
   4: 'integer',
   5: 'boolean',
-  10: 'number',
+  10: 'number'
 }
 
 interface CommandJSON {
   name: string
   description: string
-  options?: Array<{ name: string; description: string; required?: boolean; type: number }>
+  options?: Array<{ name: string, description: string, required?: boolean, type: number }>
 }
 
 // Same list the bot registers (src/registry.ts), so the harness can't drift from it.
-function loadCommands(): DiscoveredCommand[] {
+function loadCommands (): DiscoveredCommand[] {
   const commands = registeredCommands.map(command => {
     const json = command.data.toJSON() as CommandJSON
     return {
@@ -76,11 +76,11 @@ function loadCommands(): DiscoveredCommand[] {
         name: o.name,
         description: o.description,
         required: o.required ?? false,
-        type: o.type,
+        type: o.type
       })),
       // No gateway client locally; no command uses the client argument.
       execute: (interaction: unknown) =>
-        command.execute(interaction as ChatInputCommandInteraction, undefined as unknown as Client),
+        command.execute(interaction as ChatInputCommandInteraction, undefined as unknown as Client)
     }
   })
   return commands.sort((a, b) => a.name.localeCompare(b.name))
@@ -123,7 +123,7 @@ if (!cmd) {
 const username = flags.user ?? process.env.USER ?? 'Player'
 const responses: string[] = []
 
-function coerce(value: string): string | number {
+function coerce (value: string): string | number {
   const n = Number(value)
   return Number.isNaN(n) ? value : n
 }
@@ -131,28 +131,28 @@ function coerce(value: string): string | number {
 const interaction = {
   member: { user: { username } },
   options: {
-    get(name: string) {
+    get (name: string) {
       return name in flags ? { value: coerce(flags[name]) } : null
     },
-    getString(name: string): string | null {
+    getString (name: string): string | null {
       return flags[name] ?? null
     },
-    getInteger(name: string): number | null {
+    getInteger (name: string): number | null {
       return name in flags ? parseInt(flags[name], 10) : null
-    },
+    }
   },
-  reply(content: string) {
+  reply (content: string) {
     responses.push(content)
     return Promise.resolve()
   },
-  deferReply() {
+  deferReply () {
     // no-op — locally there is no loading state to show
     return Promise.resolve()
   },
-  editReply(content: string) {
+  editReply (content: string) {
     responses.push(content)
     return Promise.resolve()
-  },
+  }
 }
 
 // Header

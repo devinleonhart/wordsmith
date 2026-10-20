@@ -9,7 +9,7 @@ export default {
   data: new SlashCommandBuilder()
     .setName(commandName)
     .setDescription('Check how effective an attack type is against a specific Pokémon.')
-    .addStringOption((option) =>
+    .addStringOption(option =>
       option
         .setName('attack_type')
         .setDescription('The type of the attacking move.')
@@ -21,7 +21,7 @@ export default {
           }))
         )
     )
-    .addStringOption((option) =>
+    .addStringOption(option =>
       option
         .setName('pokemon')
         .setDescription('The name of the Pokémon to check against.')
@@ -31,7 +31,6 @@ export default {
     const attackType = interaction.options.getString('attack_type', true)
     const pokemonName = interaction.options.getString('pokemon', true)
 
-
     await interaction.deferReply()
 
     try {
@@ -39,7 +38,7 @@ export default {
 
       // Extract the Pokémon's types
       const pokemonTypes = pokemon.types
-        .map((typeInfo) => typeInfo.type.name)
+        .map(typeInfo => typeInfo.type.name)
 
       // Calculate effectiveness
       const multiplier = await calculateTypeEffectiveness(attackType, pokemonTypes)

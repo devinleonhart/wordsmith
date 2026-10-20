@@ -7,10 +7,10 @@ export default {
   data: new SlashCommandBuilder()
     .setName('rr')
     .setDescription('Request that a character roll dice.')
-    .addStringOption((option) =>
+    .addStringOption(option =>
       option.setName('character-name').setDescription('The name of the character that must roll dice.').setRequired(true)
     )
-    .addIntegerOption((option) =>
+    .addIntegerOption(option =>
       option.setName('player-dice').setDescription('The number of player dice to roll.').setRequired(true).setMinValue(1)
     ),
   async execute (interaction: ChatInputCommandInteraction) {

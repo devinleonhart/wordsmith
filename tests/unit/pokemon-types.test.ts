@@ -6,7 +6,7 @@ import {
 } from '../../src/features/pokedex/pokemon-types'
 
 // Build a minimal damage_relations object for use in mocks.
-function makeRelations(doubleTo: string[], halfTo: string[], noTo: string[]) {
+function makeRelations (doubleTo: string[], halfTo: string[], noTo: string[]) {
   const res = (names: string[]) => names.map(name => ({ name, url: '' }))
   return {
     damage_relations: {

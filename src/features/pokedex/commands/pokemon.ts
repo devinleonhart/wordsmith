@@ -8,7 +8,7 @@ export default {
   data: new SlashCommandBuilder()
     .setName(commandName)
     .setDescription('Get the types of a Pokémon by name.')
-    .addStringOption((option) =>
+    .addStringOption(option =>
       option
         .setName('name')
         .setDescription('The name of the Pokémon to look up.')
@@ -17,13 +17,12 @@ export default {
   async execute (interaction: ChatInputCommandInteraction) {
     const pokemonName = interaction.options.getString('name', true)
 
-
     await interaction.deferReply()
 
     try {
       const pokemon = await pokemonClient.getPokemonByName(pokemonName.toLowerCase())
       const types = pokemon.types
-        .map((typeInfo) => typeInfo.type.name)
+        .map(typeInfo => typeInfo.type.name)
         .join(', ')
 
       await interaction.editReply(`**${pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}** is a ${types} type Pokémon.`)

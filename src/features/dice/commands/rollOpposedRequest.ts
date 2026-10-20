@@ -7,13 +7,13 @@ export default {
   data: new SlashCommandBuilder()
     .setName('ror')
     .setDescription('Request that a character make an opposed roll.')
-    .addStringOption((option) =>
+    .addStringOption(option =>
       option.setName('character-name').setDescription('The name of the character that must roll dice.').setRequired(true)
     )
-    .addIntegerOption((option) =>
+    .addIntegerOption(option =>
       option.setName('player-dice').setDescription('The number of player dice to roll.').setRequired(true).setMinValue(1)
     )
-    .addIntegerOption((option) =>
+    .addIntegerOption(option =>
       option.setName('challenge-dice').setDescription('The number of challenge dice to roll.').setRequired(true).setMinValue(1)
     ),
   async execute (interaction: ChatInputCommandInteraction) {

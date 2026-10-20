@@ -16,7 +16,7 @@ export enum DiscordEmotes {
   smileCat = ':smile_cat:',
   smirkingCatWithBeer = ':beer: :smirk_cat:',
   star = ':star2:',
-  skull = ':skull_crossbones:',
+  skull = ':skull_crossbones:'
 }
 
 export enum Outcomes {
@@ -31,7 +31,7 @@ export enum Outcomes {
 export enum ValidationError {
   notInDiceRange = 'The target number must be one of the values of a d20.',
   notEnoughChallengeDice = 'The number of challenge dice cannot be less than 1.',
-  notEnoughPlayerDice = 'The number of player dice cannot be less than 1.',
+  notEnoughPlayerDice = 'The number of player dice cannot be less than 1.'
 }
 
 /**

@@ -29,7 +29,6 @@ describe('Pokemon Command', () => {
     expect(cmd.default.data.description).toBe('Get the types of a Pokémon by name.')
   })
 
-
   it('should format a single-type Pokémon correctly', async () => {
     interaction.options.getString.mockReturnValue('charmander')
     mockGetPokemonByName.mockResolvedValue({

@@ -47,7 +47,6 @@ describe('d20 command', () => {
     const rules = await import('../../src/features/dice/rules')
     expect(rules.RollD20).toHaveBeenCalledWith('', 10)
   })
-
 })
 
 describe('r (roll) command', () => {
@@ -78,7 +77,6 @@ describe('r (roll) command', () => {
     const rules = await import('../../src/features/dice/rules')
     expect(rules.roll).toHaveBeenCalledWith('', 2)
   })
-
 })
 
 describe('ro (rollOpposed) command', () => {
@@ -109,7 +107,6 @@ describe('ro (rollOpposed) command', () => {
     const rules = await import('../../src/features/dice/rules')
     expect(rules.rollOpposed).toHaveBeenCalledWith('', 2, 2)
   })
-
 })
 
 describe('rr (rollRequest) command', () => {
@@ -133,7 +130,6 @@ describe('rr (rollRequest) command', () => {
     expect(rules.rollRequest).toHaveBeenCalledWith('Frodo', 3)
     expect(interaction.reply).toHaveBeenCalledWith('mocked-rollRequest-result')
   })
-
 })
 
 describe('ror (rollOpposedRequest) command', () => {
@@ -157,5 +153,4 @@ describe('ror (rollOpposedRequest) command', () => {
     expect(rules.rollOpposedRequest).toHaveBeenCalledWith('Aragorn', 4, 2)
     expect(interaction.reply).toHaveBeenCalledWith('mocked-rollOpposedRequest-result')
   })
-
 })

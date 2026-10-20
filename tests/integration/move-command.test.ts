@@ -29,7 +29,6 @@ describe('Move Command', () => {
     expect(cmd.default.data.description).toMatch(/move/i)
   })
 
-
   it('should format a standard physical move with an effect', async () => {
     interaction.options.getString.mockReturnValue('earthquake')
     mockGetMoveByName.mockResolvedValue({

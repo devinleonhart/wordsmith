@@ -3,7 +3,6 @@ import { type BotCommand } from '../../../core/command'
 import { WordsmithError } from '../../../core/errors'
 import { getActiveCharacter, setStar } from '../characterRepository'
 
-
 export default {
   data: new SlashCommandBuilder()
     .setName('star')

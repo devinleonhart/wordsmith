@@ -21,7 +21,7 @@ export default defineConfig({
         'src/registry.ts',
         'src/register.ts',
         'src/events/ready.ts',
-        'eslint.config.js'
+        'eslint.config.mjs'
       ],
       thresholds: {
         branches: 92,

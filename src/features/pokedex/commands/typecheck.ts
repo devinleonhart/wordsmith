@@ -8,7 +8,7 @@ export default {
   data: new SlashCommandBuilder()
     .setName(commandName)
     .setDescription('Check type effectiveness of an attack against a Pokémon.')
-    .addStringOption((option) =>
+    .addStringOption(option =>
       option
         .setName('attack_type')
         .setDescription('The type of the attacking move.')
@@ -20,7 +20,7 @@ export default {
           }))
         )
     )
-    .addStringOption((option) =>
+    .addStringOption(option =>
       option
         .setName('defender_type1')
         .setDescription('The primary type of the defending Pokémon.')
@@ -32,7 +32,7 @@ export default {
           }))
         )
     )
-    .addStringOption((option) =>
+    .addStringOption(option =>
       option
         .setName('defender_type2')
         .setDescription('The secondary type of the defending Pokémon (optional).')
@@ -48,7 +48,6 @@ export default {
     const attackType = interaction.options.getString('attack_type', true)
     const defenderType1 = interaction.options.getString('defender_type1', true)
     const defenderType2 = interaction.options.getString('defender_type2')
-
 
     const defenderTypes = defenderType2 ? [defenderType1, defenderType2] : [defenderType1]
 

@@ -38,6 +38,7 @@ Slash commands are registered to the guild on startup.
 pnpm install
 pnpm dev           # run with tsx, restarting on changes
 pnpm quality       # typecheck, lint, tests
+pnpm lint:fix      # fix lint and formatting
 pnpm quality:ci    # same, with the coverage gate CI uses
 ```
 

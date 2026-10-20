@@ -2,11 +2,11 @@ import { type ChatInputCommandInteraction, SlashCommandBuilder } from 'discord.j
 import { type BotCommand } from '../../../core/command'
 import { moveClient } from '../pokemon-client'
 
-function capitalize(s: string): string {
+function capitalize (s: string): string {
   return s.charAt(0).toUpperCase() + s.slice(1)
 }
 
-function formatMoveName(name: string): string {
+function formatMoveName (name: string): string {
   return name.split('-').map(capitalize).join(' ')
 }
 
@@ -16,7 +16,7 @@ export default {
   data: new SlashCommandBuilder()
     .setName(commandName)
     .setDescription('Look up a Pokémon move.')
-    .addStringOption((option) =>
+    .addStringOption(option =>
       option
         .setName('name')
         .setDescription('The move name (e.g. "earthquake" or "ice-beam").')
@@ -24,7 +24,6 @@ export default {
     ),
   async execute (interaction: ChatInputCommandInteraction) {
     const rawName = interaction.options.getString('name', true)
-
 
     // Normalize: lowercase, collapse spaces to hyphens so "ice beam" → "ice-beam"
     const moveName = rawName.trim().toLowerCase().replace(/\s+/g, '-')

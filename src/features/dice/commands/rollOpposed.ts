@@ -7,10 +7,10 @@ export default {
   data: new SlashCommandBuilder()
     .setName('ro')
     .setDescription('Make an opposed roll in wordsmith.')
-    .addIntegerOption((option) =>
+    .addIntegerOption(option =>
       option.setName('player-dice').setDescription('The number of player dice to roll.').setRequired(true).setMinValue(1)
     )
-    .addIntegerOption((option) =>
+    .addIntegerOption(option =>
       option.setName('challenge-dice').setDescription('The number of challenge dice to roll.').setRequired(true).setMinValue(1)
     ),
   async execute (interaction: ChatInputCommandInteraction) {

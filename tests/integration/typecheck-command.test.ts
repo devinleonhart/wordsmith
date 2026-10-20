@@ -7,7 +7,7 @@ vi.mock('../../src/features/pokedex/pokemon-client', () => ({
   moveClient: {}
 }))
 
-vi.mock('../../src/features/pokedex/pokemon-types', async (importOriginal) => {
+vi.mock('../../src/features/pokedex/pokemon-types', async importOriginal => {
   const actual = await importOriginal<typeof import('../../src/features/pokedex/pokemon-types')>()
   return { ...actual, calculateTypeEffectiveness: mockCalculateTypeEffectiveness }
 })
@@ -31,8 +31,6 @@ describe('Typecheck Command', () => {
     expect(cmd.default.data.name).toBe('typecheck')
     expect(cmd.default.data.description).toBe('Check type effectiveness of an attack against a Pokémon.')
   })
-
-
 
   it('should calculate single-type effectiveness', async () => {
     interaction.options.getString

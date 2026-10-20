@@ -7,7 +7,7 @@ export default {
   data: new SlashCommandBuilder()
     .setName('r')
     .setDescription('Make a roll in wordsmith.')
-    .addIntegerOption((option) =>
+    .addIntegerOption(option =>
       option
         .setName('player-dice')
         .setDescription('The number of player dice being rolled.')

@@ -11,7 +11,7 @@ const VALID_TYPES = [
 // Module-level cache so each type is fetched from the API at most once per process.
 const typeRelationsCache = new Map<string, TypeRelations>()
 
-export async function calculateTypeEffectiveness(
+export async function calculateTypeEffectiveness (
   attackType: string,
   defenderTypes: string[]
 ): Promise<number> {
@@ -40,7 +40,7 @@ export async function calculateTypeEffectiveness(
   return multiplier
 }
 
-export function getEffectivenessDescription(multiplier: number): string {
+export function getEffectivenessDescription (multiplier: number): string {
   if (multiplier === 0) return 'It has no effect!'
   if (multiplier === 0.25) return "It's not very effective... (0.25×)"
   if (multiplier === 0.5) return "It's not very effective... (0.5×)"
@@ -50,6 +50,6 @@ export function getEffectivenessDescription(multiplier: number): string {
   return `It deals ${multiplier}× damage.`
 }
 
-export function getValidTypes(): string[] {
+export function getValidTypes (): string[] {
   return [...VALID_TYPES]
 }

@@ -22,7 +22,7 @@ vi.mock('fuzzy-dice', () => {
   return {
     D8: vi.fn(() => ({ value: 6 })),
     D20: vi.fn(() => ({ value: 15 })),
-    Dice: vi.fn().mockImplementation(function(sides, blanks, successes, crits) {
+    Dice: vi.fn().mockImplementation(function (sides, blanks, successes, crits) {
       return { sides, blanks, successes, crits, roll: vi.fn(() => ({ value: 6 })) }
     }),
     roll: mockRoll,
@@ -81,21 +81,21 @@ describe('RollD20', () => {
   })
 
   it('success — roll beats target number by more than 3', () => {
-    pinRoll(18)  // 18 > 10, abs(18-10) = 8 > 3
+    pinRoll(18) // 18 > 10, abs(18-10) = 8 > 3
     const result = RollD20('Player', 10)
     expect(result).toContain('SUCCESS')
     expect(result).toContain(':smile_cat:')
   })
 
   it('partial success — roll misses target number by 3 or fewer', () => {
-    pinRoll(8)  // abs(8-10) = 2 ≤ 3
+    pinRoll(8) // abs(8-10) = 2 ≤ 3
     const result = RollD20('Player', 10)
     expect(result).toContain('PARTIAL SUCCESS')
     expect(result).toContain(':pouting_cat:')
   })
 
   it('failure — roll misses target number by more than 3', () => {
-    pinRoll(4)  // abs(4-10) = 6 > 3
+    pinRoll(4) // abs(4-10) = 6 > 3
     const result = RollD20('Player', 10)
     expect(result).toContain('FAILURE')
     expect(result).toContain(':scream_cat:')

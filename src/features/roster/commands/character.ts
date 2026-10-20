@@ -143,10 +143,10 @@ export default {
 
     switch (sub) {
       case 'create': return handleCreate(interaction, userId)
-      case 'list':   return handleList(interaction, userId)
+      case 'list': return handleList(interaction, userId)
       case 'switch': return handleSwitch(interaction, userId)
       case 'delete': return handleDelete(interaction, userId)
-      case 'info':   return handleInfo(interaction, userId)
+      case 'info': return handleInfo(interaction, userId)
     }
   },
 
@@ -283,7 +283,7 @@ async function handleInfo (interaction: ChatInputCommandInteraction, userId: str
   const items = getItems(char.id)
 
   const lines: string[] = [
-    `**${char.name}**${char.star ? ' ★' : ''}`,
+    `**${char.name}**${char.star ? ' ★' : ''}`
   ]
   if (words.length > 0) lines.push(`**Words:** ${words.join(', ')}`)
   if (items.length > 0) lines.push(`**Items:** ${items.join(', ')}`)
