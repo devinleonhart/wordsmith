@@ -27,8 +27,8 @@ importers:
         specifier: ^2.0.0
         version: 2.0.0
       pokenode-ts:
-        specifier: ^5.0.0
-        version: 5.0.0
+        specifier: ^5.0.2
+        version: 5.0.2
     devDependencies:
       '@tsconfig/node26':
         specifier: ^26.0.1
@@ -458,6 +458,7 @@ packages:
   '@sapphire/shapeshift@4.0.0':
     resolution: {integrity: sha512-d9dUmWVA7MMiKobL3VpLF8P2aeanRTu6ypG2OIaEv/ZHH/SUQ2iHOVyi5wAPjQ+HmnMuL0whK9ez8I/raWbtIg==}
     engines: {node: '>=v16'}
+    deprecated: Shapeshift was created when other validation libraries had significant limitations in performance and error reporting. Those advantages have diminished as libraries such as Zod have become faster and improved their error messages, while also gaining broader environment support, a larger community, and custom error printers.
 
   '@sapphire/snowflake@3.5.5':
     resolution: {integrity: sha512-xzvBr1Q1c4lCe7i6sRnrofxeO1QTP/LKQ6A6qy0iB4x5yfiSfARMEQEghojzTNALDTcv8En04qYNIco9/K9eZQ==}
@@ -972,8 +973,8 @@ packages:
     resolution: {integrity: sha512-qcJu88Q2IWqJsDD529JKMdwGm/dvInW4HvQnRwiH9JtihJvzGOscDtHE3x1pBKeUOTysQ8kVmLnJ2kJu7yhcGA==}
     engines: {node: '>=12'}
 
-  pokenode-ts@5.0.0:
-    resolution: {integrity: sha512-th6OaSWMyXk99x3Ks2tZKFjz3AjEIOSV3hVw2JjCldXBsmIUyUkFe0KNPuy0soluTnOgA5rh10LQCCmikX5acg==}
+  pokenode-ts@5.0.2:
+    resolution: {integrity: sha512-9PQBrcfr/pVid8F3wmLjqXzTQcfY46Uv1m9i6sVO2dlzZUVDYSxtUsn2+V1CLmsHlnMIqy+rYfMB1no6coUN1Q==}
     engines: {node: '>=22'}
 
   postcss@8.5.26:
@@ -2026,7 +2027,7 @@ snapshots:
 
   picomatch@4.0.7: {}
 
-  pokenode-ts@5.0.0: {}
+  pokenode-ts@5.0.2: {}
 
   postcss@8.5.26:
     dependencies:
