@@ -55,11 +55,11 @@ Slash commands are registered to the guild on startup; `pnpm register` registers
 
 ## Environment
 
-| Variable | Purpose |
-|---|---|
-| `WORDSMITH_SECRET_KEY` | The bot's token |
+| Variable                                    | Purpose                                                                             |
+| ------------------------------------------- | ----------------------------------------------------------------------------------- |
+| `WORDSMITH_SECRET_KEY`                      | The bot's token                                                                     |
 | `WORDSMITH_CLIENT_ID`, `WORDSMITH_GUILD_ID` | The application and the server; default to the Wordsmith application and its server |
-| `DATABASE_PATH` | The SQLite file (default `./data/wordsmith.db`), which should be on a volume |
+| `DATABASE_PATH`                             | The SQLite file (default `./data/wordsmith.db`), which should be on a volume        |
 
 ## Deployment
 
