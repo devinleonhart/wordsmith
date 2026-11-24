@@ -1,8 +1,8 @@
-# Wordsmith Discord Bot
+# Wordsmith
 
 A Discord bot for the Wordsmith tabletop game. It rolls Wordsmith dice, keeps a roster of each player's characters, and looks up Pokémon data from [PokéAPI](https://pokeapi.co/).
 
-## Commands
+## Features
 
 **Dice**
 
@@ -25,28 +25,25 @@ A Discord bot for the Wordsmith tabletop game. It rolls Wordsmith dice, keeps a 
 - `/effectiveness`: how effective an attack type is against a Pokémon.
 - `/typecheck`: how effective an attack type is against one or two defending types.
 
-## Setup
+## Development
 
-Requires Node and pnpm at the versions in `.tool-versions`.
+Needs Node and pnpm at the versions in `.tool-versions`.
 
 1. Create a bot in the [Discord Developer Portal](https://discord.com/developers/applications/) and add it to your server with the `bot` and `applications.commands` scopes.
-2. Copy `.env.example` to `.env` and set `WORDSMITH_SECRET_KEY` to the bot token. Set `WORDSMITH_CLIENT_ID` and `WORDSMITH_GUILD_ID` too, unless you're running the main Wordsmith app.
+2. Copy `.env.example` to `.env` and set the variables below.
 3. Create the database directory: `mkdir data`.
-
-Slash commands are registered to the guild on startup.
-
-## Development
 
 ```bash
 pnpm install
-pnpm dev           # run with tsx, restarting on changes
-pnpm quality       # typecheck, lint, format check, tests
-pnpm format        # format with Prettier
-pnpm lint:fix      # fix lint problems
-pnpm quality:ci    # same, with the coverage gate CI uses
+pnpm dev           # runs with tsx, restarting on changes
+pnpm quality       # type check, lint, format check and tests
+pnpm quality:ci    # the same with the coverage gate: everything CI checks
+pnpm format        # formats with Prettier
+pnpm lint:fix      # fixes lint problems
+docker compose up  # the same in a container, from Dockerfile.dev
 ```
 
-Run any dice or Pokédex command in the terminal without Discord:
+Any dice or Pokédex command runs in the terminal without Discord:
 
 ```bash
 pnpm cmd --list
@@ -54,19 +51,30 @@ pnpm cmd d20 --target-number 12
 pnpm cmd effectiveness --attack_type water --pokemon charizard
 ```
 
-`pnpm register` re-syncs slash commands if the sync at startup failed.
+Slash commands are registered to the guild on startup; `pnpm register` registers them again if that failed. See [tests/README.md](tests/README.md) for testing.
 
-To run the dev server in Docker instead: `docker compose up` (uses `Dockerfile.dev` and your `.env`).
+## Environment
 
-See [tests/README.md](tests/README.md) for testing.
+| Variable | Purpose |
+|---|---|
+| `WORDSMITH_SECRET_KEY` | The bot's token |
+| `WORDSMITH_CLIENT_ID`, `WORDSMITH_GUILD_ID` | The application and the server; default to the Wordsmith application and its server |
+| `DATABASE_PATH` | The SQLite file (default `./data/wordsmith.db`), which should be on a volume |
 
 ## Deployment
 
-Every push to `master` runs CI (`.github/workflows/ci.yml`). If the checks pass, CI builds the production image and pushes it to DockerHub as `devleo/wordsmith:latest` and `devleo/wordsmith:sha-<commit>`. Deploying to the server is a separate manual step: pull the new image there and restart the container.
-
-To run the production image yourself:
+A merge to `master` runs CI, which publishes `devleo/wordsmith:latest` to Docker Hub when the checks pass. On the server:
 
 ```bash
-docker build -t wordsmith .
-docker run -d --env-file .env -v wordsmith_data:/app/data wordsmith
+docker compose pull wordsmith-bot
+docker compose up -d wordsmith-bot
+```
+
+## Architecture
+
+```
+src/features/    # One folder for each group of commands
+src/core/        # The database and what the features share
+src/registry.ts  # The list of commands
+src/register.ts  # Registers the commands with Discord
 ```
