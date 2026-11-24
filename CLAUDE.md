@@ -50,7 +50,7 @@ Discord bot (discord.js 14, TypeScript, CommonJS) with three feature areas: Word
   sudo /srv/lucky/scripts/deploy wordsmith <commit> --check   # looks only
   sudo /srv/lucky/scripts/deploy wordsmith <commit>
   ```
-  It copies the database to `/mnt/backups/lucky/manual/`, pins `sha-<commit>` in the compose file, stops the old container, starts the new one and waits for its "Ready!" line. If that fails, the former image runs again. The script is `server/deploy` in the `dotfiles` repository.
+  It copies the database to `/mnt/backups/lucky/manual/`, pins `sha-<commit>` in the compose file, stops the old container, starts the new one and waits for its "Ready!" line. If that fails, the former image runs again. The script is `scripts/deploy` in the private `lucky` repository.
 - Never use `docker compose pull` or retag `latest`: the image is pinned.
 - Verify: `docker ps --filter name=wordsmith` shows the container `Up`. `docker logs --tail 25 wordsmith` shows `Successfully reloaded 12 application (/) commands.` and `Ready! Logged in as Wordsmith#3254!`.
 - Roll back: `sudo /srv/lucky/scripts/deploy rollback wordsmith` returns to the image before. Any earlier one: deploy its commit. Only commits from 2026-10-19 onward have SHA tags. The database is never restored by the script.
