@@ -62,7 +62,7 @@ See [tests/README.md](tests/README.md) for testing.
 
 ## Deployment
 
-Every push to `master` runs CI (`.github/workflows/ci.yml`). If the checks pass, CI builds the production image and pushes it to DockerHub as `devleo/wordsmith:latest` and `devleo/wordsmith:sha-<commit>`. Deploying to the server is a separate manual step: pull the new image there and restart the container.
+Every push to `master` runs CI (`.github/workflows/ci.yml`). If the checks pass, CI builds the production image and pushes it to DockerHub as `devleo/wordsmith:latest` and `devleo/wordsmith:sha-<commit>`. Deploying to the server is a separate manual step, described in `CLAUDE.md`.
 
 To run the production image yourself:
 
