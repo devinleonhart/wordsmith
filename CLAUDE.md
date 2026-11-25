@@ -41,7 +41,7 @@ Discord bot (discord.js 14, TypeScript, CommonJS) with three feature areas: Word
 
 ## CI and deploy
 
-- `.github/workflows/publish.yml`: every push and PR to `master` runs the version check, `pnpm audit --prod`, and `pnpm quality:ci` (the Quality Checks job), then builds the production image (the Build & Push job). PRs only build it, so a broken Dockerfile fails there. A push to `master` also logs in to DockerHub and pushes the image as `devleo/wordsmith:latest` and `devleo/wordsmith:sha-<7-char commit>`. CI does not deploy.
+- `.github/workflows/publish.yml`: every push and PR to `master` runs the version check, `pnpm audit --prod`, and `pnpm quality:ci` (the Quality Checks job), then builds the production image (the Build & Push job). PRs only build it, so a broken Dockerfile fails there. A push to `master` also logs in to DockerHub and pushes the image as `devleo/wordsmith:latest` and `devleo/wordsmith:master-<7-char commit>`. CI does not deploy.
 - The workflow cancels older runs when a newer push lands, so only the newest commit's image should reach DockerHub. When merging several commits, check that the newest run is the one that pushed.
 - Work goes straight to `master`. No PRs except Dependabot's.
 - Deploy is manual, on the `lucky` server:
@@ -52,7 +52,7 @@ Discord bot (discord.js 14, TypeScript, CommonJS) with three feature areas: Word
   docker compose up -d wordsmith-bot
   ```
 - Verify: `docker ps --filter name=wordsmith` shows the container `Up`. `docker logs --tail 25 wordsmith` shows `Successfully reloaded 12 application (/) commands.` and `Ready! Logged in as Wordsmith#3254!`.
-- Roll back without editing the compose file: on `lucky`, in `/srv/lucky`, run `docker pull devleo/wordsmith:sha-<commit>`, then `docker tag devleo/wordsmith:sha-<commit> devleo/wordsmith:latest`, then `docker compose up -d wordsmith-bot`. The next `docker compose pull` returns to the real `latest`. Only commits from 2026-10-19 onward have SHA tags.
+- Roll back without editing the compose file: on `lucky`, in `/srv/lucky`, run `docker pull devleo/wordsmith:master-<commit>`, then `docker tag devleo/wordsmith:master-<commit> devleo/wordsmith:latest`, then `docker compose up -d wordsmith-bot`. The next `docker compose pull` returns to the real `latest`. Commits from 2026-10-19 to 2026-11-24 are tagged `sha-<commit>` instead; earlier ones have no SHA tag.
 - Before a deploy that changes the database layer, back the database up on `lucky` with SQLite's online backup, inside the running container. Keep the copy in the volume next to `wordsmith.db`. The backup from before the node:sqlite switch is `/app/data/wordsmith-backup-2026-10-19-pre-node-sqlite.db`.
 - On `lucky`, the compose project is `developer`. The service is `wordsmith-bot`, the container is `wordsmith`, the network is `developer_wordsmith_network`, and the SQLite volume is `developer_wordsmith_data`, mounted at `/app/data`.
 - A change that only touches tests, CI or docs still builds a new image, but there's nothing new to deploy.
