@@ -73,8 +73,7 @@ jobs:
 
   # Builds the production image on every run so a broken Dockerfile fails the
   # PR, not the master push. Only pushes to master log in and publish the
-  # image (PRs, Dependabot's included, get no DockerHub secrets). Deploying
-  # to the server is a separate manual step.
+  # image. Deploying to the server is a separate manual step.
   image:
     name: Build & Push
     runs-on: ubuntu-latest
@@ -97,20 +96,27 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      # Short commit SHA for an immutable rollback tag alongside :latest.
-      - name: Compute image tag
-        id: tag
-        run: echo "sha=${GITHUB_SHA::7}" >> "$GITHUB_OUTPUT"
+      # :latest for the server, and the short commit SHA to roll back to.
+      - name: Extract metadata
+        id: meta
+        uses: docker/metadata-action@dc802804100637a589fabce1cb79ff13a1411302 # v6.2.0
+        with:
+          images: devleo/wordsmith
+          tags: |
+            type=raw,value=latest
+            type=raw,value=master-{{sha}}
 
       - name: Build image (and push on master)
         uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
         with:
           context: .
+          target: runtime
           push: ${{ env.PUBLISH == 'true' }}
-          provenance: false
-          tags: |
-            devleo/wordsmith:latest
-            devleo/wordsmith:sha-${{ steps.tag.outputs.sha }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          # Attestations are attached to the pushed image only.
+          sbom: ${{ env.PUBLISH == 'true' }}
+          provenance: ${{ env.PUBLISH == 'true' }}
           # Persistent layer cache across runs; skips reinstalling dependencies
           # when the lockfile is unchanged.
           cache-from: type=gha
