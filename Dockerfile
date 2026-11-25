@@ -2,8 +2,8 @@
 
 # --- shared base: pnpm + manifests ---
 # No native modules (SQLite is Node's built-in node:sqlite), so no build toolchain.
-FROM node:26.11.1-alpine AS base
-RUN npm install -g pnpm@11.22.0
+FROM node:26.13.1-alpine AS base
+RUN npm install -g pnpm@12.23.0
 WORKDIR /app
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc ./
 
@@ -19,7 +19,7 @@ FROM base AS prod-deps
 RUN pnpm install --prod --frozen-lockfile
 
 # --- runtime: slim, non-root, no toolchain or source ---
-FROM node:26.11.1-alpine AS runtime
+FROM node:26.13.1-alpine AS runtime
 ENV NODE_ENV=production
 WORKDIR /app
 RUN mkdir -p /app/data && chown -R node:node /app
